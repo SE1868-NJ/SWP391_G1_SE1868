@@ -40,3 +40,5 @@ Thumbs.db
 *.properties
 *.config
 *.cfg
+/SWP391_G1_SE1868/build/
+
