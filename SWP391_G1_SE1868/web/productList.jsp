@@ -294,11 +294,19 @@
                                     <div class="product-info">
                                         <div class="product-name">${product.productName}</div>
                                         <div class="product-price">$${product.price}</div>
-                                        <div class="product-discount">Discount: ${product.discountPrice}%</div>
+                                        <div class="product-discount">Discount: $${product.discountPrice}</div>
                                         <div class="product-rating">Rating: ${product.averageRating}</div>
-                                        <div class="product-brand">${product.brandName}</div>
-                                        <div class="product-supplier">${product.supplierName}</div>
+                                        <div class="product-brand">Brand: ${product.brandName}</div>
+                                        <div class="product-supplier">Supplier: ${product.supplierName}</div>
+                                        <div class="product-stockQuantity">Quantity: ${product.stockQuantity}</div>
                                         <a href="productDetail?productId=${product.productId}" class="view-button">View Details</a>
+                                        <c:if test="${product.stockQuantity > 0}">
+                                            <a href="/myCarts?action=addToCart&productId=${product.productId}" style="color : blue;" 
+                                               class="add-to-cart-button">Add to Cart</a>
+                                        </c:if>
+                                        <c:if test="${product.stockQuantity == 0}">
+                                            <button disabled class="add-to-cart-button">Out of Stock</button>
+                                        </c:if>
                                     </div>
                                 </div>
                             </c:forEach>
