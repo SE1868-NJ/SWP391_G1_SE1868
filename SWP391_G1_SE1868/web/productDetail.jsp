@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -121,7 +122,13 @@
 
             <div class="buttons">
                 <a href="products" class="back-button">Back to Product List</a>
-                <button class="add-to-cart-button">Add to Cart</button>
+                <c:if test="${product.stockQuantity > 0}">
+                    <a href="/myCarts?action=addToCart&productId=${product.productId}" 
+                       class="add-to-cart-button">Add to Cart</a>
+                </c:if>
+                <c:if test="${product.stockQuantity == 0}">
+                    <button disabled class="add-to-cart-button">Out of Stock</button>
+                </c:if>
             </div>
         </div>
     </body>
