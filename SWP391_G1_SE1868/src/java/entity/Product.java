@@ -21,6 +21,10 @@ public class Product {
     private int stockQuantity;
     private String description;
     private String image;
+    private double averageRating;
+    private String brandName;
+    private String supplierName;
+    
 
     public int getProductId() {
         return productId;
@@ -101,4 +105,31 @@ public class Product {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public double getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(double averageRating) {
+        this.averageRating = averageRating;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+    
+    
+    
 }

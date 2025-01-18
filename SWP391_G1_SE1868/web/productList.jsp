@@ -165,28 +165,111 @@
             .clear {
                 clear: both;
             }
-            
+
             .filter-box{
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
             }
+
+            /* Định dạng cho form */
+            form {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                align-items: center;
+                margin: 20px 50px;
+            }
+
+            /* Định dạng cho các input */
+            .form-control {
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                font-size: 14px;
+                width: 200px;
+                transition: border-color 0.3s ease;
+            }
+
+            /* Thêm hiệu ứng khi input được focus */
+            .form-control:focus {
+                border-color: #007bff;
+                outline: none;
+            }
+
+            /* Định dạng cho nút tìm kiếm */
+            button.btn-primary {
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                font-size: 14px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            /* Thêm hiệu ứng hover cho nút */
+            button.btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+            /* Định dạng cho link */
+            .filters a {
+                display: inline-block;
+                padding: 10px;
+                background-color: #28a745;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+                font-size: 14px;
+                margin-top: 10px;
+                transition: background-color 0.3s ease;
+            }
+
+            /* Thêm hiệu ứng hover cho link */
+            .filters a:hover {
+                background-color: #218838;
+            }
+
         </style>
     </head>
     <body>
         <div class="container">
             <div class="filter-box">
                 <h1>${title}</h1>
+
+                <form method="get" action="products">
+                    <input type="text" name="searchKeyword" placeholder="Search by product name, code, brand, supplier" value="${searchQuery}" class="form-control">
+
+                    <!-- Price Range Filter -->
+                    <input type="number" name="minPrice" placeholder="Min Price" value="${minPrice}" class="form-control">
+                    <input type="number" name="maxPrice" placeholder="Max Price" value="${maxPrice}" class="form-control">
+
+                    <!-- Rating Filter -->
+                    <input type="number" name="minRating" placeholder="Min Rating" value="${minRating}" min="1" max="5" class="form-control">
+                    <input type="number" name="maxRating" placeholder="Max Rating" value="${maxRating}" min="1" max="5" class="form-control">
+
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+
+                <!-- Filter by Top Rated -->
                 <div class="filters">
                     <a href="products?action=topRated&page=1">Top Rated Products</a>
                 </div>
+
+                <!-- Pagination -->
                 <div class="pagination">
                     <c:if test="${page > 1}">
-                        <a href="products?action=list&page=${page - 1}">Previous</a>
+                        <a href="products?action=list&page=${page - 1}&searchQuery=${searchQuery}&priceFrom=${priceFrom}&priceTo=${priceTo}&ratingFrom=${ratingFrom}&ratingTo=${ratingTo}">Previous</a>
                     </c:if>
-                    <a href="products?action=list&page=${page + 1}">Next</a>
+                    <span>Page ${page} of ${totalPages}</span>
+                    <c:if test="${page < totalPages}">
+                        <a href="products?action=list&page=${page + 1}&searchQuery=${searchQuery}&priceFrom=${priceFrom}&priceTo=${priceTo}&ratingFrom=${ratingFrom}&ratingTo=${ratingTo}">Next</a>
+                    </c:if>
                 </div>
             </div>
+
             <section class="hero">
                 <div class="container">
                     <div class="row">
@@ -198,27 +281,32 @@
                                 </div>
                                 <ul>
                                     <c:forEach var="category" items="${categories}">
-                                        <li><a href="products?action=filterByCategory&categoryId=${category.categoryId}">${category.categoryName}</a></li>
+                                        <li><a href="products?action=filterByCategory&categoryId=${category.categoryId}&searchQuery=${searchQuery}&priceFrom=${priceFrom}&priceTo=${priceTo}&ratingFrom=${ratingFrom}&ratingTo=${ratingTo}">${category.categoryName}</a></li>
                                         </c:forEach>
                                 </ul>
                             </div>
                         </div>
 
                         <div class="product-grid col-lg-9">
-
                             <c:forEach var="product" items="${products}">
                                 <div class="product-card">
                                     <img src="${product.image}" alt="${product.productName}" class="product-image" />
                                     <div class="product-info">
                                         <div class="product-name">${product.productName}</div>
                                         <div class="product-price">$${product.price}</div>
+                                        <div class="product-discount">Discount: ${product.discountPrice}%</div>
+                                        <div class="product-rating">Rating: ${product.averageRating}</div>
                                         <div class="product-description">${product.description}</div>
+                                        <div class="product-brand">${product.brandName}</div>
+                                        <div class="product-supplier">${product.supplierName}</div>
                                         <a href="productDetail.jsp?productId=${product.productId}" class="view-button">View Details</a>
                                     </div>
                                 </div>
                             </c:forEach>
-
                         </div>
                     </div>
-                    </body>
-                    </html>
+                </div>
+            </section>
+        </div>
+    </body>
+</html>
