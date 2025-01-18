@@ -368,4 +368,38 @@ public class ProductDAO extends DBContext {
         return count;
     }
 
+    public Product getProductById(int productId) {
+        Product product = null;
+        String sql = "SELECT p.productId, p.productName, p.price, p.discountPrice, p.stockQuantity, p.description, p.image, "
+                + "AVG(r.rating) AS averageRating "
+                + "FROM Products p "
+                + "LEFT JOIN Reviews r ON p.productId = r.productId "
+                + "WHERE p.productId = ? "
+                + "GROUP BY p.productId , p.productName, p.price, p.discountPrice, p.stockQuantity, p.description, p.image";
+
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, productId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    product = new Product();
+                    product.setProductId(rs.getInt("productId"));
+                    product.setProductName(rs.getString("productName"));
+                    product.setPrice(rs.getBigDecimal("price"));
+                    product.setDiscountPrice(rs.getBigDecimal("discountPrice"));
+                    product.setStockQuantity(rs.getInt("stockQuantity"));
+                    product.setDescription(rs.getString("description"));
+                    product.setImage(rs.getString("image"));
+                    product.setAverageRating(rs.getDouble("averageRating"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return product;
+    }
+
 }
