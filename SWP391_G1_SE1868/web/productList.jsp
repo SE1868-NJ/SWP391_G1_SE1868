@@ -296,10 +296,9 @@
                                         <div class="product-price">$${product.price}</div>
                                         <div class="product-discount">Discount: ${product.discountPrice}%</div>
                                         <div class="product-rating">Rating: ${product.averageRating}</div>
-                                        <div class="product-description">${product.description}</div>
                                         <div class="product-brand">${product.brandName}</div>
                                         <div class="product-supplier">${product.supplierName}</div>
-                                        <a href="productDetail.jsp?productId=${product.productId}" class="view-button">View Details</a>
+                                        <a href="productDetail?productId=${product.productId}" class="view-button">View Details</a>
                                     </div>
                                 </div>
                             </c:forEach>
