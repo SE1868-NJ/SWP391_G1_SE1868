@@ -4,6 +4,7 @@
  */
 package dbcontext;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -43,6 +44,7 @@ public class DBContext {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
         }
     }
 }
