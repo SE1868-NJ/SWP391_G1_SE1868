@@ -12,7 +12,58 @@ import java.time.LocalDateTime;
  */
 public class ProductImage {
      private Integer productImageId;
-    private Product product; // Many-to-One
+    private Product product;
     private String imageUrl;
     private LocalDateTime createdAt;
+
+    @Override
+    public String toString() {
+        return "ProductImage{" +
+                "productImageId=" + productImageId +
+                ", imageUrl='" + imageUrl + '\'' +
+                '}';
+    }
+
+    public ProductImage() {
+    }
+
+    public ProductImage(Integer productImageId, Product product, String imageUrl, LocalDateTime createdAt) {
+        this.productImageId = productImageId;
+        this.product = product;
+        this.imageUrl = imageUrl;
+        this.createdAt = createdAt;
+    }
+
+    public Integer getProductImageId() {
+        return productImageId;
+    }
+
+    public void setProductImageId(Integer productImageId) {
+        this.productImageId = productImageId;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+    
 }

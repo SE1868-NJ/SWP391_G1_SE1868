@@ -9,9 +9,70 @@ import java.time.LocalDateTime;
  * @author Đạt
  */
 public class CartItem {
-     private Integer cartItemId;
+    private Integer cartItemId;
     private Cart cart;
     private Product product;
     private Integer quantity;
     private LocalDateTime addedAt;
+
+    @Override
+    public String toString() {
+        return "CartItem{" +
+                "cartItemId=" + cartItemId +
+                ", quantity=" + quantity +
+                ", product=" + (product != null ? product.getName() : "null") +
+                '}';
+    }
+
+    public CartItem() {
+    }
+
+    public CartItem(Integer cartItemId, Cart cart, Product product, Integer quantity, LocalDateTime addedAt) {
+        this.cartItemId = cartItemId;
+        this.cart = cart;
+        this.product = product;
+        this.quantity = quantity;
+        this.addedAt = addedAt;
+    }
+
+    public Integer getCartItemId() {
+        return cartItemId;
+    }
+
+    public void setCartItemId(Integer cartItemId) {
+        this.cartItemId = cartItemId;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public LocalDateTime getAddedAt() {
+        return addedAt;
+    }
+
+    public void setAddedAt(LocalDateTime addedAt) {
+        this.addedAt = addedAt;
+    }
+    
 }
