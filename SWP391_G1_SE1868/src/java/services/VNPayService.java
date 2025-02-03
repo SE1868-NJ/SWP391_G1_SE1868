@@ -38,6 +38,7 @@ public class VNPayService {
         vnp_Params.put("vnp_ReturnUrl", ConfigVNPay.vnp_ReturnUrl);
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
 
+        // hash data từ các tham số tren .
         String hashData = VNPayUtils.createQueryString(vnp_Params);
 
         StringBuilder query = new StringBuilder(VNPayUtils.createQueryString(vnp_Params));
@@ -53,18 +54,13 @@ public class VNPayService {
 
     public static VNPayResponse validateResponse(Map<String, String> fields, String vnp_SecureHash) {
         // Tạo chuỗi signValue từ các tham số trong fields
-        
-        //fields.remove("vnp_SecureHash");
-        
-        String signValue = String.join("&", fields.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey()) // Sắp xếp theo key
-                .map(entry -> entry.getKey() + "=" + entry.getValue()) // Tạo chuỗi key=value
-                .toArray(String[]::new));
 
-        
+        fields.remove("vnp_SecureHash");
+
+        String signValue = VNPayUtils.createQueryString(fields);
+
         String computedHash = VNPayUtils.hmacSHA512(ConfigVNPay.vnp_HashSecret, signValue);
 
-            
         // So sánh chữ ký tính toán với chữ ký từ VNPay
         if (computedHash.equalsIgnoreCase(vnp_SecureHash)) {
             // Nếu hợp lệ, lấy các dữ liệu cần thiết từ fields
@@ -81,4 +77,42 @@ public class VNPayService {
         }
     }
 
+    public static VNPayResponse validateResponseNotFix(Map<String, String> fields, String vnp_SecureHash) {
+    // Loại bỏ vnp_SecureHash khỏi map trước khi tạo chuỗi signValue
+    fields.remove("vnp_SecureHash");
+
+    // Tạo chuỗi signValue từ các tham số trong fields (không sắp xếp)
+    StringBuilder signValue = new StringBuilder();
+    for (Map.Entry<String, String> entry : fields.entrySet()) {
+        if (signValue.length() > 0) {
+            signValue.append("&");
+        }
+        signValue.append(entry.getKey()).append("=").append(entry.getValue());
+    }
+
+    // Tính toán chữ ký mới
+    String computedHash = VNPayUtils.hmacSHA512(ConfigVNPay.vnp_HashSecret, signValue.toString());
+
+    // So sánh chữ ký tính toán với chữ ký từ VNPay
+    if (computedHash.equalsIgnoreCase(vnp_SecureHash)) {
+        // Nếu hợp lệ, lấy các dữ liệu cần thiết từ fields
+        String vnp_TxnRef = fields.get("vnp_TxnRef");  // Mã giao dịch
+        String vnp_Amount = fields.get("vnp_Amount");
+        String vnp_OrderInfo = fields.get("vnp_OrderInfo");
+        String vnp_ResponseCode = fields.get("vnp_ResponseCode");  // Mã phản hồi
+
+        // Tạo đối tượng VNPayResponse và trả về
+        VNPayResponse transaction = new VNPayResponse(vnp_TxnRef, vnp_Amount, vnp_OrderInfo, vnp_ResponseCode);
+        return transaction;
+    } else {
+        return null;
+    }
+}
+
+    
+    
+    
+    
+    
+    
 }
