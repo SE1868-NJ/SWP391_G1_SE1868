@@ -12,6 +12,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
+import response.VNPayResponse;
+import services.VNPayService;
 
 /**
  *
@@ -58,7 +62,8 @@ public class NewServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+      //  processRequest(request, response);
+        
     }
 
     /**
@@ -72,7 +77,35 @@ public class NewServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       Map<String, String> fields = new HashMap<>();
+    for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
+        fields.put(entry.getKey(), entry.getValue()[0]);
+    }
+   
+    // Lấy chữ ký bảo mật từ VNPay
+    String vnp_SecureHash = request.getParameter("vnp_SecureHash");
+
+    // Xác thực phản hồi từ VNPay
+    VNPayResponse paymentResponse = VNPayService.validateResponse(fields, vnp_SecureHash);
+
+    if (paymentResponse != null) {
+        // Phản hồi hợp lệ, xử lý giao dịch 
+        String txnRef = paymentResponse.getVnp_TxnRef();
+        String amount = paymentResponse.getVnp_Amount();
+        String orderInfo = paymentResponse.getVnp_OrderInfo();
+        String responseCode = paymentResponse.getVnp_ResponseCode();
+
+        if ("00".equals(responseCode)) {
+            // Giao dịch thành công
+            response.getWriter().write("Thanh toán thành công! Mã giao dịch: " + txnRef);
+        } else {
+            // Giao dịch thất bại
+            response.getWriter().write("Thanh toán thất bại! Mã phản hồi: " + responseCode);
+        }
+    } else {
+        // Phản hồi không hợp lệ
+        response.getWriter().write("Phản hồi không hợp lệ từ VNPay.");
+    }
     }
 
     /**
