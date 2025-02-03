@@ -53,13 +53,18 @@ public class VNPayService {
 
     public static VNPayResponse validateResponse(Map<String, String> fields, String vnp_SecureHash) {
         // Tạo chuỗi signValue từ các tham số trong fields
+        
+        //fields.remove("vnp_SecureHash");
+        
         String signValue = String.join("&", fields.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey()) // Sắp xếp theo key
                 .map(entry -> entry.getKey() + "=" + entry.getValue()) // Tạo chuỗi key=value
                 .toArray(String[]::new));
 
+        
         String computedHash = VNPayUtils.hmacSHA512(ConfigVNPay.vnp_HashSecret, signValue);
 
+            
         // So sánh chữ ký tính toán với chữ ký từ VNPay
         if (computedHash.equalsIgnoreCase(vnp_SecureHash)) {
             // Nếu hợp lệ, lấy các dữ liệu cần thiết từ fields

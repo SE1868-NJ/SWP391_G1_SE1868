@@ -63,25 +63,12 @@ public class NewServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
       //  processRequest(request, response);
-        
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-       Map<String, String> fields = new HashMap<>();
+       response.setContentType("text/html;charset=UTF-8");
+        Map<String, String> fields = new HashMap<>();
     for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
         fields.put(entry.getKey(), entry.getValue()[0]);
     }
-   
+   response.getWriter().write(" giao dịch: " + fields);
     // Lấy chữ ký bảo mật từ VNPay
     String vnp_SecureHash = request.getParameter("vnp_SecureHash");
 
@@ -106,6 +93,20 @@ public class NewServlet extends HttpServlet {
         // Phản hồi không hợp lệ
         response.getWriter().write("Phản hồi không hợp lệ từ VNPay.");
     }
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+       
     }
 
     /**

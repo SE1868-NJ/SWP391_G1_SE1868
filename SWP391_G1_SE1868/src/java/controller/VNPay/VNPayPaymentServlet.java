@@ -93,7 +93,7 @@ public class VNPayPaymentServlet extends HttpServlet {
     for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
         fields.put(entry.getKey(), entry.getValue()[0]);
     }
-    response.setContentType("text/html;charset=UTF-8");
+   
     // Lấy chữ ký bảo mật từ VNPay
     String vnp_SecureHash = request.getParameter("vnp_SecureHash");
 
