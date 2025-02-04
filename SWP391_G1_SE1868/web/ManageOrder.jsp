@@ -334,7 +334,7 @@
                     <a href="#">
                         Hoàn thành
                     </a>
-                    <a href="#">
+                    <a href="type6">
                         Đã hủy
                     </a>
                     <a href="#">

@@ -14,8 +14,8 @@ public class DBContext {
     private final String SERVERNAME = "localhost";
     private final String PORTNUMBER = "1433";
     private final String DATABASENAME = "SWP391_G1_SE1868";
-    private final String ACCOUNT = "sa";
-    private final String PASSWORD = "sa";
+    private final String ACCOUNT = "duy";
+    private final String PASSWORD = "12345";
     /*USE BELOW METHOD FOR YOUR DATABASE CONNECTION FOR BOTH SINGLE AND MULTILPE SQL SERVER INSTANCE(s)*/
  /*DO NOT EDIT THE BELOW METHOD, YOU MUST USE ONLY THIS ONE FOR YOUR DATABASE CONNECTION*/
     public Connection getConnection() throws Exception {
