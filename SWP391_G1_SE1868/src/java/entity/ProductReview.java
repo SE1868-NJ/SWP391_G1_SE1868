@@ -11,7 +11,7 @@ package entity;
 import java.time.LocalDateTime;
 import java.util.List;
 public class ProductReview {
-   private Integer reviewId;
+    private Integer reviewId;
     private Product product;
     private Customer customer;
     private Integer rating;
