@@ -5,6 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -93,8 +96,10 @@
 
                                         <!-- Tổng số sao và trung bình đánh giá -->
                                         <div class="rating-summary">
-                                            <p><strong>Tổng số đánh giá:</strong> <span id="total-reviews">7</span></p>
-                                            <p><strong>Trung bình:</strong> <span class="stars" id="average-rating" data-rating="4"> </span> 4.0/5.0</p>
+                                            <p><strong>Tổng số đánh giá:</strong> <span id="total-reviews">${totalReview}</span></p>
+                                            <p><strong>Trung bình:</strong> <span class="stars" id="average-rating" 
+                                                                                  data-rating="<fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1" />"> </span>
+                                                <fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1" /> /5.0</p>
                                         </div>
 
                                         <!-- Bộ lọc số sao -->
@@ -106,32 +111,91 @@
                                                 <li><button data-star="4" onclick="filterReviews(parseInt(this.getAttribute('data-star')))">4 Sao</button></li>
                                                 <li><button data-star="3" onclick="filterReviews(parseInt(this.getAttribute('data-star')))">3 Sao</button></li>
                                                 <li><button data-star="2" onclick="filterReviews(parseInt(this.getAttribute('data-star')))">2 Sao</button></li>
+                                                <li><button data-star="1" onclick="filterReviews(parseInt(this.getAttribute('data-star')))">1 Sao</button></li>
+
                                             </ul>
                                         </div>
 
 
                                         <!-- Danh sách đánh giá -->
                                         <ul class="review-list" id="review-list">
-                                            <li data-rating="5"><span class="stars"></span> Nguyễn Văn A - "Rất tuyệt vời!"</li>
-                                            <li data-rating="4"><span class="stars"></span> Trần Thị B - "Ổn, nhưng đóng gói chưa kỹ."</li>
-                                            <li data-rating="3"><span class="stars"></span> Lê Văn C - "Giao hàng hơi chậm."</li>
-                                            <li data-rating="5"><span class="stars"></span> Phạm Thị D - "Giá hợp lý, chất lượng tốt!"</li>
-                                            <li data-rating="4"><span class="stars"></span> Hoàng Văn E - "Hàng dùng ổn, nhưng chờ lâu."</li>
-                                            <li data-rating="2"><span class="stars"></span> Đặng Văn F - "Không như mong đợi."</li>
-                                            <li data-rating="5"><span class="stars"></span> Trần Thị G - "Chất lượng tốt, đáng tiền!"</li>
+                                            <c:forEach var="review" items="${reviews}">
+
+                                                <li data-rating="${review.rating}">
+                                                    <img src="assets/img/star-icon.png"  alt="Avatar" class="avatar">
+                                                    ${review.customer.fullName} -  ${review.comment}<span class="stars"></span></li>
+                                                </c:forEach>
+
+                                            <!--                                            <li data-rating="4"><span class="stars"></span> Trần Thị B - "Ổn, nhưng đóng gói chưa kỹ."</li>
+                                                                                        <li data-rating="3"><span class="stars"></span> Lê Văn C - "Giao hàng hơi chậm."</li>
+                                                                                        <li data-rating="5"><span class="stars"></span> Phạm Thị D - "Giá hợp lý, chất lượng tốt!"</li>
+                                                                                        <li data-rating="4"><span class="stars"></span> Hoàng Văn E - "Hàng dùng ổn, nhưng chờ lâu."</li>
+                                                                                        <li data-rating="2"><span class="stars"></span> Đặng Văn F - "Không như mong đợi."</li>
+                                                                                        <li data-rating="5"><span class="stars"></span> Trần Thị G - "Chất lượng tốt, đáng tiền!"</li>-->
                                         </ul>
                                     </div>
                                 </div>
-                                <!-- Bộ điều hướng phân trang -->
-                                <div class="pagination-controls">
-                                    <button id="prev-page" onclick="changePage(-1)">Trước</button>
-                                    <span id="page-info"></span>
-                                    <button id="next-page" onclick="changePage(1)">Sau</button>
+                                <!-- Phân trang -->
+                                <div class="pagination">
+                                    <c:if test="${totalPages > 1}">
+                                        <c:forEach var="pageNum" begin="1" end="${totalPages}">
+                                            <c:choose>
+                                                <c:when test="${pageNum == currentPage}">
+                                                    <span class="page-link active">${pageNum}</span>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a class="page-link" href="getReviews?productId=1&page=${pageNum}&pageSize=10">${pageNum}</a>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>
+                                    </c:if>
                                 </div>
+
 
                             </div>
 
                             <style>
+                                .pagination {
+                                    text-align: center;
+                                    margin-top: 20px;
+                                }
+
+                                .page-link {
+                                    display: inline-block;
+                                    padding: 8px 15px;
+                                    margin: 0 5px;
+                                    text-decoration: none;
+                                    font-size: 16px;
+                                    color: #007bff;
+                                    border: 1px solid #007bff;
+                                    border-radius: 5px;
+                                    transition: background 0.3s, color 0.3s;
+                                }
+
+                                .page-link:hover {
+                                    background: #007bff;
+                                    color: white;
+                                }
+
+                                .page-link.active {
+                                    background: #007bff;
+                                    color: white;
+                                    font-weight: bold;
+                                    border: 1px solid #0056b3;
+                                    cursor: default;
+                                }
+
+
+
+
+                                .avatar {
+                                    width: 40px; /* Kích thước ảnh */
+                                    height: 40px;
+                                    border-radius: 50%; /* Làm tròn ảnh */
+                                    object-fit: cover; /* Giữ tỷ lệ ảnh không bị méo */
+                                    margin-right: 10px;
+                                    vertical-align: middle; /* Căn giữa với text */
+                                }
 
                                 /* Bộ lọc số sao */
                                 .filter-rating ul {

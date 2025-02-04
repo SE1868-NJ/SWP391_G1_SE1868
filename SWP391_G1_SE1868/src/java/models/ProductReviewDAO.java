@@ -68,6 +68,31 @@ public class ProductReviewDAO extends DBContext {
         }
     }
 
+    // Hàm lấy tổng số đánh giá của sản phẩm
+    public int getTotalReviewsByProduct(int productId, Integer starFilter) {
+        int totalReviews = 0;
+        String sql = "SELECT COUNT(*) FROM productreviews WHERE ProductID = ?";
+
+        if (starFilter != null && starFilter > 0) {
+            sql += " AND Rating = ?";
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, productId);
+            if (starFilter != null) {
+                stmt.setInt(2, starFilter);
+            }
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                totalReviews = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalReviews;
+    }
+
     //  Tính trung bình số sao
     public double getAverageRating(int productId) {
         String sql = "SELECT AVG(rating) FROM swp391_g1.productreviews WHERE ProductID = ?";
@@ -82,19 +107,18 @@ public class ProductReviewDAO extends DBContext {
         }
         return 0.0;
     }
-    
+
     //  Lấy danh sách đánh giá có phân trang và lọc theo số sao
-    
     public List<ProductReview> getReviewsByProduct(int productId, int page, int pageSize, Integer starFilter) {
         List<ProductReview> reviews = new ArrayList<>();
         String sql = "SELECT * FROM swp391_g1.productreviews WHERE ProductID = ? ";
-        
+
         if (starFilter != null && starFilter > 0) {
             sql += " AND Rating = ? ";
         }
-        
+
         sql += " ORDER BY CreatedAt DESC LIMIT ? OFFSET ?";
-        
+
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, productId);
             int paramIndex = 2;
@@ -105,23 +129,22 @@ public class ProductReviewDAO extends DBContext {
 
             stmt.setInt(paramIndex++, pageSize);
             stmt.setInt(paramIndex, (page - 1) * pageSize);
-                
+
             ResultSet rs = stmt.executeQuery();
             ProductDAO productDAO = new ProductDAO();
             CustomerDAO customerDAO = new CustomerDAO();
             while (rs.next()) {
                 ProductReview review = new ProductReview();
                 review.setReviewId(rs.getInt("ReviewID"));
-                
-                 // review.setProduct(new Product(rs.getInt("ProductID")));
+
+                // review.setProduct(new Product(rs.getInt("ProductID")));
                 Product product = productDAO.getProductById(rs.getInt("ProductID"));
                 review.setProduct(product);
-              
-               
-                 // review.setCustomer(new Customer(rs.getInt("CustomerID")));
-               Customer customer = customerDAO.getCustomerById(rs.getInt("CustomerID"));
-               review.setCustomer(customer);
-               
+
+                // review.setCustomer(new Customer(rs.getInt("CustomerID")));
+                Customer customer = customerDAO.getCustomerById(rs.getInt("CustomerID"));
+                review.setCustomer(customer);
+
                 review.setRating(rs.getInt("Rating"));
                 review.setComment(rs.getString("Comment"));
                 review.setCreatedAt(rs.getTimestamp("CreatedAt").toLocalDateTime());
@@ -132,14 +155,15 @@ public class ProductReviewDAO extends DBContext {
         }
         return reviews;
     }
+
     public static void main(String[] args) {
         ProductReviewDAO productReviewDAO = new ProductReviewDAO();
-        
-       List<ProductReview> productReview = productReviewDAO.getReviewsByProduct(1, 1, 5, 0);
-       
+
+        List<ProductReview> productReview = productReviewDAO.getReviewsByProduct(1, 1, 10, 0);
+
         for (ProductReview productReview1 : productReview) {
             System.out.println(productReview);
         }
-        
+
     }
 }
