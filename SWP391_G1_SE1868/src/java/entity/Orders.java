@@ -20,9 +20,9 @@ public class Orders {
     private String shippingAddress;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Integer shipperId;
+    private int shipperId;
 
-    public Orders(int orderID, int customerId, LocalDateTime orderDate, double otalAmount, String status, String shippingAddress, LocalDateTime createdAt, LocalDateTime updatedAt, Integer shipperId) {
+    public Orders(int orderID, int customerId, LocalDateTime orderDate, double otalAmount, String status, String shippingAddress, LocalDateTime createdAt, LocalDateTime updatedAt, int shipperId) {
         this.orderID = orderID;
         this.customerId = customerId;
         this.orderDate = orderDate;
@@ -66,7 +66,7 @@ public class Orders {
         return updatedAt;
     }
 
-    public Integer getShipperId() {
+    public int getShipperId() {
         return shipperId;
     }
 
@@ -102,7 +102,7 @@ public class Orders {
         this.updatedAt = updatedAt;
     }
 
-    public void setShipperId(Integer shipperId) {
+    public void setShipperId(int shipperId) {
         this.shipperId = shipperId;
     }
 

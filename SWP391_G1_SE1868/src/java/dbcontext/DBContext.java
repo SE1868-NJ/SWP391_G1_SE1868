@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  
 public class DBContext {
     private final String SERVERNAME = "localhost";
-    private final String PORTNUMBER = "1433";
+    private final String PORTNUMBER = "3306";
     private final String DATABASENAME = "SWP391_G1_SE1868";
     private final String ACCOUNT = "duy";
     private final String PASSWORD = "12345";
