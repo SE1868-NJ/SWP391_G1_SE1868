@@ -4,25 +4,19 @@
  */
 package entity;
 
-import java.time.LocalDateTime;
-
 /**
  *
  * @author DUCDUY2003
  */
 public class Orders {
 
-    private int orderID;
-    private int customerId;
-    private LocalDateTime orderDate;
-    private double otalAmount;
-    private String status;
-    private String shippingAddress;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private int shipperId;
+    String orderID, customerId, orderDate, otalAmount, status, shippingAddress, createdAt, updatedAt, shipperId;
 
-    public Orders(int orderID, int customerId, LocalDateTime orderDate, double otalAmount, String status, String shippingAddress, LocalDateTime createdAt, LocalDateTime updatedAt, int shipperId) {
+    public Orders() {
+
+    }
+
+    public Orders(String orderID, String customerId, String orderDate, String otalAmount, String status, String shippingAddress, String createdAt, String updatedAt, String shipperId) {
         this.orderID = orderID;
         this.customerId = customerId;
         this.orderDate = orderDate;
@@ -34,75 +28,75 @@ public class Orders {
         this.shipperId = shipperId;
     }
 
-    public int getOrderID() {
+    public String getOrderID() {
         return orderID;
     }
 
-    public int getCustomerId() {
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
+    }
+
+    public String getCustomerId() {
         return customerId;
     }
 
-    public LocalDateTime getOrderDate() {
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getOrderDate() {
         return orderDate;
     }
 
-    public double getOtalAmount() {
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public String getOtalAmount() {
         return otalAmount;
+    }
+
+    public void setOtalAmount(String otalAmount) {
+        this.otalAmount = otalAmount;
     }
 
     public String getStatus() {
         return status;
     }
 
-    public String getShippingAddress() {
-        return shippingAddress;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public int getShipperId() {
-        return shipperId;
-    }
-
-    public void setOrderID(int orderID) {
-        this.orderID = orderID;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
-
-    public void setOrderDate(LocalDateTime orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public void setOtalAmount(double otalAmount) {
-        this.otalAmount = otalAmount;
-    }
-
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
     }
 
     public void setShippingAddress(String shippingAddress) {
         this.shippingAddress = shippingAddress;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
 
-    public void setShipperId(int shipperId) {
+    public String getShipperId() {
+        return shipperId;
+    }
+
+    public void setShipperId(String shipperId) {
         this.shipperId = shipperId;
     }
 
