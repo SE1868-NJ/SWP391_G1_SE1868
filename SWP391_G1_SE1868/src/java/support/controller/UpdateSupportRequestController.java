@@ -5,6 +5,7 @@
 
 package support.controller;
 
+import com.sun.jdi.connect.spi.Connection;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -28,18 +29,7 @@ public class UpdateSupportRequestController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UpdateSupportRequestController</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UpdateSupportRequestController at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+       
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -53,7 +43,27 @@ public class UpdateSupportRequestController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        int requestId = Integer.parseInt(request.getParameter("requestId"));
+        String status = request.getParameter("status");
+
+        // Cập nhật trạng thái yêu cầu hỗ trợ trong cơ sở dữ liệu
+        updateSupportRequestStatus(requestId, status);
+
+        response.sendRedirect("viewSupportRequests.jsp");
+    }
+
+    private void updateSupportRequestStatus(int requestId, String status) {
+        // Logic cập nhật trạng thái yêu cầu hỗ trợ
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
+            String sql = "UPDATE SupportRequests SET Status = ? WHERE RequestID = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, status);
+                stmt.setInt(2, requestId);
+                stmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     } 
 
     /** 

@@ -3,20 +3,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package support.controller;
+package chatbot;
 
+import com.sun.jdi.connect.spi.Connection;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Giang123
  */
-public class ChatBotController extends HttpServlet {
+public class ViewChatHistoryController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -28,18 +32,7 @@ public class ChatBotController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ChatBotController</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ChatBotController at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -53,7 +46,38 @@ public class ChatBotController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        int customerId = Integer.parseInt(request.getParameter("customerId"));
+        
+        // Lấy lịch sử chat từ cơ sở dữ liệu
+        List<ChatMessage> chatHistory = getChatHistory(customerId);
+        request.setAttribute("chatHistory", chatHistory);
+        
+        RequestDispatcher dispatcher = request.getRequestDispatcher("chatbot.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private List<ChatMessage> getChatHistory(int customerId) {
+        List<ChatMessage> chatHistory = new ArrayList<>();
+        
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
+            String sql = "SELECT * FROM ChatMessages WHERE CustomerID = ? ORDER BY Timestamp ASC";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, customerId);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        ChatMessage message = new ChatMessage();
+                        message.setSender(rs.getString("Sender"));
+                        message.setMessage(rs.getString("Message"));
+                        message.setTimestamp(rs.getTimestamp("Timestamp"));
+                        chatHistory.add(message);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return chatHistory;
     } 
 
     /** 
@@ -66,7 +90,7 @@ public class ChatBotController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
 
     /** 

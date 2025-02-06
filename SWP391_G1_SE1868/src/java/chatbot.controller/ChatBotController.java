@@ -3,24 +3,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package support.controller;
+package chatbot;
 
-import com.sun.jdi.connect.spi.Connection;
-import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
-
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
+import 
 
 /**
  *
  * @author Giang123
  */
-public class ViewSupportRequestsController extends HttpServlet {
+public class ChatBotController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -46,42 +43,31 @@ public class ViewSupportRequestsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        int customerId = Integer.parseInt(request.getParameter("customerId"));
+        String customerMessage = request.getParameter("message");
+        String botReply = getBotReply(customerMessage);  // Logic để bot phản hồi
 
-        // Lấy danh sách yêu cầu hỗ trợ của khách hàng từ cơ sở dữ liệu
-        List<SupportRequest> requests = getSupportRequestsByCustomer(customerId);
-        request.setAttribute("requests", requests);
-        
-        // Chuyển hướng đến trang JSP để hiển thị danh sách yêu cầu
-        RequestDispatcher dispatcher = request.getRequestDispatcher("viewSupportRequests.jsp");
-        dispatcher.forward(request, response);
+        // Lưu cuộc trò chuyện vào cơ sở dữ liệu
+        int customerId = Integer.parseInt(request.getParameter("customerId"));
+        saveChatMessage(customerId, customerMessage, "Customer");
+        saveChatMessage(customerId, botReply, "Bot");
+
+        // Trả lời cho người dùng
+        response.setContentType("application/json");
+        response.getWriter().write("{\"response\": \"" + botReply + "\"}");
     }
 
-    private List<SupportRequest> getSupportRequestsByCustomer(int customerId) {
-        List<SupportRequest> requests = new ArrayList<>();
-        
+    private void saveChatMessage(int customerId, String message, String sender) {
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
-            String sql = "SELECT * FROM SupportRequests WHERE CustomerID = ?";
+            String sql = "INSERT INTO ChatMessages (CustomerID, Message, Sender) VALUES (?, ?, ?)";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, customerId);
-                try (ResultSet rs = stmt.executeQuery()) {
-                    while (rs.next()) {
-                        SupportRequest request = new SupportRequest();
-                        request.setRequestID(rs.getInt("RequestID"));
-                        request.setSubject(rs.getString("Subject"));
-                        request.setMessage(rs.getString("Message"));
-                        request.setStatus(rs.getString("Status"));
-                        request.setCreatedAt(rs.getTimestamp("CreatedAt"));
-                        request.setUpdatedAt(rs.getTimestamp("UpdatedAt"));
-                        requests.add(request);
-                    }
-                }
+                stmt.setString(2, message);
+                stmt.setString(3, sender);
+                stmt.executeUpdate();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
-        return requests;
     } 
 
     /** 

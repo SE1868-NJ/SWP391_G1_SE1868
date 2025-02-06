@@ -44,6 +44,10 @@
         <servlet-name>ChatBotController</servlet-name>
         <servlet-class>support.controller.ChatBotController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewChatHistoryController</servlet-name>
+        <servlet-class>chatbot.controller.ViewChatHistoryController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomePage</servlet-name>
         <url-pattern>/HomePage</url-pattern>
@@ -87,5 +91,9 @@
     <servlet-mapping>
         <servlet-name>ChatBotController</servlet-name>
         <url-pattern>/ChatBotController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewChatHistoryController</servlet-name>
+        <url-pattern>/ViewChatHistoryController</url-pattern>
     </servlet-mapping>
 </web-app>
