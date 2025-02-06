@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Giang123
  */
-public class ViewSupportRequestsController extends HttpServlet {
+public class ChatBotController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -28,7 +28,18 @@ public class ViewSupportRequestsController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet ChatBotController</title>");  
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet ChatBotController at " + request.getContextPath () + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -42,42 +53,7 @@ public class ViewSupportRequestsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        int customerId = Integer.parseInt(request.getParameter("customerId"));
-
-        // Lấy danh sách yêu cầu hỗ trợ của khách hàng từ cơ sở dữ liệu
-        List<SupportRequest> requests = getSupportRequestsByCustomer(customerId);
-        request.setAttribute("requests", requests);
-        
-        // Chuyển hướng đến trang JSP để hiển thị danh sách yêu cầu
-        RequestDispatcher dispatcher = request.getRequestDispatcher("viewSupportRequests.jsp");
-        dispatcher.forward(request, response);
-    }
-
-    private List<SupportRequest> getSupportRequestsByCustomer(int customerId) {
-        List<SupportRequest> requests = new ArrayList<>();
-        
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
-            String sql = "SELECT * FROM SupportRequests WHERE CustomerID = ?";
-            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setInt(1, customerId);
-                try (ResultSet rs = stmt.executeQuery()) {
-                    while (rs.next()) {
-                        SupportRequest request = new SupportRequest();
-                        request.setRequestID(rs.getInt("RequestID"));
-                        request.setSubject(rs.getString("Subject"));
-                        request.setMessage(rs.getString("Message"));
-                        request.setStatus(rs.getString("Status"));
-                        request.setCreatedAt(rs.getTimestamp("CreatedAt"));
-                        request.setUpdatedAt(rs.getTimestamp("UpdatedAt"));
-                        requests.add(request);
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        
-        return requests;
+        processRequest(request, response);
     } 
 
     /** 

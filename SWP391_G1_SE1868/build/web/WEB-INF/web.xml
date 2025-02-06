@@ -36,6 +36,14 @@
         <servlet-name>ViewSupportRequestsController</servlet-name>
         <servlet-class>support.controller.ViewSupportRequestsController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateSupportRequestController</servlet-name>
+        <servlet-class>support.controller.UpdateSupportRequestController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChatBotController</servlet-name>
+        <servlet-class>support.controller.ChatBotController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomePage</servlet-name>
         <url-pattern>/HomePage</url-pattern>
@@ -71,5 +79,13 @@
     <servlet-mapping>
         <servlet-name>ViewSupportRequestsController</servlet-name>
         <url-pattern>/ViewSupportRequestsController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateSupportRequestController</servlet-name>
+        <url-pattern>/UpdateSupportRequestController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChatBotController</servlet-name>
+        <url-pattern>/ChatBotController</url-pattern>
     </servlet-mapping>
 </web-app>
