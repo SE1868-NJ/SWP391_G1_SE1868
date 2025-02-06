@@ -3,32 +3,23 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/img/product/product-6.jpg</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/HomePage.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/ProductDetailController.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/img/product/product-5.jpg</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/img/product/product-1.jpg</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Customer.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Cart.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Review.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/img/breadcrumb.jpg</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/img/product/product-8.jpg</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/img/payment-item.png</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/img/logo.png</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/img/product/product-11.jpg</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/img/product/product-10.jpg</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Brand.java</file>
+            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/support/controller/UpdateSupportRequestController.java</file>
+            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/wishlist.controller/ViewWishlistController.java</file>
+            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/wishlist/MoveToCart.jsp</file>
             <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/img/language.png</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Account.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/img/product/product-7.jpg</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/img/product/product-12.jpg</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Login.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Supplier.java</file>
+            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/support/controller/ViewSupportRequestsController.java</file>
+            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/support/viewSupportRequests.jsp</file>
+            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/wishlist/wishlistView.jsp</file>
+            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/wishlist.controller/RemoveFromWishlistController.java</file>
+            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/wishlist.controller/MoveToCartController.java</file>
+            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/chatbot.controller/ChatBotController.java</file>
+            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/notification/controller/SendOrderStatusNotificationController.java</file>
+            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/support/controller/SubmitSupportRequestController.java</file>
             <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/wishlist.controller/AddToWishlistController.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/dbcontext/DBContext.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/ProductController.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Category.java</file>
+            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/support/supportRequest.jsp</file>
+            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/support/chatbot.jsp</file>
+            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/ChatMessage.java</file>
+            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/chatbot.controller/ViewChatHistoryController.java</file>
         </group>
     </open-files>
 </project-private>
