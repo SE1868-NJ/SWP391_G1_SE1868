@@ -1,9 +1,8 @@
 package dbcontext;
 
-import com.mysql.cj.xdevapi.PreparableStatement;
 import dbcontext.DBContext;
-import entity.OrderDetail;
 import entity.Orders;
+import entity.OrderDetail;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,9 +60,87 @@ public class OrderDAO extends DBContext {
             }
 
         } catch (Exception e) {
-            System.out.println("Error selecting product: " + e.getMessage());
+            System.out.println("Error selecting Orders: " + e.getMessage());
 
         }
         return orders;
     }
+
+    // insert 
+    public void indert(String orderID, String customerId, String orderDate, String otalAmount, String status, String shippingAddress, String createdAt, String updatedAt, String shipperId) {
+        String sql = "INSERT INTO orders\n"
+                + "(`OrderID`,\n"
+                + "`CustomerID`,\n"
+                + "`OrderDate`,\n"
+                + "`TotalAmount`,\n"
+                + "`Status`,\n"
+                + "`ShippingAddress`,\n"
+                + "`CreatedAt`,\n"
+                + "`UpdatedAt`,\n"
+                + "`ShipperID`)\n"
+                + "VALUES\n"
+                + "(?,?,?,?,?,?,?,?,?)";
+        try {
+            stm = conn.prepareStatement(sql);
+            stm.setString(1, orderID);
+            stm.setString(2, customerId);
+            stm.setString(3, orderDate);
+            stm.setString(4, otalAmount);
+            stm.setString(5, status);
+            stm.setString(6, shippingAddress);
+            stm.setString(7, createdAt);
+            stm.setString(8, updatedAt);
+            stm.setString(9, shipperId);
+        } catch (SQLException e) {
+            System.out.println("Error inserting Orders: " + e.getMessage());
+
+        }
+    }
+
+    // Edit
+    public void updateOrder(String orderID, String customerId, String orderDate, String otalAmount, String status, String shippingAddress, String createdAt, String updatedAt, String shipperId) {
+        String sql = "UPDATE orders\n"
+                + "SET\n"
+                + "OrderID = ?,\n"
+                + "CustomerID = ?,\n"
+                + "OrderDate = ?,\n"
+                + "TotalAmount = ?,\n"
+                + "Status = ?,\n"
+                + "ShippingAddress = ?,\n"
+                + "CreatedAt = ?,\n"
+                + "UpdatedAt = ?,\n"
+                + "ShipperID = ?\n"
+                + "WHERE OrderID = ?";
+        try {
+            stm = conn.prepareStatement(sql);
+            stm.setString(1, orderID);
+            stm.setString(2, customerId);
+            stm.setString(3, orderDate);
+            stm.setString(4, otalAmount);
+            stm.setString(5, status);
+            stm.setString(6, shippingAddress);
+            stm.setString(7, createdAt);
+            stm.setString(8, updatedAt);
+            stm.setString(9, shipperId);
+            
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error update Orders: " + e.getMessage());
+        }
+    }
+
+    // Delete
+    public void deleteOrder(String orderID) {
+        String sql = "DELETE FROM orders\n"
+                + "WHERE CustomerID = ?";
+        try {
+            stm = conn.prepareStatement(sql);
+            stm.setString(1, orderID);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+        }
+    }
+//--------------------------------------------------------------------------------------------------------------------------------
+/*OrdersDetailDAOl*/ 
+    
 }

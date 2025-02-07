@@ -10,7 +10,7 @@
         <meta charset="utf-8"/>
         <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
         <title>
-            Shopee Clone
+            Ogani | Purchase
         </title>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
         <style>
@@ -21,7 +21,7 @@
                 background-color: #f5f5f5;
             }
             .header {
-                background-color: #ee4d2d;
+                background-color: #7fad39;
                 color: white;
                 padding: 10px 20px;
                 display: flex;
@@ -220,9 +220,9 @@
         <div class="header">
             <div class="left">
                 <div class="logo">
-                    <img alt="Shopee logo" height="40" src="https://storage.googleapis.com/a1aa/image/pDNIQoqKhGLSEVkGViifeeJD0yqxns67nAwEXGYX7Tz7fPcQB.jpg" width="40"/>
+                    <img alt="Shopee logo" height="40" src="assets/img/logo.png" width="70"/>
                     <span>
-                        Shopee
+                        #
                     </span>
                 </div>
                 <a href="#">
@@ -236,7 +236,7 @@
                 </a>
             </div>
             <div class="search-bar">
-                <input placeholder="Chia Kho Xu 15 Triệu" type="text"/>
+                <input placeholder="Search" type="text"/>
                 <button>
                     <i class="fas fa-search">
                     </i>
@@ -253,7 +253,7 @@
                     Tiếng Việt
                 </a>
                 <a href="#">
-                    bicduy557
+                    DUC_DUY8386
                 </a>
                 <div class="cart">
                     <a href="#">
@@ -261,7 +261,7 @@
                         </i>
                     </a>
                     <span class="cart-count">
-                        3
+                        100
                     </span>
                 </div>
             </div>
@@ -269,10 +269,10 @@
         <div class="main">
             <div class="sidebar">
                 <div class="profile">
-                    <img alt="User profile picture" height="50" src="https://storage.googleapis.com/a1aa/image/L49xTKsiQdIkLtA8IEsxenofK6gQioNd6821exscMvK5fPcQB.jpg" width="50"/>
+                    <img alt="User profile picture" height="50" src="https://hoanghamobile.com/tin-tuc/wp-content/uploads/2024/08/pikachu-game-3.jpg" width="50"/>
                     <div>
                         <div class="name">
-                            bicduy557
+                            DUC_Duy8386
                         </div>
                         <a href="#">
                             Sửa Hồ Sơ
@@ -312,7 +312,7 @@
                         <a href="#">
                             <i class="fas fa-coins">
                             </i>
-                            Shopee Xu
+                            BIT COIN
                         </a>
                     </li>
                 </ul>
