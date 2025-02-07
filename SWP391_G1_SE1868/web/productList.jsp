@@ -240,22 +240,22 @@
                 <h1>${title}</h1>
 
                 <form method="get" action="products">
-                    <input type="text" name="searchKeyword" placeholder="Search by product name, code, brand, supplier" value="${searchQuery}" class="form-control">
+                    <input type="text" name="searchKeyword" placeholder="Tìm Kiếm Sản Phẩm" value="${searchQuery}" class="form-control">
 
                     <!-- Price Range Filter -->
-                    <input type="number" name="minPrice" placeholder="Min Price" value="${minPrice}" class="form-control">
-                    <input type="number" name="maxPrice" placeholder="Max Price" value="${maxPrice}" class="form-control">
+                    <input type="number" name="minPrice" placeholder="Giá Thấp" value="${minPrice}" class="form-control">
+                    <input type="number" name="maxPrice" placeholder="Giá Cao" value="${maxPrice}" class="form-control">
 
                     <!-- Rating Filter -->
-                    <input type="number" name="minRating" placeholder="Min Rating" value="${minRating}" min="1" max="5" class="form-control">
-                    <input type="number" name="maxRating" placeholder="Max Rating" value="${maxRating}" min="1" max="5" class="form-control">
+                    <input type="number" name="minRating" placeholder="Đánh giá thấp" value="${minRating}" min="1" max="5" class="form-control">
+                    <input type="number" name="maxRating" placeholder="Đánh giá cao" value="${maxRating}" min="1" max="5" class="form-control">
 
-                    <button type="submit" class="btn btn-primary">Search</button>
+                    <button type="submit" class="btn btn-primary">Tìm Kiếm</button>
                 </form>
 
                 <!-- Filter by Top Rated -->
                 <div class="filters">
-                    <a href="products?action=topRated&page=1">Top Rated Products</a>
+                    <a href="products?action=topRated&page=1">Top sản phẩm đánh giá tốt</a>
                 </div>
 
                 <!-- Pagination -->
@@ -293,12 +293,12 @@
                                     <img src="${product.image}" alt="${product.productName}" class="product-image" />
                                     <div class="product-info">
                                         <div class="product-name">${product.productName}</div>
-                                        <div class="product-price">$${product.price}</div>
-                                        <div class="product-discount">Discount: $${product.discountPrice}</div>
-                                        <div class="product-rating">Rating: ${product.averageRating}</div>
-                                        <div class="product-brand">Brand: ${product.brandName}</div>
-                                        <div class="product-supplier">Supplier: ${product.supplierName}</div>
-                                        <div class="product-stockQuantity">Quantity: ${product.stockQuantity}</div>
+                                        <div class="product-price">${product.price}VND</div>
+                                        <div class="product-discount">Giảm giá: ${product.discountPrice}VND</div>
+                                        <div class="product-rating">Đánh giá: ${product.averageRating}</div>
+                                        <div class="product-brand">Hãng: ${product.brandName}</div>
+                                        
+                                        <div class="product-stockQuantity">Số lượng: ${product.stockQuantity}</div>
                                         <a href="productDetail?productId=${product.productId}" class="view-button">View Details</a>
                                         <c:if test="${product.stockQuantity > 0}">
                                             <a href="/myCarts?action=addToCart&productId=${product.productId}" style="color : blue;" 

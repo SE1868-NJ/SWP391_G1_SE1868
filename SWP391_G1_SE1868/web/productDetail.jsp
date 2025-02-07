@@ -113,11 +113,11 @@
             </div>
 
             <div class="product-info">
-                <p><strong>Price:</strong> $${product.price}</p>
-                <p><strong>Discount Price:</strong> $${product.discountPrice}</p>
-                <p><strong>Stock Quantity:</strong> ${product.stockQuantity}</p>
-                <p><strong>Description:</strong> ${product.description}</p>
-                <p><strong>Average Rating:</strong> ${product.averageRating}</p>
+                <p><strong>Giá:</strong>${product.price}VND</p>
+                <p><strong>Giá chiêt khấu:</strong> ${product.discountPrice}VND</p>
+                <p><strong>Số lượng hàng:</strong> ${product.stockQuantity}</p>
+                <p><strong>Mô tả:</strong> ${product.description}</p>
+                <p><strong>Đánh giá trung bình:</strong> ${product.averageRating}</p>
             </div>
 
             <div class="buttons">
