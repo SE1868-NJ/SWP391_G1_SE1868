@@ -53,7 +53,7 @@ public class ProductDAO extends DBContext {
             sql.append("HAVING AVG(r.rating) <= ? ");
         }
 
-        sql.append("ORDER BY p.productId OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+        sql.append("ORDER BY p.productId LIMIT ? OFFSET ? ");
 
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
             int parameterIndex = 1;
@@ -89,9 +89,9 @@ public class ProductDAO extends DBContext {
             if (supplierName != null && !supplierName.isEmpty()) {
                 ps.setString(parameterIndex++, "%" + supplierName + "%");
             }
-
-            ps.setInt(parameterIndex++, (page - 1) * pageSize);
+            
             ps.setInt(parameterIndex++, pageSize);
+            ps.setInt(parameterIndex++, (page - 1) * pageSize);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -160,7 +160,7 @@ public class ProductDAO extends DBContext {
             sql.append("HAVING AVG(r.rating) <= ? ");
         }
 
-        sql.append("ORDER BY averageRating DESC, p.discountPrice DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+        sql.append("ORDER BY averageRating DESC, p.discountPrice DESC LIMIT ? OFFSET ? ");
 
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql.toString())) {
             int parameterIndex = 1;
@@ -196,9 +196,10 @@ public class ProductDAO extends DBContext {
             if (supplierName != null && !supplierName.isEmpty()) {
                 ps.setString(parameterIndex++, "%" + supplierName + "%");
             }
-
-            ps.setInt(parameterIndex++, (page - 1) * pageSize);
+            
             ps.setInt(parameterIndex++, pageSize);
+            ps.setInt(parameterIndex++, (page - 1) * pageSize);
+            
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -241,11 +242,11 @@ public class ProductDAO extends DBContext {
 
     public List<Product> getProductsByCategory(int categoryId, int page, int pageSize) {
         List<Product> products = new ArrayList<>();
-        String sql = "SELECT * FROM Products WHERE categoryId = ? ORDER BY productId OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        String sql = "SELECT * FROM Products WHERE categoryId = ? ORDER BY productId LIMIT ? OFFSET ? ";
         try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, categoryId);
-            ps.setInt(2, (page - 1) * pageSize);
-            ps.setInt(3, pageSize);
+            ps.setInt(3, (page - 1) * pageSize);
+            ps.setInt(2, pageSize);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Product product = mapProduct(rs);
