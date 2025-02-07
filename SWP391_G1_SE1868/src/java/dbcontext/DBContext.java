@@ -12,16 +12,19 @@ import java.util.logging.Logger;
  
 public class DBContext {
     private final String SERVERNAME = "localhost";
-    private final String PORTNUMBER = "1433";
-    private final String DATABASENAME = "SWP391_G1_SE1868";
-    private final String ACCOUNT = "sa";
-    private final String PASSWORD = "sa";
-    /*USE BELOW METHOD FOR YOUR DATABASE CONNECTION FOR BOTH SINGLE AND MULTILPE SQL SERVER INSTANCE(s)*/
- /*DO NOT EDIT THE BELOW METHOD, YOU MUST USE ONLY THIS ONE FOR YOUR DATABASE CONNECTION*/
+    private final String PORTNUMBER = "3306"; // Default port of MySQL
+    private final String DATABASENAME = "SWP391_G1";
+    private final String ACCOUNT = "root"; // MySQL account
+    private final String PASSWORD = "nhat2004"; // MySQL password
+
     public Connection getConnection() throws Exception {
-        String url = "jdbc:sqlserver://" + SERVERNAME + ":" + PORTNUMBER
-                + ";databaseName=" + DATABASENAME;
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+        // URL kết nối MySQL
+        String url = "jdbc:mysql://" + SERVERNAME + ":" + PORTNUMBER 
+                + "/" + DATABASENAME 
+                + "?useSSL=false&allowPublicKeyRetrieval=true";
+
+        // Sử dụng MySQL JDBC Driver
+        Class.forName("com.mysql.cj.jdbc.Driver");
         return DriverManager.getConnection(url, ACCOUNT, PASSWORD);
     }
 
