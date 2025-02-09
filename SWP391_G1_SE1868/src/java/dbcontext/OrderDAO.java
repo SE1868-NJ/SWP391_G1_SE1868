@@ -2,7 +2,6 @@ package dbcontext;
 
 import dbcontext.DBContext;
 import entity.Orders;
-import entity.OrderDetail;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,31 +12,47 @@ public class OrderDAO extends DBContext {
     ResultSet rs;
     Connection conn;
 
-    //Select all
-    public List<Orders> getAll() {
-        List<Orders> List = new ArrayList<>();
-        String sql = "select * from orders";
+    public OrderDAO() {
         try {
+            conn = new DBContext().getConnection();
+            if (conn == null) {
+                System.out.println("Connection is null. Please check DBContext.");
+            }
+        } catch (Exception e) {
+            System.out.println("OrderDAO connection error: " + e.getMessage());
+        }
+    }
+
+    public List<Orders> getAll() {
+        List<Orders> list = new ArrayList<>();
+        String sql = "SELECT * FROM orders";
+
+        try {
+            if (conn == null) {
+                System.out.println("Database connection is null in getAll()");
+                return list;
+            }
+
             stm = conn.prepareStatement(sql);
             rs = stm.executeQuery();
             while (rs.next()) {
                 String orderID = String.valueOf(rs.getInt(1));
                 String customerId = String.valueOf(rs.getInt(2));
                 String orderDate = String.valueOf(rs.getDate(3));
-                String otalAmount = String.valueOf(rs.getDouble(4));
+                String totalAmount = String.valueOf(rs.getDouble(4));
                 String status = rs.getString(5);
                 String shippingAddress = rs.getString(6);
                 String createdAt = String.valueOf(rs.getDate(7));
                 String updatedAt = String.valueOf(rs.getDate(8));
                 String shipperId = String.valueOf(rs.getInt(9));
 
-                Orders ord = new Orders(orderID, customerId, orderDate, otalAmount, status, shippingAddress, createdAt, updatedAt, shipperId);
-                List.add(ord);
+                Orders ord = new Orders(orderID, customerId, orderDate, totalAmount, status, shippingAddress, createdAt, updatedAt, shipperId);
+                list.add(ord);
             }
         } catch (SQLException e) {
-            System.out.println("getAll(): " + e.getMessage());
+            System.out.println("getAll() error: " + e.getMessage());
         }
-        return List;
+        return list;
     }
 
     //select by orderID
@@ -122,7 +137,7 @@ public class OrderDAO extends DBContext {
             stm.setString(7, createdAt);
             stm.setString(8, updatedAt);
             stm.setString(9, shipperId);
-            
+
             stm.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error update Orders: " + e.getMessage());
@@ -140,7 +155,4 @@ public class OrderDAO extends DBContext {
         } catch (SQLException e) {
         }
     }
-//--------------------------------------------------------------------------------------------------------------------------------
-/*OrdersDetailDAOl*/ 
-    
 }

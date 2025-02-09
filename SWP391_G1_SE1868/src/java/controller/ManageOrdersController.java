@@ -13,6 +13,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.List;
+import entity.Orders;
+import entity.Customer;
+import dbcontext.OrderDAO;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -59,28 +63,18 @@ public class ManageOrdersController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String action = request.getParameter("action");
+        HttpSession session = request.getSession();
+        Integer customerId = (Integer) session.getAttribute("customerId"); // Lấy CustomerID từ session
 
-        if (action == null) {
-            action = "list";
-        }
-
-        switch (action) {
-            case "list":
-                listOrders(request, response);
-                break;
-            case "details":
-                viewOrderDetails(request, response);
-                break;
-            case "cancel":
-                cancelOrder(request, response);
-                break;
-            case "return":
-                requestReturn(request, response);
-                break;
-            default:
-                response.sendRedirect("ManageOrder.jsp");
-        }
+        //if (customerId == null) {
+        // response.sendRedirect("login.jsp"); // Chưa đăng nhập thì chuyển về trang login
+        // return;
+        // }
+        //get data from dao
+        OrderDAO dao = new OrderDAO();
+        List<Orders> list = dao.getAll();
+        request.setAttribute("list", list);
+        request.getRequestDispatcher("ManageOrder.jsp").forward(request, response);
     }
 
     /**
@@ -94,7 +88,7 @@ public class ManageOrdersController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        doGet(request, response);
     }
 
     /**
@@ -106,31 +100,5 @@ public class ManageOrdersController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private void listOrders(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Mock data for order list
-        List<String> orders = Arrays.asList("Order #001", "Order #002", "Order #003");
-        request.setAttribute("orders", orders);
-        request.getRequestDispatcher("ManageOrder.jsp").forward(request, response);
-    }
-
-    private void viewOrderDetails(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String orderId = request.getParameter("orderId");
-        // Mock order details data
-        request.setAttribute("orderDetails", "Details for " + orderId);
-        request.getRequestDispatcher("orderDetails.jsp").forward(request, response);
-    }
-
-    private void cancelOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String orderId = request.getParameter("orderId");
-        // Cancel the order logic (mock)
-        response.getWriter().println("Order " + orderId + " has been canceled.");
-    }
-
-    private void requestReturn(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String orderId = request.getParameter("orderId");
-        // Mock return request logic
-        response.getWriter().println("Return/Exchange requested for order: " + orderId);
-    }
 
 }

@@ -1,8 +1,4 @@
-<%-- 
-    Document   : ManageOrder
-    Created on : Jan 20, 2025, 11:17:13 PM
-    Author     : DUCDUY2003
---%>
+
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
@@ -215,12 +211,45 @@
                 cursor: pointer;
             }
         </style>
+        <script>
+            function filterOrders(status) {
+                // Cập nhật URL mà không tải lại trang
+                let baseUrl = window.location.origin + window.location.pathname;
+                window.history.pushState({}, '', baseUrl + "?tab=" + status);
+
+                // Lọc đơn hàng dựa trên trạng thái
+                document.querySelectorAll('.order').forEach(order => {
+                    if (status === 'all' || order.getAttribute('data-status') === status) {
+                        order.style.display = 'block';
+                    } else {
+                        order.style.display = 'none';
+                    }
+                });
+
+                // Cập nhật trạng thái active của tab
+                document.querySelectorAll('.tabs a').forEach(tab => {
+                    tab.classList.remove('active');
+                    if (tab.getAttribute('onclick').includes(status)) {
+                        tab.classList.add('active');
+                    }
+                });
+            }
+
+            // Khi tải lại trang, giữ trạng thái tab dựa vào URL
+            document.addEventListener("DOMContentLoaded", function () {
+                let params = new URLSearchParams(window.location.search);
+                let activeTab = params.get("tab") || "all";
+                filterOrders(activeTab);
+            });
+        </script>
     </head>
     <body>
         <div class="header">
             <div class="left">
                 <div class="logo">
-                    <img alt="Shopee logo" height="40" src="assets/img/logo.png" width="70"/>
+                    <a href="http://localhost:8080/index.html" target="target">
+                    <img alt="Shopee logo" height="40" src="assets/img/logo.png" width="70" />
+                    </a>
                     <span>
                         #
                     </span>
@@ -319,77 +348,43 @@
             </div>
             <div class="content">
                 <div class="tabs">
-                    <a href="#">
-                        Tất cả
-                    </a>
-                    <a class="active" href="#">
-                        Chờ thanh toán (1)
-                    </a>
-                    <a href="#">
-                        Vận chuyển
-                    </a>
-                    <a href="#">
-                        Chờ giao hàng
-                    </a>
-                    <a href="#">
-                        Hoàn thành
-                    </a>
-                    <a href="#">
-                        Đã hủy
-                    </a>
-                    <a href="#">
-                        Trả hàng/Hoàn tiền
-                    </a>
+                    <a href="#" onclick="filterOrders('all')">Tất cả</a>
+                    <a href="#" onclick="filterOrders('pending')" >Chờ thanh toán</a>
+                    <a href="#" onclick="filterOrders('shipping')">Vận chuyển</a>
+                    <a href="#" onclick="filterOrders('delivering')">Chờ giao hàng</a>
+                    <a href="#" onclick="filterOrders('completed')">Hoàn thành</a>
+                    <a href="#" onclick="filterOrders('cancelled')">Đã hủy</a>
+                    <a href="#" onclick="filterOrders('refund')">Trả hàng/Hoàn tiền</a>
                 </div>
-                <div class="order">
+                <div class="order" data-status="all">
                     <div class="order-header">
-                        <div class="order-title">
-                            BÁNH TRÁNG ÚT BÌNH - TẤT CẢ
-                        </div>
+                        <div class="order-title">ỚT NHÀ TÁO NGỐ</div>
                         <div class="order-actions">
-                            <button>
-                                Yêu thích
-                            </button>
-                            <button>
-                                Chat
-                            </button>
-                            <button>
-                                Xem Shop
-                            </button>
+                            <button>Yêu thích</button>
+                            <button>Chat</button>
+                            <button>Xem Shop</button>
                         </div>
                     </div>
                     <div class="order-item">
-                        <img alt="Product image" height="100" src="https://storage.googleapis.com/a1aa/image/dZJf2mN9pJ11CSxqXaNVVkImReE0v5fiPQrG4gZW7Dk3fPcQB.jpg" width="100"/>
+                        <img src="assets/img/product/details/product-details-2.jpg" width="50" height="50" alt="Product image">
                         <div class="item-details">
-                            <div class="item-name">
-                                [ZIP] 500gr Bánh Tráng Trộn Miếng Rong Biển Miếng Tôm Rong Biển Út Bình
-                            </div>
-                            <div class="item-price">
-                                ₫43.900
-                            </div>
-                            <div class="item-quantity">
-                                Phân loại hàng: ZIP TÔM RB 1012 x1
-                            </div>
+                            <div class="item-name">500gr Ớt Chuông đỏ + vàng</div>
+                            <div class="item-price">₫500.000</div>
+                            <div class="item-quantity">Phân loại hàng: Hàng tươi mới</div>
                         </div>
                     </div>
                     <div class="order-summary">
-                        <div class="total-price">
-                            Số tiền phải trả: ₫81.500
-                        </div>
+                        <div class="total-price">Số tiền phải trả: ₫505.000</div>
                         <div class="order-actions">
-                            <button>
-                                Chờ
-                            </button>
-                            <button>
-                                Liên Hệ Người Bán
-                            </button>
-                            <button>
-                                Hủy Đơn Hàng
-                            </button>
+                            <button>Mua Lại</button>
+                            <button>Xem Chi Tiết Hủy Đơn</button>
+                            <button>Liên Hệ Người Bán</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <a href="index.html">Quay lại Trang Chủ</a>
+
     </body>
 </html>
