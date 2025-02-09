@@ -4,6 +4,7 @@
  */
 package controller.review;
 
+import entity.Product;
 import entity.ProductReview;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import models.ProductDAO;
 import models.ProductReviewDAO;
 
 /**
@@ -65,16 +67,33 @@ public class ProductReviewServlet extends HttpServlet {
         try {
             // Lấy tham số từ request
             int productId = 1;
-            int page = Integer.parseInt(request.getParameter("page"));
+
             int pageSize = 5;
-            Integer starFilter = request.getParameter("starFilter") != null ? Integer.parseInt(request.getParameter("starFilter")) : null;
+
+            String starFilterParam = request.getParameter("starFilter");
+
+            if (starFilterParam == null || starFilterParam.isEmpty()) {
+                starFilterParam = "0";  // thiết lập giá trị mặc định là 1 nếu tham số không có
+            }
+            int starFilter = Integer.parseInt(starFilterParam);
+
+            String pageParam = request.getParameter("page");
+            if (pageParam == null || pageParam.isEmpty()) {
+                pageParam = "1";  // thiết lập giá trị mặc định là 1 nếu tham số không có
+            }
+
+            // Chuyển đổi tham số page thành kiểu int nếu cần
+            int page = Integer.parseInt(pageParam);
 
             // Gọi DAO
             ProductReviewDAO reviewDAO = new ProductReviewDAO();
+            ProductDAO productDAO = new ProductDAO();
+
+            Product product = productDAO.getProductById(productId);
             List<ProductReview> reviews = reviewDAO.getReviewsByProduct(productId, page, pageSize, starFilter);
             // get totalRating
             double totalRating = reviewDAO.getAverageRating(productId);
-            int totalReview = reviewDAO.getTotalReviewsByProduct(productId, null);
+            int totalReview = reviewDAO.getTotalReviewsByProduct(productId, 0);
 
             // Tính tổng số trang
             int totalReviews = reviewDAO.getTotalReviewsByProduct(productId, starFilter);
@@ -86,6 +105,7 @@ public class ProductReviewServlet extends HttpServlet {
             request.setAttribute("currentPage", page);
             request.setAttribute("totalRating", totalRating);
             request.setAttribute("totalReview", totalReview);
+            request.setAttribute("product", product);
 
             request.getRequestDispatcher("shop-details.jsp").forward(request, response);
 

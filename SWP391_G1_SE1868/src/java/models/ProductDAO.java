@@ -8,6 +8,7 @@ import dbcontext.DBContext;
 import entity.Category;
 import entity.Customer;
 import entity.Product;
+import entity.ProductImage;
 import entity.ProductReview;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;   // tap ban ghi 
@@ -80,37 +81,64 @@ public class ProductDAO extends DBContext {
         }
     }
 
-    //  Lấy sản phẩm theo ID
     public Product getProductById(int productId) {
         String sql = "SELECT * FROM Products WHERE productId = ?";
+        String sqlImages = "SELECT * FROM ProductImages WHERE productId = ?";  // Truy vấn để lấy danh sách hình ảnh
+
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, productId);
-            ResultSet rs = stmt.executeQuery();
-            CategoryDAO DAO = new CategoryDAO();
+            try (ResultSet rs = stmt.executeQuery()) {
+                CategoryDAO categoryDAO = new CategoryDAO();
 
-            if (rs.next()) {
-                Product product = new Product();
+                if (rs.next()) {
+                    Product product = new Product();
 
-                product.setProductId(rs.getInt("productId"));
-                product.setName(rs.getString("name"));
-                product.setDescription(rs.getString("description"));
-                product.setPrice(rs.getDouble("price"));
-                product.setStockQuantity(rs.getInt("stockQuantity"));
-                //  Kiểm tra NULL trước khi gọi .toLocalDateTime()
-                Timestamp createdTimestamp = rs.getTimestamp("createdAt");
-                product.setCreatedAt(createdTimestamp != null ? createdTimestamp.toLocalDateTime() : null);
+                    product.setProductId(rs.getInt("productId"));
+                    product.setName(rs.getString("name"));
+                    product.setDescription(rs.getString("description"));
+                    product.setPrice(rs.getDouble("price"));
+                    product.setStockQuantity(rs.getInt("stockQuantity"));
 
-                Timestamp updatedTimestamp = rs.getTimestamp("updatedAt");
-                product.setUpdatedAt(updatedTimestamp != null ? updatedTimestamp.toLocalDateTime() : null);
+                    // Kiểm tra NULL trước khi gọi .toLocalDateTime()
+                    Timestamp createdTimestamp = rs.getTimestamp("createdAt");
+                    product.setCreatedAt(createdTimestamp != null ? createdTimestamp.toLocalDateTime() : null);
 
-                Category category = DAO.getCategoryById(rs.getInt("categoryId"));
-                product.setCategory(category);
-                return product;
+                    Timestamp updatedTimestamp = rs.getTimestamp("updatedAt");
+                    product.setUpdatedAt(updatedTimestamp != null ? updatedTimestamp.toLocalDateTime() : null);
+
+                    // Lấy thông tin Category
+                    Category category = categoryDAO.getCategoryById(rs.getInt("categoryId"));
+                    product.setCategory(category);
+
+                    // Lấy danh sách hình ảnh sản phẩm
+                    try (PreparedStatement stmtImages = connection.prepareStatement(sqlImages)) {
+                        stmtImages.setInt(1, productId);
+                        try (ResultSet rsImages = stmtImages.executeQuery()) {
+                            List<ProductImage> images = new ArrayList<>();
+                            while (rsImages.next()) {
+                                ProductImage productImage = new ProductImage();
+                                productImage.setProductImageId(rsImages.getInt("productImageId"));
+                                productImage.setImageUrl(rsImages.getString("imageUrl"));
+                                productImage.setCreatedAt(rsImages.getTimestamp("createdAt") != null
+                                        ? rsImages.getTimestamp("createdAt").toLocalDateTime() : null);
+
+                                // Thiết lập đối tượng product cho mỗi hình ảnh
+                                productImage.setProduct(product);  // Cập nhật đối tượng Product cho ProductImage
+
+                                images.add(productImage);  // Thêm hình ảnh vào danh sách
+                            }
+                            product.setImages(images);  // Cập nhật danh sách hình ảnh vào product
+                        }
+                    }
+
+                    return product;  // Trả về đối tượng Product đã được cập nhật
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+
+        return null;  // Nếu không tìm thấy sản phẩm, trả về null
     }
 
     public static void main(String[] args) {

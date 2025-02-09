@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * @author Đạt
  */
 public class ProductImage {
-     private Integer productImageId;
+     private int productImageId;
     private Product product;
     private String imageUrl;
     private LocalDateTime createdAt;
@@ -27,18 +27,18 @@ public class ProductImage {
     public ProductImage() {
     }
 
-    public ProductImage(Integer productImageId, Product product, String imageUrl, LocalDateTime createdAt) {
+    public ProductImage(int productImageId, Product product, String imageUrl, LocalDateTime createdAt) {
         this.productImageId = productImageId;
         this.product = product;
         this.imageUrl = imageUrl;
         this.createdAt = createdAt;
     }
 
-    public Integer getProductImageId() {
+    public int getProductImageId() {
         return productImageId;
     }
 
-    public void setProductImageId(Integer productImageId) {
+    public void setProductImageId(int productImageId) {
         this.productImageId = productImageId;
     }
 

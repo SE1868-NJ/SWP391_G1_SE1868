@@ -11,7 +11,7 @@ package entity;
 import java.time.LocalDateTime;
 import java.util.List;
 public class Shipper {
-     private Integer shipperId;
+     private int shipperId;
     private String fullName;
     private String email;
     private String phoneNumber;
@@ -30,7 +30,7 @@ public class Shipper {
                 '}';
     }
 
-    public Shipper(Integer shipperId, String fullName, String email, String phoneNumber, String status, LocalDateTime createdAt, LocalDateTime updatedAt, List<Order> orders) {
+    public Shipper(int shipperId, String fullName, String email, String phoneNumber, String status, LocalDateTime createdAt, LocalDateTime updatedAt, List<Order> orders) {
         this.shipperId = shipperId;
         this.fullName = fullName;
         this.email = email;
@@ -44,11 +44,11 @@ public class Shipper {
     public Shipper() {
     }
 
-    public Integer getShipperId() {
+    public int getShipperId() {
         return shipperId;
     }
 
-    public void setShipperId(Integer shipperId) {
+    public void setShipperId(int shipperId) {
         this.shipperId = shipperId;
     }
 

@@ -11,7 +11,7 @@ package entity;
 
 import java.util.List;
 public class Category {
-    private Integer categoryId;
+    private int categoryId;
     private String name;
     private String description;
 
@@ -30,18 +30,18 @@ public class Category {
     public Category() {
     }
 
-    public Category(Integer categoryId, String name, String description, List<Product> products) {
+    public Category(int categoryId, String name, String description, List<Product> products) {
         this.categoryId = categoryId;
         this.name = name;
         this.description = description;
         this.products = products;
     }
 
-    public Integer getCategoryId() {
+    public int getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Integer categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 

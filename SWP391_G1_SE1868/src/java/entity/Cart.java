@@ -10,7 +10,7 @@ import java.util.List;
  * @author Đạt
  */
 public class Cart {
-    private Integer cartId;
+    private int cartId;
     private Customer customer;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -30,7 +30,7 @@ public class Cart {
     public Cart() {
     }
 
-    public Cart(Integer cartId, Customer customer, LocalDateTime createdAt, LocalDateTime updatedAt, List<CartItem> cartItems) {
+    public Cart(int cartId, Customer customer, LocalDateTime createdAt, LocalDateTime updatedAt, List<CartItem> cartItems) {
         this.cartId = cartId;
         this.customer = customer;
         this.createdAt = createdAt;
@@ -39,7 +39,7 @@ public class Cart {
     }
     
 
-    public Integer getCartId() {
+    public int getCartId() {
         return cartId;
     }
 

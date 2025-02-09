@@ -11,20 +11,20 @@ package entity;
 import java.time.LocalDateTime;
 import java.util.List;
 public class Product {
-  private Integer productId;
-    private String name;
-    private String description;
-    private Double price;
-    private Integer stockQuantity;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private int productId;
+      private String name;
+      private String description;
+      private Double price;
+      private int stockQuantity;
+      private LocalDateTime createdAt;
+      private LocalDateTime updatedAt;
 
-    private Category category;
-    private List<ProductReview> reviews;
-    private List<ProductImage> images;
-    private List<OrderDetail> orderDetails;
-    private List<FavoriteDetail> favoriteDetails;
-    private List<CartItem> cartItems;
+      private Category category;
+      private List<ProductReview> reviews;
+      private List<ProductImage> images;
+      private List<OrderDetail> orderDetails;
+      private List<FavoriteDetail> favoriteDetails;
+      private List<CartItem> cartItems;
 
     @Override
     public String toString() {
@@ -40,7 +40,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(Integer productId, String name, String description, Double price, Integer stockQuantity, LocalDateTime createdAt, LocalDateTime updatedAt, Category category, List<ProductReview> reviews, List<ProductImage> images, List<OrderDetail> orderDetails, List<FavoriteDetail> favoriteDetails, List<CartItem> cartItems) {
+    public Product(int productId, String name, String description, Double price, int stockQuantity, LocalDateTime createdAt, LocalDateTime updatedAt, Category category, List<ProductReview> reviews, List<ProductImage> images, List<OrderDetail> orderDetails, List<FavoriteDetail> favoriteDetails, List<CartItem> cartItems) {
         this.productId = productId;
         this.name = name;
         this.description = description;
@@ -56,11 +56,11 @@ public class Product {
         this.cartItems = cartItems;
     }
 
-    public Integer getProductId() {
+    public int getProductId() {
         return productId;
     }
 
-    public void setProductId(Integer productId) {
+    public void setProductId(int productId) {
         this.productId = productId;
     }
 
@@ -88,11 +88,11 @@ public class Product {
         this.price = price;
     }
 
-    public Integer getStockQuantity() {
+    public int getStockQuantity() {
         return stockQuantity;
     }
 
-    public void setStockQuantity(Integer stockQuantity) {
+    public void setStockQuantity(int stockQuantity) {
         this.stockQuantity = stockQuantity;
     }
 

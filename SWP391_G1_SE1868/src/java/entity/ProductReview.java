@@ -11,10 +11,10 @@ package entity;
 import java.time.LocalDateTime;
 import java.util.List;
 public class ProductReview {
-    private Integer reviewId;
+    private int reviewId;
     private Product product;
     private Customer customer;
-    private Integer rating;
+    private int rating;
     private String comment;
     private LocalDateTime createdAt;
 
@@ -32,7 +32,7 @@ public class ProductReview {
     public ProductReview() {
     }
 
-    public ProductReview(Integer reviewId, Product product, Customer customer, Integer rating, String comment, LocalDateTime createdAt) {
+    public ProductReview(int reviewId, Product product, Customer customer, int rating, String comment, LocalDateTime createdAt) {
         this.reviewId = reviewId;
         this.product = product;
         this.customer = customer;
@@ -41,11 +41,11 @@ public class ProductReview {
         this.createdAt = createdAt;
     }
 
-    public Integer getReviewId() {
+    public int getReviewId() {
         return reviewId;
     }
 
-    public void setReviewId(Integer reviewId) {
+    public void setReviewId(int reviewId) {
         this.reviewId = reviewId;
     }
 
@@ -65,11 +65,11 @@ public class ProductReview {
         this.customer = customer;
     }
 
-    public Integer getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(Integer rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 

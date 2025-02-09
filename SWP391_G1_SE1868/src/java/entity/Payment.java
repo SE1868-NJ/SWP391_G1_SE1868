@@ -11,7 +11,7 @@ package entity;
 import java.time.LocalDateTime;
 import java.util.List;
 public class Payment {
-  private Integer paymentId;
+  private int paymentId;
     private Order order;
     private LocalDateTime paymentDate;
     private Double amount;
@@ -32,7 +32,7 @@ public class Payment {
     public Payment() {
     }
 
-    public Payment(Integer paymentId, Order order, LocalDateTime paymentDate, Double amount, String paymentMethod, String paymentStatus) {
+    public Payment(int paymentId, Order order, LocalDateTime paymentDate, Double amount, String paymentMethod, String paymentStatus) {
         this.paymentId = paymentId;
         this.order = order;
         this.paymentDate = paymentDate;
@@ -41,11 +41,11 @@ public class Payment {
         this.paymentStatus = paymentStatus;
     }
 
-    public Integer getPaymentId() {
+    public int getPaymentId() {
         return paymentId;
     }
 
-    public void setPaymentId(Integer paymentId) {
+    public void setPaymentId(int paymentId) {
         this.paymentId = paymentId;
     }
 

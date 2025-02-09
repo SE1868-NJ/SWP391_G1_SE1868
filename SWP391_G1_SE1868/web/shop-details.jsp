@@ -12,7 +12,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Ogani | Template</title>
+        <title>abc</title>
 
 
     </head>
@@ -24,39 +24,73 @@
         <section class="product-details spad">
             <div class="container">
                 <div class="row">
+
                     <div class="col-lg-6 col-md-6">
                         <div class="product__details__pic">
                             <div class="product__details__pic__item">
                                 <img class="product__details__pic__item--large"
-                                     src="assets/img/product/details/product-details-1.jpg" alt="">
+                                     src="${product.images[1].imageUrl}" alt="">
                             </div>
-                            <div class="product__details__pic__slider owl-carousel">
-                                <img data-imgbigurl="img/product/details/product-details-2.jpg"
-                                     src="assets/img/product/details/thumb-1.jpg" alt="">
-                                <img data-imgbigurl="img/product/details/product-details-3.jpg"
-                                     src="assets/img/product/details/thumb-2.jpg" alt="">
-                                <img data-imgbigurl="img/product/details/product-details-5.jpg"
-                                     src="assets/img/product/details/thumb-3.jpg" alt="">
-                                <img data-imgbigurl="img/product/details/product-details-4.jpg"
-                                     src="assets/img/product/details/thumb-4.jpg" alt="">
+
+
+                            <div class="thumbnail-images">
+                                <c:forEach var="img" items="${product.images}" varStatus="status" >
+                                    <c:if test="${status.index < 5}"> <!-- Giới hạn số lượng ảnh hiển thị -->
+                                        <img data-imgbigurl="${img.imageUrl}" 
+                                             src="${img.imageUrl}" alt="Product Image" class="thumbnail">
+                                    </c:if>
+                                </c:forEach>
                             </div>
+
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6">
+                    <style>
+
+
+                        .thumbnail-images {
+                            display: flex;  /* Sử dụng flexbox để sắp xếp các ảnh nhỏ theo chiều ngang */
+                            gap: 10px;  /* Khoảng cách giữa các ảnh nhỏ */
+                            overflow: hidden;  /* Ẩn phần thừa nếu quá nhiều ảnh */
+                            width: 80%;  /* Chiều rộng tối đa cho ảnh thu nhỏ */
+                        }
+
+                        .thumbnail {
+                            width: 80px;  /* Kích thước ảnh thu nhỏ */
+                            height: 80px;  /* Đảm bảo ảnh nhỏ có kích thước vuông */
+                            cursor: pointer;  /* Con trỏ chuột thành hình bàn tay khi hover */
+                            transition: transform 0.3s ease;  /* Hiệu ứng khi hover */
+                        }
+
+                        .thumbnail:hover {
+                            transform: scale(1.1);  /* Phóng to ảnh khi hover */
+                        }
+
+
+                    </style>
+
+
+
+
+                    <div class="col-lg-6 col-md-6"> 
                         <div class="product__details__text">
-                            <h3>Vetgetable’s Package</h3>
+                            <h3>${product.name}</h3>
                             <div class="product__details__rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-half-o"></i>
-                                <span>(18 reviews)</span>
+                                
+                                <span class="stars" id="average-rating" 
+                                      data-rating="<fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1" />"> 
+                                </span>
+                                
+                                <fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1"  />
                             </div>
-                            <div class="product__details__price">$50.00</div>
-                            <p>Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam
-                                vehicula elementum sed sit amet dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet
-                                quam vehicula elementum sed sit amet dui. Proin eget tortor risus.</p>
+                            <div class="product__details__price">
+                                <fmt:formatNumber value="${product.price}" type="number" groupingUsed="true"/> đ
+                            </div>
+
+
+                            <p> ${product.category.name}<br>${product.description}</p>
+
+
+
                             <div class="product__details__quantity">
                                 <div class="quantity">
                                     <div class="pro-qty">
@@ -65,19 +99,13 @@
                                 </div>
                             </div>
                             <a href="#" class="primary-btn">ADD TO CARD</a>
-                            <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+
+
                             <ul>
-                                <li><b>Availability</b> <span>In Stock</span></li>
-                                <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
+                                <li><b>Availability</b> <span>${product.stockQuantity}</span></li>
+
                                 <li><b>Weight</b> <span>0.5 kg</span></li>
-                                <li><b>Share on</b>
-                                    <div class="share">
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-instagram"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                                    </div>
-                                </li>
+
                             </ul>
                         </div>
                     </div>
@@ -99,22 +127,86 @@
                                             <p><strong>Tổng số đánh giá:</strong> <span id="total-reviews">${totalReview}</span></p>
                                             <p><strong>Trung bình:</strong> <span class="stars" id="average-rating" 
                                                                                   data-rating="<fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1" />"> </span>
-                                                <fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1" /> /5.0</p>
+                                                <fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1"  /> /5.0</p>
                                         </div>
 
                                         <!-- Bộ lọc số sao -->
                                         <div class="filter-rating">
                                             <strong>Lọc theo số sao:</strong>
                                             <ul>
-                                                <li><button data-star="0" class="filter-active" onclick="filterReviews(parseInt(this.getAttribute('data-star')))">Tất cả</button></li>
-                                                <li><button data-star="5" onclick="filterReviews(parseInt(this.getAttribute('data-star')))">5 Sao</button></li>
-                                                <li><button data-star="4" onclick="filterReviews(parseInt(this.getAttribute('data-star')))">4 Sao</button></li>
-                                                <li><button data-star="3" onclick="filterReviews(parseInt(this.getAttribute('data-star')))">3 Sao</button></li>
-                                                <li><button data-star="2" onclick="filterReviews(parseInt(this.getAttribute('data-star')))">2 Sao</button></li>
-                                                <li><button data-star="1" onclick="filterReviews(parseInt(this.getAttribute('data-star')))">1 Sao</button></li>
+                                                <li><button data-star="0" class="filter-active"  onclick="filterReviews(0, 1)">Tất cả</button></li>
+                                                <li><button data-star="5" onclick="filterReviews(5, 1)">5 Sao</button></li>
+                                                <li><button data-star="4" onclick="filterReviews(4, 1)">4 Sao</button></li>
+                                                <li><button data-star="3" onclick="filterReviews(3, 1)">3 Sao</button></li>
+                                                <li><button data-star="2" onclick="filterReviews(2, 1)">2 Sao</button></li>
+                                                <li><button data-star="1" onclick="filterReviews(1, 1)">1 Sao</button></li>
 
                                             </ul>
                                         </div>
+                                        <style>
+                                            /* Bộ lọc số sao */
+                                            .filter-rating ul {
+                                                display: flex;
+                                                gap: 10px;
+                                                list-style: none;
+                                                padding: 0;
+                                            }
+
+
+
+                                            .filter-rating button:hover  {
+                                                background-color: #007bff;
+                                                color: white;
+                                            }
+
+
+                                            /* Khi nút được chọn (active), nó đổi màu xanh */
+                                            .filter-rating button.filter-active {
+                                                background-color: #007bff;
+                                                color: white;
+                                            }
+
+
+                                            /* Định dạng danh sách đánh giá */
+                                            .review-list {
+                                                list-style: none;
+                                                padding: 0;
+                                            }
+
+                                            .review-list li {
+                                                padding: 10px;
+                                                border-bottom: 1px solid #ddd;
+                                                display: flex;
+                                                align-items: center;
+                                                gap: 10px;
+                                            }
+
+
+
+
+                                            .pagination-controls {
+                                                display: flex;
+                                                justify-content: center;
+                                                margin: 20px 0;
+                                                gap: 10px;
+                                            }
+
+                                            .pagination-controls button {
+                                                padding: 5px 10px;
+                                                border: 1px solid #007bff;
+                                                background-color: white;
+                                                color: #007bff;
+                                                cursor: pointer;
+                                                border-radius: 3px;
+                                            }
+
+                                            .pagination-controls button:disabled {
+                                                background-color: #ccc;
+                                                color: #666;
+                                                cursor: not-allowed;
+                                            }
+
+                                        </style>
 
 
                                         <!-- Danh sách đánh giá -->
@@ -144,122 +236,60 @@
                                                     <span class="page-link active">${pageNum}</span>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <a class="page-link" href="getReviews?productId=1&page=${pageNum}&pageSize=10">${pageNum}</a>
+                                                    <a class="page-link" href="getReviews?productId=1&page=${pageNum}&starFilter=${param.starFilter}">${pageNum}</a>
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:forEach>
                                     </c:if>
                                 </div>
+                                <style>
 
+                                    .pagination {
+                                        text-align: center;
+                                        margin-top: 20px;
+                                    }
+
+                                    .page-link {
+                                        display: inline-block;
+                                        padding: 8px 15px;
+                                        margin: 0 5px;
+                                        text-decoration: none;
+                                        font-size: 16px;
+                                        color: #007bff;
+                                        border: 1px solid #007bff;
+                                        border-radius: 5px;
+                                        transition: background 0.3s, color 0.3s;
+                                    }
+
+                                    .page-link:hover {
+                                        background: #007bff;
+                                        color: white;
+                                    }
+
+                                    .page-link.active {
+                                        background: #007bff;
+                                        color: white;
+                                        font-weight: bold;
+                                        border: 1px solid #0056b3;
+                                        cursor: default;
+                                    }
+
+
+
+
+                                    .avatar {
+                                        width: 40px; /* Kích thước ảnh */
+                                        height: 40px;
+                                        border-radius: 50%; /* Làm tròn ảnh */
+                                        object-fit: cover; /* Giữ tỷ lệ ảnh không bị méo */
+                                        margin-right: 10px;
+                                        vertical-align: middle; /* Căn giữa với text */
+                                    }
+                                </style>
 
                             </div>
 
-                            <style>
-                                .pagination {
-                                    text-align: center;
-                                    margin-top: 20px;
-                                }
 
-                                .page-link {
-                                    display: inline-block;
-                                    padding: 8px 15px;
-                                    margin: 0 5px;
-                                    text-decoration: none;
-                                    font-size: 16px;
-                                    color: #007bff;
-                                    border: 1px solid #007bff;
-                                    border-radius: 5px;
-                                    transition: background 0.3s, color 0.3s;
-                                }
-
-                                .page-link:hover {
-                                    background: #007bff;
-                                    color: white;
-                                }
-
-                                .page-link.active {
-                                    background: #007bff;
-                                    color: white;
-                                    font-weight: bold;
-                                    border: 1px solid #0056b3;
-                                    cursor: default;
-                                }
-
-
-
-
-                                .avatar {
-                                    width: 40px; /* Kích thước ảnh */
-                                    height: 40px;
-                                    border-radius: 50%; /* Làm tròn ảnh */
-                                    object-fit: cover; /* Giữ tỷ lệ ảnh không bị méo */
-                                    margin-right: 10px;
-                                    vertical-align: middle; /* Căn giữa với text */
-                                }
-
-                                /* Bộ lọc số sao */
-                                .filter-rating ul {
-                                    display: flex;
-                                    gap: 10px;
-                                    list-style: none;
-                                    padding: 0;
-                                }
-
-
-
-                                .filter-rating button:hover  {
-                                    background-color: #007bff;
-                                    color: white;
-                                }
-
-
-                                /* Khi nút được chọn (active), nó đổi màu xanh */
-                                .filter-rating button.filter-active {
-                                    background-color: #007bff;
-                                    color: white;
-                                }
-
-
-                                /* Định dạng danh sách đánh giá */
-                                .review-list {
-                                    list-style: none;
-                                    padding: 0;
-                                }
-
-                                .review-list li {
-                                    padding: 10px;
-                                    border-bottom: 1px solid #ddd;
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 10px;
-                                }
-
-
-
-
-                                .pagination-controls {
-                                    display: flex;
-                                    justify-content: center;
-                                    margin: 20px 0;
-                                    gap: 10px;
-                                }
-
-                                .pagination-controls button {
-                                    padding: 5px 10px;
-                                    border: 1px solid #007bff;
-                                    background-color: white;
-                                    color: #007bff;
-                                    cursor: pointer;
-                                    border-radius: 3px;
-                                }
-
-                                .pagination-controls button:disabled {
-                                    background-color: #ccc;
-                                    color: #666;
-                                    cursor: not-allowed;
-                                }
-
-                            </style>
 
                             <script>
                                 // Hàm hiển thị sao tự động
@@ -281,43 +311,31 @@
                                     });
                                 }
 
-                                // Hàm lọc đánh giá theo số sao
-                                function filterReviews(star) {
-                                    const reviews = document.querySelectorAll(".review-list li");
 
-                                    // Ẩn/hiện đánh giá theo số sao
-                                    reviews.forEach(review => {
-                                        const rating = parseInt(review.getAttribute("data-rating"));
-                                        review.style.display = (star === 0 || rating === star) ? "flex" : "none";
-                                    });
 
+                                function filterReviews(star, productId) {
+                                    // Lưu trạng thái của nút đã chọn vào localStorage
+                                    localStorage.setItem("selectedStar", star);
+                                    const url = "getReviews?productId=" + productId + "&starFilter=" + star;
+                                    console.log("Chuyển hướng đến URL:", url);
+                                    window.location.href = url;
+                                }
+
+                                window.addEventListener("load", () => {
+                                    const selectedStar = localStorage.getItem("selectedStar");
                                     // Xóa class "filter-active" khỏi tất cả các nút trước khi thêm vào nút mới
                                     document.querySelectorAll(".filter-rating button").forEach(btn => btn.classList.remove("filter-active"));
 
-                                    //  Kiểm tra danh sách nút trước khi tìm activeButton
-                                    const allButtons = document.querySelectorAll(".filter-rating button");
-                                    console.log("Danh sách tất cả nút:", allButtons);
-
-                                    //  Tìm nút có `data-star` phù hợp
-                                    const activeButton = Array.from(allButtons).find(btn => btn.getAttribute("data-star") == star);
-                                    console.log("Nút active:", activeButton);
-
-                                    if (activeButton) {
-                                        activeButton.classList.add("filter-active");
-                                    } else {
-                                        console.warn(`Không tìm thấy nút với data-star = ${star}`);
+                                    if (selectedStar) {
+                                        const allButtons = document.querySelectorAll(".filter-rating button");
+                                        const activeButton = Array.from(allButtons).find(btn => btn.getAttribute("data-star") === selectedStar);
+                                        if (activeButton) {
+                                            activeButton.classList.add("filter-active");
+                                        }
                                     }
-                                }
-
-                                // Đảm bảo JavaScript chạy sau khi HTML load
-//                                document.addEventListener("DOMContentLoaded", function () {
-//                                    filterReviews(0);
-//                                });
+                                });
 
 
-
-
-                                // Gọi hàm khi trang tải xong
                                 updateStars();
                             </script>
 
@@ -329,84 +347,6 @@
             </div>
         </section>
         <!-- Product Details Section End -->
-
-
-
-        <!-- Related Product Section Begin -->
-        <section class="related-product">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-title related__product__title">
-                            <h2>Related Product</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="assets/img/product/product-1.jpg">
-                                <ul class="product__item__pic__hover">
-                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="#">Crab Pool Security</a></h6>
-                                <h5>$30.00</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="assets/img/product/product-2.jpg">
-                                <ul class="product__item__pic__hover">
-                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="#">Crab Pool Security</a></h6>
-                                <h5>$30.00</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="assets/img/product/product-3.jpg">
-                                <ul class="product__item__pic__hover">
-                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="#">Crab Pool Security</a></h6>
-                                <h5>$30.00</h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="assets/img/product/product-7.jpg">
-                                <ul class="product__item__pic__hover">
-                                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="product__item__text">
-                                <h6><a href="#">Crab Pool Security</a></h6>
-                                <h5>$30.00</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Related Product Section End -->
 
         <%@include file="footer.jsp" %>
 

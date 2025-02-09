@@ -11,7 +11,7 @@ package entity;
 import java.time.LocalDateTime;
 import java.util.List;
 public class Favorite {
-   private Integer favoriteId;
+   private int favoriteId;
     private Customer customer;
     private String name;
     private LocalDateTime createdAt;
@@ -30,7 +30,7 @@ public class Favorite {
     public Favorite() {
     }
 
-    public Favorite(Integer favoriteId, Customer customer, String name, LocalDateTime createdAt, List<FavoriteDetail> favoriteDetails) {
+    public Favorite(int favoriteId, Customer customer, String name, LocalDateTime createdAt, List<FavoriteDetail> favoriteDetails) {
         this.favoriteId = favoriteId;
         this.customer = customer;
         this.name = name;
@@ -38,11 +38,11 @@ public class Favorite {
         this.favoriteDetails = favoriteDetails;
     }
 
-    public Integer getFavoriteId() {
+    public int getFavoriteId() {
         return favoriteId;
     }
 
-    public void setFavoriteId(Integer favoriteId) {
+    public void setFavoriteId(int favoriteId) {
         this.favoriteId = favoriteId;
     }
 

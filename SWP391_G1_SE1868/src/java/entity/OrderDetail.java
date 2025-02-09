@@ -10,10 +10,10 @@ package entity;
  */
 
 public class OrderDetail {
-     private Integer orderDetailId;
+     private int orderDetailId;
     private Order order;
     private Product product;
-    private Integer quantity;
+    private int quantity;
     private Double unitPrice;
     private Double subTotal;
 
@@ -31,7 +31,7 @@ public class OrderDetail {
     public OrderDetail() {
     }
 
-    public OrderDetail(Integer orderDetailId, Order order, Product product, Integer quantity, Double unitPrice, Double subTotal) {
+    public OrderDetail(int orderDetailId, Order order, Product product, int quantity, Double unitPrice, Double subTotal) {
         this.orderDetailId = orderDetailId;
         this.order = order;
         this.product = product;
@@ -40,11 +40,11 @@ public class OrderDetail {
         this.subTotal = subTotal;
     }
 
-    public Integer getOrderDetailId() {
+    public int getOrderDetailId() {
         return orderDetailId;
     }
 
-    public void setOrderDetailId(Integer orderDetailId) {
+    public void setOrderDetailId(int orderDetailId) {
         this.orderDetailId = orderDetailId;
     }
 
@@ -64,11 +64,11 @@ public class OrderDetail {
         this.product = product;
     }
 
-    public Integer getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 

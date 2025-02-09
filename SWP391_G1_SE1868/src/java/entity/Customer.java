@@ -11,7 +11,7 @@ package entity;
 import java.time.LocalDateTime;
 import java.util.List;
 public class Customer {
-  private Integer customerId;
+  private int customerId;
     private String fullName;
     private String email;
     private String password;
@@ -27,7 +27,7 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Integer customerId, String fullName, String email, String password, String phoneNumber, String address, LocalDateTime createdAt, LocalDateTime updatedAt, List<Order> orders, List<Favorite> favorites, List<Cart> carts) {
+    public Customer(int customerId, String fullName, String email, String password, String phoneNumber, String address, LocalDateTime createdAt, LocalDateTime updatedAt, List<Order> orders, List<Favorite> favorites, List<Cart> carts) {
         this.customerId = customerId;
         this.fullName = fullName;
         this.email = email;
@@ -54,11 +54,11 @@ public class Customer {
                 '}';
     }
 
-    public Integer getCustomerId() {
+    public int getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Integer customerId) {
+    public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
 

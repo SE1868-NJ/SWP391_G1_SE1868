@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * @author Đạt
  */
 public class CartItem {
-    private Integer cartItemId;
+    private int cartItemId;
     private Cart cart;
     private Product product;
     private Integer quantity;
@@ -27,7 +27,7 @@ public class CartItem {
     public CartItem() {
     }
 
-    public CartItem(Integer cartItemId, Cart cart, Product product, Integer quantity, LocalDateTime addedAt) {
+    public CartItem(int cartItemId, Cart cart, Product product, Integer quantity, LocalDateTime addedAt) {
         this.cartItemId = cartItemId;
         this.cart = cart;
         this.product = product;
@@ -35,7 +35,7 @@ public class CartItem {
         this.addedAt = addedAt;
     }
 
-    public Integer getCartItemId() {
+    public int getCartItemId() {
         return cartItemId;
     }
 

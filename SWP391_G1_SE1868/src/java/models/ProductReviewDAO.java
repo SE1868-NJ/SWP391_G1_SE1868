@@ -69,17 +69,17 @@ public class ProductReviewDAO extends DBContext {
     }
 
     // Hàm lấy tổng số đánh giá của sản phẩm
-    public int getTotalReviewsByProduct(int productId, Integer starFilter) {
+    public int getTotalReviewsByProduct(int productId, int starFilter) {
         int totalReviews = 0;
         String sql = "SELECT COUNT(*) FROM productreviews WHERE ProductID = ?";
 
-        if (starFilter != null && starFilter > 0) {
+        if ( starFilter > 0) {
             sql += " AND Rating = ?";
         }
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, productId);
-            if (starFilter != null) {
+            if (starFilter > 0) {
                 stmt.setInt(2, starFilter);
             }
 
@@ -109,11 +109,11 @@ public class ProductReviewDAO extends DBContext {
     }
 
     //  Lấy danh sách đánh giá có phân trang và lọc theo số sao
-    public List<ProductReview> getReviewsByProduct(int productId, int page, int pageSize, Integer starFilter) {
+    public List<ProductReview> getReviewsByProduct(int productId, int page, int pageSize, int starFilter) {
         List<ProductReview> reviews = new ArrayList<>();
         String sql = "SELECT * FROM swp391_g1.productreviews WHERE ProductID = ? ";
 
-        if (starFilter != null && starFilter > 0) {
+        if (starFilter > 0) {
             sql += " AND Rating = ? ";
         }
 
@@ -123,7 +123,7 @@ public class ProductReviewDAO extends DBContext {
             stmt.setInt(1, productId);
             int paramIndex = 2;
 
-            if (starFilter != null && starFilter > 0) {
+            if ( starFilter > 0) {
                 stmt.setInt(paramIndex++, starFilter);
             }
 

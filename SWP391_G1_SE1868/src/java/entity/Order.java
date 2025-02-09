@@ -11,7 +11,7 @@ package entity;
 import java.time.LocalDateTime;
 import java.util.List;
 public class Order {
-   private Integer orderId;
+   private int orderId;
     private Customer customer;
     private LocalDateTime orderDate;
     private Double totalAmount;
@@ -39,7 +39,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(Integer orderId, Customer customer, LocalDateTime orderDate, Double totalAmount, String status, String shippingAddress, LocalDateTime createdAt, LocalDateTime updatedAt, Shipper shipper, List<OrderDetail> orderDetails, Payment payment) {
+    public Order(int orderId, Customer customer, LocalDateTime orderDate, Double totalAmount, String status, String shippingAddress, LocalDateTime createdAt, LocalDateTime updatedAt, Shipper shipper, List<OrderDetail> orderDetails, Payment payment) {
         this.orderId = orderId;
         this.customer = customer;
         this.orderDate = orderDate;
@@ -53,11 +53,11 @@ public class Order {
         this.payment = payment;
     }
 
-    public Integer getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 

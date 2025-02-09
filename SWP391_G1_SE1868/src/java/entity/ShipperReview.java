@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
  * @author Đạt
  */
 public class ShipperReview {
-    private Integer reviewId;
+    private int reviewId;
     private Shipper shipper;
     private Customer customer;
     private Order order;
-    private Integer rating;
+    private int rating;
     private String comment;
     private LocalDateTime createdAt;
 
@@ -33,7 +33,7 @@ public class ShipperReview {
     public ShipperReview() {
     }
 
-    public ShipperReview(Integer reviewId, Shipper shipper, Customer customer, Order order, Integer rating, String comment, LocalDateTime createdAt) {
+    public ShipperReview(int reviewId, Shipper shipper, Customer customer, Order order, int rating, String comment, LocalDateTime createdAt) {
         this.reviewId = reviewId;
         this.shipper = shipper;
         this.customer = customer;
@@ -43,11 +43,11 @@ public class ShipperReview {
         this.createdAt = createdAt;
     }
 
-    public Integer getReviewId() {
+    public int getReviewId() {
         return reviewId;
     }
 
-    public void setReviewId(Integer reviewId) {
+    public void setReviewId(int reviewId) {
         this.reviewId = reviewId;
     }
 
@@ -75,11 +75,11 @@ public class ShipperReview {
         this.order = order;
     }
 
-    public Integer getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(Integer rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 
