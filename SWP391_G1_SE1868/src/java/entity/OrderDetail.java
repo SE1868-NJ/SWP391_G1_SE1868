@@ -4,80 +4,154 @@
  */
 package entity;
 
+import java.util.Date;
+
 /**
  *
  * @author DUCDUY2003
  */
 public class OrderDetail {
 
-    private int orderDetailId;
-    private int orderId;
-    private int productId;
-    private int quantity;
-    private double unitPrice;
-    private double subTotal;
+   private int orderDetailID;
+    private int orderID;
+    private int productID;
+    private int categoryID;
+    private String categoryName;
+    private String productName;
+    private String productDescription;
+    private String categoryDescription;
+    private Date orderDate;
+    private double price;
+    private double totalAmount;
+    private String status;
+    private String shippingAddress;
 
-    public OrderDetail(int orderDetailId, int orderId, int productId, int quantity, double unitPrice, double subTotal) {
-        this.orderDetailId = orderDetailId;
-        this.orderId = orderId;
-        this.productId = productId;
-        this.quantity = quantity;
-        this.unitPrice = unitPrice;
-        this.subTotal = subTotal;
+    public OrderDetail(int orderDetailID, int orderID, int productID, int categoryID, String categoryName, String productName, String productDescription, String categoryDescription, Date orderDate, double price, double totalAmount, String status, String shippingAddress) {
+        this.orderDetailID = orderDetailID;
+        this.orderID = orderID;
+        this.productID = productID;
+        this.categoryID = categoryID;
+        this.categoryName = categoryName;
+        this.productName = productName;
+        this.productDescription = productDescription;
+        this.categoryDescription = categoryDescription;
+        this.orderDate = orderDate;
+        this.price = price;
+        this.totalAmount = totalAmount;
+        this.status = status;
+        this.shippingAddress = shippingAddress;
     }
 
-    public int getOrderDetailId() {
-        return orderDetailId;
+    public int getOrderDetailID() {
+        return orderDetailID;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public void setOrderDetailID(int orderDetailID) {
+        this.orderDetailID = orderDetailID;
     }
 
-    public int getProductId() {
-        return productId;
+    public int getOrderID() {
+        return orderID;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public void setOrderID(int orderID) {
+        this.orderID = orderID;
     }
 
-    public double getUnitPrice() {
-        return unitPrice;
+    public int getProductID() {
+        return productID;
     }
 
-    public double getSubTotal() {
-        return subTotal;
+    public void setProductID(int productID) {
+        this.productID = productID;
     }
 
-    public void setOrderDetailId(int orderDetailId) {
-        this.orderDetailId = orderDetailId;
+    public int getCategoryID() {
+        return categoryID;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setCategoryID(int categoryID) {
+        this.categoryID = categoryID;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
-    public void setUnitPrice(double unitPrice) {
-        this.unitPrice = unitPrice;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setSubTotal(double subTotal) {
-        this.subTotal = subTotal;
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductDescription() {
+        return productDescription;
+    }
+
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
+    }
+
+    public String getCategoryDescription() {
+        return categoryDescription;
+    }
+
+    public void setCategoryDescription(String categoryDescription) {
+        this.categoryDescription = categoryDescription;
+    }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
     }
 
     @Override
     public String toString() {
-        return "OrderDetail{" + "orderDetailId=" + orderDetailId + ", orderId=" + orderId + ", productId=" + productId + ", quantity=" + quantity + ", unitPrice=" + unitPrice + ", subTotal=" + subTotal + '}';
+        return "OrderDetail{" + "orderDetailID=" + orderDetailID + ", orderID=" + orderID + ", productID=" + productID + ", categoryID=" + categoryID + ", categoryName=" + categoryName + ", productName=" + productName + ", productDescription=" + productDescription + ", categoryDescription=" + categoryDescription + ", orderDate=" + orderDate + ", price=" + price + ", totalAmount=" + totalAmount + ", status=" + status + ", shippingAddress=" + shippingAddress + '}';
     }
+
+ 
     
     
 }

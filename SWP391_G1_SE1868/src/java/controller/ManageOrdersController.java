@@ -15,6 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 import entity.Orders;
 import entity.Customer;
+import entity.OrderDetail;
+import dbcontext.OrderDetailDAO;
 import dbcontext.OrderDAO;
 import jakarta.servlet.http.HttpSession;
 
@@ -71,10 +73,10 @@ public class ManageOrdersController extends HttpServlet {
         // return;
         // }
         //get data from dao
-        OrderDAO dao = new OrderDAO();
-        List<Orders> list = dao.getAll();
+        OrderDetailDAO dao = new OrderDetailDAO();
+        List<OrderDetail> list = dao.getAllOrderD();
         request.setAttribute("list", list);
-        request.getRequestDispatcher("ManageOrder.jsp").forward(request, response);
+        request.getRequestDispatcher("Order.jsp").forward(request, response);
     }
 
     /**

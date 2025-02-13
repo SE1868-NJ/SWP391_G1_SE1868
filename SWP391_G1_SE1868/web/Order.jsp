@@ -356,7 +356,7 @@
                     <a href="#" onclick="filterOrders('cancelled')">Đã hủy</a>
                     <a href="#" onclick="filterOrders('refund')">Trả hàng/Hoàn tiền</a>
                 </div>
-                <div class="order" data-status="all">
+                <div class="order" data-status="pending">
                     <div class="order-header">
                         <div class="order-title">ỚT NHÀ TÁO NGỐ</div>
                         <div class="order-actions">
