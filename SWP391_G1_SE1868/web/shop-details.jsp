@@ -29,44 +29,93 @@
                         <div class="product__details__pic">
                             <div class="product__details__pic__item">
                                 <img class="product__details__pic__item--large"
-                                     src="${product.images[1].imageUrl}" alt="">
+                                     src="${product.images[1].imageUrl}"  alt=""
+                                    >
                             </div>
 
 
                             <div class="thumbnail-images">
-                                <c:forEach var="img" items="${product.images}" varStatus="status" >
+                                <c:forEach var="img" items="${product.images}" varStatus="status">
                                     <c:if test="${status.index < 5}"> <!-- Giới hạn số lượng ảnh hiển thị -->
                                         <img data-imgbigurl="${img.imageUrl}" 
-                                             src="${img.imageUrl}" alt="Product Image" class="thumbnail">
+                                             src="${img.imageUrl}" alt="Product Image" 
+                                             class="thumbnail" onclick="openPopup(this)">
                                     </c:if>
                                 </c:forEach>
                             </div>
 
+                            <!-- Popup để phóng to ảnh -->
+                            <div id="imagePopup" class="popup" onclick="closePopup(event)">
+                                <span class="close-btn" onclick="closePopup(event)">&times;</span>
+                                <img id="popupImage" class="popup-content">
+                            </div>
+
+                            <style>
+                                /* Style cho danh sách ảnh nhỏ */
+                                .thumbnail-images {
+                                    display: flex;
+                                    gap: 10px;
+                                    overflow: hidden;
+                                    width: 80%;
+                                }
+
+                                .thumbnail {
+                                    width: 80px;
+                                    height: 80px;
+                                    cursor: pointer;
+                                    transition: transform 0.3s ease;
+                                }
+
+                                .thumbnail:hover {
+                                    transform: scale(1.1);
+                                }
+
+                                /* Style cho popup phóng to ảnh */
+                                .popup {
+                                    display: none;  /* Ẩn mặc định */
+                                    position: fixed;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    background-color: rgba(0, 0, 0, 0.8);
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    z-index: 1000;
+                                    opacity: 0;
+                                    transition: opacity 0.3s ease-in-out;
+                                }
+
+                                .popup.show {
+                                    opacity: 1;
+                                }
+
+                                .popup.show .popup-content {
+                                    transform: scale(2);
+                                }
+
+                                /* Nút đóng popup */
+                                .close-btn {
+                                    position: absolute;
+                                    top: 20px;
+                                    right: 30px;
+                                    font-size: 30px;
+                                    color: white;
+                                    cursor: pointer;
+                                    background: none;
+                                    border: none;
+                                }
+
+                                .close-btn:hover {
+                                    color: red;
+                                }
+
+                            </style>
+
+
                         </div>
                     </div>
-                    <style>
-
-
-                        .thumbnail-images {
-                            display: flex;  /* Sử dụng flexbox để sắp xếp các ảnh nhỏ theo chiều ngang */
-                            gap: 10px;  /* Khoảng cách giữa các ảnh nhỏ */
-                            overflow: hidden;  /* Ẩn phần thừa nếu quá nhiều ảnh */
-                            width: 80%;  /* Chiều rộng tối đa cho ảnh thu nhỏ */
-                        }
-
-                        .thumbnail {
-                            width: 80px;  /* Kích thước ảnh thu nhỏ */
-                            height: 80px;  /* Đảm bảo ảnh nhỏ có kích thước vuông */
-                            cursor: pointer;  /* Con trỏ chuột thành hình bàn tay khi hover */
-                            transition: transform 0.3s ease;  /* Hiệu ứng khi hover */
-                        }
-
-                        .thumbnail:hover {
-                            transform: scale(1.1);  /* Phóng to ảnh khi hover */
-                        }
-
-
-                    </style>
 
 
 
@@ -75,11 +124,11 @@
                         <div class="product__details__text">
                             <h3>${product.name}</h3>
                             <div class="product__details__rating">
-                                
+
                                 <span class="stars" id="average-rating" 
                                       data-rating="<fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1" />"> 
                                 </span>
-                                
+
                                 <fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1"  />
                             </div>
                             <div class="product__details__price">
@@ -292,6 +341,29 @@
 
 
                             <script>
+
+
+                                // Hiển thị popup và phóng to ảnh
+                                function openPopup(imgElement) {
+                                    let popup = document.getElementById("imagePopup");
+                                    let popupImage = document.getElementById("popupImage");
+
+                                    popupImage.src = imgElement.src;  // Lấy ảnh từ thumbnail
+                                    popup.classList.add("show");  // Hiển thị popup
+                                    popup.style.display = "flex";
+                                }
+
+                                // Đóng popup khi bấm vào X hoặc bên ngoài ảnh
+                                function closePopup(event) {
+                                    let popup = document.getElementById("imagePopup");
+                                    if (event.target === popup || event.target.classList.contains("close-btn")) {
+                                        popup.classList.remove("show");
+                                        setTimeout(() => {
+                                            popup.style.display = "none"; // Delay để giữ hiệu ứng
+                                        }, 300);
+                                    }
+                                }
+
                                 // Hàm hiển thị sao tự động
                                 function updateStars() {
                                     document.querySelectorAll(".stars").forEach(star => {

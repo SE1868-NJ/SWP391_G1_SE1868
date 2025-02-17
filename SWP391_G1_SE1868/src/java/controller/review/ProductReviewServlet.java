@@ -88,11 +88,13 @@ public class ProductReviewServlet extends HttpServlet {
             // Gọi DAO
             ProductReviewDAO reviewDAO = new ProductReviewDAO();
             ProductDAO productDAO = new ProductDAO();
-
+            // get productById
             Product product = productDAO.getProductById(productId);
+            //get list ProductReview with parameter 
             List<ProductReview> reviews = reviewDAO.getReviewsByProduct(productId, page, pageSize, starFilter);
-            // get totalRating
+            // get totalRating (lấy AVG số sao)
             double totalRating = reviewDAO.getAverageRating(productId);
+             //get totalReview (take count review )
             int totalReview = reviewDAO.getTotalReviewsByProduct(productId, 0);
 
             // Tính tổng số trang

@@ -18,8 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-public class CustomerDAO extends DBContext{
-     // ✅ 1. Thêm khách hàng
+
+public class CustomerDAO extends DBContext {
+    // ✅ 1. Thêm khách hàng
+
     public boolean addCustomer(Customer customer) {
         String sql = "INSERT INTO Customers (fullName, email, password, phoneNumber, address, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -95,8 +97,7 @@ public class CustomerDAO extends DBContext{
     public List<Customer> getAllCustomers() {
         List<Customer> customers = new ArrayList<>();
         String sql = "SELECT * FROM Customers ORDER BY createdAt DESC";
-        try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+        try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 customers.add(mapResultSetToCustomer(rs));
             }
@@ -104,6 +105,23 @@ public class CustomerDAO extends DBContext{
             e.printStackTrace();
         }
         return customers;
+    }
+
+    // Hàm đăng nhập
+    public Customer login(String email, String password) {
+        String sql = "SELECT * FROM Customers WHERE email = ? AND password = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            stmt.setString(2, password);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return mapResultSetToCustomer(rs); // Trả về đối tượng Customer nếu tìm thấy
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Nếu không tìm thấy, trả về null
     }
 
     //  Hàm trợ giúp chuyển đổi ResultSet thành Customer (Có kiểm tra NULL)
