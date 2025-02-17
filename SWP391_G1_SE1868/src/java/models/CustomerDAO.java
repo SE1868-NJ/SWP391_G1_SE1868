@@ -124,6 +124,22 @@ public class CustomerDAO extends DBContext {
         return null; // Nếu không tìm thấy, trả về null
     }
 
+    public Customer checkEmailExists (String email) {
+        String sql = "SELECT * FROM Customers WHERE email = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return mapResultSetToCustomer(rs); // Trả về đối tượng Customer nếu tìm thấy
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Nếu không tìm thấy, trả về null
+    }
+
     //  Hàm trợ giúp chuyển đổi ResultSet thành Customer (Có kiểm tra NULL)
     private Customer mapResultSetToCustomer(ResultSet rs) throws SQLException {
         Customer customer = new Customer();
@@ -143,4 +159,12 @@ public class CustomerDAO extends DBContext {
 
         return customer;
     }
+
+    public static void main(String[] args) {
+        CustomerDAO customerDAO = new CustomerDAO();
+
+        Customer customer = customerDAO.login("vana@gmail.com", "password123");
+        System.out.println(customer);
+    }
+
 }
