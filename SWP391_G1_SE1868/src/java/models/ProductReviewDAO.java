@@ -45,16 +45,56 @@ public class ProductReviewDAO extends DBContext {
     }
 
     public boolean updateReview(ProductReview review) {
-        String sql = "UPDATE swp391_g1.productreviews SET Rating = ?, Comment = ? WHERE ReviewID = ?";
+        String sql = "UPDATE swp391_g1.productreviews SET Rating = ?, Comment = ? , CreatedAt = ? WHERE ReviewID = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, review.getRating());
             stmt.setString(2, review.getComment());
-            stmt.setInt(3, review.getReviewId());
+            stmt.setTimestamp(3, Timestamp.valueOf(review.getCreatedAt())); // Chuyển LocalDateTime thành Timestamp
+            stmt.setInt(4, review.getReviewId());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public ProductReview getProductReviewById(int reviewId) {
+        String sql = "SELECT `ProductID`, `CustomerID`, `Rating`, `Comment`, `CreatedAt` "
+                + "FROM `swp391_g1`.`productreviews` "
+                + "WHERE `ReviewID` = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, reviewId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                // instane dao
+                ProductDAO productDAO = new ProductDAO();
+                CustomerDAO customerDAO = new CustomerDAO();
+                
+                if (rs.next()) {
+                    // Lấy dữ liệu từ ResultSet và tạo đối tượng ProductReview
+                    ProductReview review = new ProductReview();
+
+                    
+                   // lấy obj product
+                   review.setProduct(productDAO.getProductById(rs.getInt("ProductID")));
+
+                    // lấy obj Customer
+                    review.setCustomer(customerDAO.getCustomerById(rs.getInt("CustomerID")));
+
+                    
+
+                    review.setRating(rs.getInt("Rating"));
+                    review.setComment(rs.getString("Comment"));
+                    review.setCreatedAt(rs.getTimestamp("CreatedAt").toLocalDateTime());
+
+                    return review;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Trả về null nếu không tìm thấy đánh giá
     }
 
     public boolean deleteReview(int reviewId) {
@@ -73,7 +113,7 @@ public class ProductReviewDAO extends DBContext {
         int totalReviews = 0;
         String sql = "SELECT COUNT(*) FROM productreviews WHERE ProductID = ?";
 
-        if ( starFilter > 0) {
+        if (starFilter > 0) {
             sql += " AND Rating = ?";
         }
 
@@ -123,7 +163,7 @@ public class ProductReviewDAO extends DBContext {
             stmt.setInt(1, productId);
             int paramIndex = 2;
 
-            if ( starFilter > 0) {
+            if (starFilter > 0) {
                 stmt.setInt(paramIndex++, starFilter);
             }
 
@@ -159,11 +199,11 @@ public class ProductReviewDAO extends DBContext {
     public static void main(String[] args) {
         ProductReviewDAO productReviewDAO = new ProductReviewDAO();
 
-        List<ProductReview> productReview = productReviewDAO.getReviewsByProduct(1, 1, 10, 0);
+        ProductReview productReview = productReviewDAO.getProductReviewById(1);
 
-        for (ProductReview productReview1 : productReview) {
+        
             System.out.println(productReview);
-        }
+        
 
     }
 }

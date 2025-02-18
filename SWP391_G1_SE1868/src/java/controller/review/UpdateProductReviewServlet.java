@@ -2,24 +2,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.login;
+package controller.review;
 
+import entity.ProductReview;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import models.ProductReviewDAO;
 
 /**
  *
  * @author Đạt
  */
-@WebServlet(name = "LogoutServlet", urlPatterns = {"/logout"})
-public class LogoutServlet extends HttpServlet {
+@WebServlet(name = "UpdateProductReviewServlet", urlPatterns = {"/updateProductReview"})
+public class UpdateProductReviewServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,9 +35,16 @@ public class LogoutServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            session.removeAttribute("user");
-            response.sendRedirect("getReviews");
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet UpdateProductReviewServlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet UpdateProductReviewServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
@@ -52,7 +60,14 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        int reviewId = Integer.parseInt(request.getParameter("reviewId"));
+
+        ProductReviewDAO productReviewDAO = new ProductReviewDAO();
+
+        ProductReview review = productReviewDAO.getProductReviewById(reviewId);
+
+        request.setAttribute("review", review);
+        request.getRequestDispatcher("updateProductReview.jsp").forward(request, response);
     }
 
     /**
@@ -66,7 +81,30 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // Lấy các tham số từ form
+        int reviewId = Integer.parseInt(request.getParameter("reviewId"));
+        int rating = Integer.parseInt(request.getParameter("rating"));
+        String comment = request.getParameter("comment");
+
+        // Tạo đối tượng ProductReview từ các tham số
+        ProductReview review = new ProductReview();
+        review.setReviewId(reviewId);
+        review.setRating(rating);
+        review.setComment(comment);
+        review.setCreatedAt(LocalDateTime.now());  // Thêm thời gian hiện tại
+
+        // Cập nhật thông tin vào cơ sở dữ liệu
+        ProductReviewDAO productReviewDAO = new ProductReviewDAO();
+        boolean success = productReviewDAO.updateReview(review);
+
+        // Gửi phản hồi lại cho người dùng
+        if (success) {
+            response.sendRedirect("shop-details.jsp");  // Chuyển hướng đến trang danh sách sau khi cập nhật thành công
+        } else {
+            request.setAttribute("error_updateProductReview", "true");
+            request.getRequestDispatcher("getReviews").forward(request, response);
+        }
+
     }
 
     /**

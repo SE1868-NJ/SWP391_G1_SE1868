@@ -19,6 +19,103 @@
     <body>
 
         <%@include file="header.jsp" %>
+        <style>
+            /* CSS chung cho popup */
+            .popupp {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 8px;
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                min-width: 280px;
+                max-width: 400px;
+                box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+                opacity: 0;
+                transform: translateX(100%);
+                transition: opacity 0.4s ease, transform 0.4s ease;
+                pointer-events: none;
+                z-index: 9999;
+            }
+
+            /* Hiển thị popup */
+            .popupp.show {
+                opacity: 1;
+                transform: translateX(0);
+                pointer-events: auto;
+            }
+
+            /* Success Popup */
+            .popupp.success {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            /* Error Popup */
+            .popupp.error {
+                background-color: #F44336;
+                color: white;
+            }
+
+            /* Close Button */
+            .popupp .close-btn {
+                margin-left: auto;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 18px;
+                cursor: pointer;
+            }
+        </style>
+        <!-- Popup Success -->
+        <div id="successPopupp" class="popupp success">
+            Success! Your action was completed.
+            <button class="close-btn" onclick="closePopupp('successPopupp')">×</button>
+        </div>
+
+        <!-- Popup Error -->
+        <div id="errorPopupp" class="popupp error">
+            Error! Something went wrong.
+            <button class="close-btn" onclick="closePopupp('errorPopupp')">×</button>
+        </div>
+
+        <c:if test="${true}">
+            <script>
+                // Gọi hàm showPopup khi isSuccess = true
+                $(document).ready(function () {
+                    showPopup('successPopupp');  // successPopup là ID của popup thành công
+                });
+            </script>
+        </c:if>
+
+        <script>
+            // Hiển thị popup
+            function showPopup(id) {
+                let popup = document.getElementById(id);
+                popup.classList.add("show");
+
+                // Đặt timer để tự động đóng popup sau 4 giây (chỉ khi popup chưa bị tắt thủ công)
+                setTimeout(() => {
+                    if (popup.classList.contains("show")) {
+                        closePopup(id);
+                    }
+                }, 2000);
+            }
+
+            // Đóng popup khi bấm nút close
+            function closePopupp(id) {
+                let popup = document.getElementById(id);
+                popup.classList.remove("show");
+            }
+        </script>
+
+
+
 
         <!-- Product Details Section Begin -->
         <section class="product-details spad">
@@ -30,7 +127,7 @@
                             <div class="product__details__pic__item">
                                 <img class="product__details__pic__item--large"
                                      src="${product.images[1].imageUrl}"  alt=""
-                                    >
+                                     >
                             </div>
 
 
@@ -191,7 +288,9 @@
                                                 <li><button data-star="1" onclick="filterReviews(1, 1)">1 Sao</button></li>
 
                                             </ul>
+
                                         </div>
+                                        <br>
                                         <style>
                                             /* Bộ lọc số sao */
                                             .filter-rating ul {
@@ -259,13 +358,44 @@
 
 
                                         <!-- Danh sách đánh giá -->
-                                        <ul class="review-list" id="review-list">
+                                        <ul>
                                             <c:forEach var="review" items="${reviews}">
+                                                <li data-rating="${review.rating}" class="d-flex flex-column mb-3 p-3 border">
 
-                                                <li data-rating="${review.rating}">
-                                                    <img src="assets/img/star-icon.png"  alt="Avatar" class="avatar">
-                                                    ${review.customer.fullName} -  ${review.comment}<span class="stars"></span></li>
-                                                </c:forEach>
+
+                                                    <!-- Phần hiển thị thông tin review -->
+                                                    <div class="d-flex justify-content-between">
+
+                                                        <!-- Phần chứa ảnh và tên người dùng trên cùng một hàng -->
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="assets/img/star-icon.png" alt="Avatar" class="avatar me-2">
+                                                            <span class="fw-bold">${review.customer.fullName}</span>
+                                                        </div>
+
+
+                                                        <!-- Đánh giá sao -->
+                                                        <span class="stars">${review.rating} </span>
+                                                    </div>
+
+                                                    <!-- Bình luận nằm dưới tên người dùng -->
+                                                    <div class="mt-2">
+                                                        <span class="ms-2">${review.comment}</span>
+                                                    </div>
+
+                                                    <!-- Nút "Sửa" nằm ở bên phải và ở dưới cùng -->
+                                                    <c:if test="${review.customer.customerId == sessionScope.user.customerId}">
+                                                        <div class="d-flex justify-content-end mt-auto">
+                                                            <a href="updateProductReview?reviewId=${review.reviewId}" class="btn btn-warning btn-sm">Sửa</a>
+                                                        </div>
+                                                    </c:if>
+
+
+
+                                                </li>
+                                            </c:forEach>
+
+
+
 
                                             <!--                                            <li data-rating="4"><span class="stars"></span> Trần Thị B - "Ổn, nhưng đóng gói chưa kỹ."</li>
                                                                                         <li data-rating="3"><span class="stars"></span> Lê Văn C - "Giao hàng hơi chậm."</li>
@@ -292,7 +422,6 @@
                                     </c:if>
                                 </div>
                                 <style>
-
                                     .pagination {
                                         text-align: center;
                                         margin-top: 20px;
@@ -407,10 +536,8 @@
                                     }
                                 });
 
-
                                 updateStars();
                             </script>
-
 
 
                         </div>

@@ -106,26 +106,10 @@ public class LoginServlet extends HttpServlet {
         if (customer != null) {
 //            // Tạo session và lưu thông tin người dùng nếu đăng nhập thành công
 //            
-//            HttpSession session = request.getSession();
-//            session.setAttribute("user", customer);  // Lưu đối tượng Customer vào session
-//            response.sendRedirect("getReviews");  // Trang chính sau khi đăng nhập thành công
+            HttpSession session = request.getSession();
+            session.setAttribute("user", customer);  // Lưu đối tượng Customer vào session
+            response.sendRedirect("getReviews");  // Trang chính sau khi đăng nhập thành công
 
-                // Chuyển đối tượng Customer thành JSON
-            Gson gson = new Gson();
-            String customerJson = gson.toJson(customer);
-
-            // Tạo cookie lưu trữ JSON của Customer
-            Cookie userCookie = new Cookie("user", customerJson);
-
-            // Thiết lập thời gian sống của cookie (ví dụ: 1 giờ)
-            userCookie.setMaxAge(60 * 60 * 24 * 3);  // 1 giờ
-            userCookie.setPath("/");  // Lưu trữ trên toàn bộ ứng dụng
-
-            // Gửi cookie về phía client
-            response.addCookie(userCookie);
-
-                // Chuyển hướng người dùng đến trang getReviews (hoặc trang khác)
-            response.sendRedirect("getReviews");
         } else {
             // Nếu đăng nhập thất bại, chuyển hướng về trang login với thông báo lỗi
             request.setAttribute("error", "Incorrect email or password ");
