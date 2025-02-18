@@ -4,132 +4,55 @@
  */
 package entity;
 
-import java.math.BigDecimal;
 
 /**
  *
  * @author Admin
  */
 public class Product {
-    private int productId;
-    private String productName;
-    private int categoryId;
-    private int supplierId;
-    private int brandId;
-    private BigDecimal price;
-    private BigDecimal discountPrice;
+    private String name;
+    private String imageURL;
+    private double price;
     private int stockQuantity;
-    private String description;
-    private String image;
-    private double averageRating;
-    private String brandName;
-    private String supplierName;
-    
 
-    public int getProductId() {
-        return productId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public int getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(int supplierId) {
-        this.supplierId = supplierId;
-    }
-
-    public int getBrandId() {
-        return brandId;
-    }
-
-    public void setBrandId(int brandId) {
-        this.brandId = brandId;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
+    public Product(String name, String imageURL, double price, int stockQuantity) {
+        this.name = name;
+        this.imageURL = imageURL;
         this.price = price;
+        this.stockQuantity = stockQuantity;
     }
 
-    public BigDecimal getDiscountPrice() {
-        return discountPrice;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setDiscountPrice(BigDecimal discountPrice) {
-        this.discountPrice = discountPrice;
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
-    public int getStockQuantity() {
-        return stockQuantity;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public void setStockQuantity(int stockQuantity) {
         this.stockQuantity = stockQuantity;
     }
 
-    public String getDescription() {
-        return description;
+    // Getters and Setters
+    public String getName() {
+        return name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public String getImageURL() {
+        return imageURL;
     }
 
-    public String getImage() {
-        return image;
+    public double getPrice() {
+        return price;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public int getStockQuantity() {
+        return stockQuantity;
     }
-
-    public double getAverageRating() {
-        return averageRating;
-    }
-
-    public void setAverageRating(double averageRating) {
-        this.averageRating = averageRating;
-    }
-
-    public String getBrandName() {
-        return brandName;
-    }
-
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
-    }
-
-    public String getSupplierName() {
-        return supplierName;
-    }
-
-    public void setSupplierName(String supplierName) {
-        this.supplierName = supplierName;
-    }
-    
-    
-    
 }
+
