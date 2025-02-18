@@ -8,7 +8,7 @@ package entity;
  *
  * @author Đạt
  */
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 public class Shipper {
      private int shipperId;
@@ -16,8 +16,8 @@ public class Shipper {
     private String email;
     private String phoneNumber;
     private String status;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
 
     private List<Order> orders;
 
@@ -30,7 +30,7 @@ public class Shipper {
                 '}';
     }
 
-    public Shipper(int shipperId, String fullName, String email, String phoneNumber, String status, LocalDateTime createdAt, LocalDateTime updatedAt, List<Order> orders) {
+    public Shipper(int shipperId, String fullName, String email, String phoneNumber, String status, LocalDate createdAt, LocalDate updatedAt, List<Order> orders) {
         this.shipperId = shipperId;
         this.fullName = fullName;
         this.email = email;
@@ -84,19 +84,19 @@ public class Shipper {
         this.status = status;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public LocalDate getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
 

@@ -4,6 +4,7 @@
  */
 package entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -13,9 +14,9 @@ import java.time.LocalDateTime;
 public class FavoriteDetail {
     private Favorite favorite; // Many-to-One
     private Product product; // Many-to-One
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
-    public FavoriteDetail(Favorite favorite, Product product, LocalDateTime createdAt) {
+    public FavoriteDetail(Favorite favorite, Product product, LocalDate createdAt) {
         this.favorite = favorite;
         this.product = product;
         this.createdAt = createdAt;
@@ -40,11 +41,11 @@ public class FavoriteDetail {
         this.product = product;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
     

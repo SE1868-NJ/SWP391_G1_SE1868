@@ -8,39 +8,43 @@ package entity;
  *
  * @author Đạt
  */
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
-public class Product {
-    private int productId;
-      private String name;
-      private String description;
-      private Double price;
-      private int stockQuantity;
-      private LocalDateTime createdAt;
-      private LocalDateTime updatedAt;
 
-      private Category category;
-      private List<ProductReview> reviews;
-      private List<ProductImage> images;
-      private List<OrderDetail> orderDetails;
-      private List<FavoriteDetail> favoriteDetails;
-      private List<CartItem> cartItems;
+public class Product {
+
+    private int productId;
+    private String name;
+    private String description;
+    private double price;
+    private int stockQuantity;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
+    private Shop shop;
+    private Category category;
+    private List<ProductReview> reviews;
+    private List<ProductImage> images;
+    private List<OrderDetail> orderDetails;
+    private List<FavoriteDetail> favoriteDetails;
+    private List<CartItem> cartItems;
 
     @Override
     public String toString() {
-        return "Product{" +
-                "productId=" + productId +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", stockQuantity=" + stockQuantity +
-                ", category=" + (category != null ? category.getName() : "null") +
-                '}';
+        return "Product{"
+                + "productId=" + productId
+                + ", name='" + name + '\''
+                + ", price=" + price
+                + ", stockQuantity=" + stockQuantity
+                + ", category=" + (category != null ? category.getName() : "null")
+                + '}';
     }
 
     public Product() {
     }
 
-    public Product(int productId, String name, String description, Double price, int stockQuantity, LocalDateTime createdAt, LocalDateTime updatedAt, Category category, List<ProductReview> reviews, List<ProductImage> images, List<OrderDetail> orderDetails, List<FavoriteDetail> favoriteDetails, List<CartItem> cartItems) {
+    
+
+    public Product(int productId, String name, String description, double price, int stockQuantity, LocalDate createdAt, LocalDate updatedAt, Shop shop, Category category, List<ProductReview> reviews, List<ProductImage> images, List<OrderDetail> orderDetails, List<FavoriteDetail> favoriteDetails, List<CartItem> cartItems) {
         this.productId = productId;
         this.name = name;
         this.description = description;
@@ -48,12 +52,21 @@ public class Product {
         this.stockQuantity = stockQuantity;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.shop = shop;
         this.category = category;
         this.reviews = reviews;
         this.images = images;
         this.orderDetails = orderDetails;
         this.favoriteDetails = favoriteDetails;
         this.cartItems = cartItems;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
 
     public int getProductId() {
@@ -80,11 +93,11 @@ public class Product {
         this.description = description;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -96,19 +109,19 @@ public class Product {
         this.stockQuantity = stockQuantity;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public LocalDate getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -159,5 +172,5 @@ public class Product {
     public void setCartItems(List<CartItem> cartItems) {
         this.cartItems = cartItems;
     }
-    
+
 }

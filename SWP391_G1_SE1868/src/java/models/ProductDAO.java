@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  *
@@ -26,21 +27,27 @@ public class ProductDAO extends DBContext {
 
     // Thêm sản phẩm
     public boolean addProduct(Product product) {
-        String sql = "INSERT INTO Products (name, description, price, stockQuantity, createdAt, updatedAt, categoryId) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Products (name, description, price, stockQuantity, categoryId, shopId) "
+                + "VALUES (?, ?, ?, ?, ?, ?)";
+
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, product.getName());
             stmt.setString(2, product.getDescription());
             stmt.setDouble(3, product.getPrice());
             stmt.setInt(4, product.getStockQuantity());
-            stmt.setTimestamp(5, Timestamp.valueOf(product.getCreatedAt()));
-            stmt.setTimestamp(6, Timestamp.valueOf(product.getUpdatedAt()));
-            stmt.setObject(7, product.getCategory() != null ? product.getCategory().getCategoryId() : null);
 
+            // Kiểm tra categoryId (nếu category không phải null)
+            stmt.setInt(5, product.getCategory() != null ? product.getCategory().getCategoryId() : null);
+
+            // Kiểm tra shopId (nếu shop không phải null)
+           stmt.setInt(6, product.getCategory() != null ? product.getShop().getShopId() : null);
+           
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
+                // Lấy productId được sinh tự động (AUTO_INCREMENT)
                 ResultSet generatedKeys = stmt.getGeneratedKeys();
                 if (generatedKeys.next()) {
-                    product.setProductId(generatedKeys.getInt(1));
+                    product.setProductId(generatedKeys.getInt(1));  // Lưu productId vào đối tượng
                 }
                 return true;
             }
@@ -52,13 +59,13 @@ public class ProductDAO extends DBContext {
 
     // . Cập nhật sản phẩm
     public boolean updateProduct(Product product) {
-        String sql = "UPDATE Products SET name = ?, description = ?, price = ?, stockQuantity = ?, updatedAt = ?, categoryId = ? WHERE productId = ?";
+        String sql = "UPDATE Products SET name = ?, description = ?, price = ?, stockQuantity = ?,  categoryId = ?, shopId = ? WHERE productId = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, product.getName());
             stmt.setString(2, product.getDescription());
             stmt.setDouble(3, product.getPrice());
             stmt.setInt(4, product.getStockQuantity());
-            stmt.setTimestamp(5, Timestamp.valueOf(product.getUpdatedAt()));
+            stmt.setObject(5, product.getCategory() != null ? product.getCategory().getCategoryId() : null);
             stmt.setObject(6, product.getCategory() != null ? product.getCategory().getCategoryId() : null);
             stmt.setInt(7, product.getProductId());
 
@@ -99,13 +106,6 @@ public class ProductDAO extends DBContext {
                     product.setPrice(rs.getDouble("price"));
                     product.setStockQuantity(rs.getInt("stockQuantity"));
 
-                    // Kiểm tra NULL trước khi gọi .toLocalDateTime()
-                    Timestamp createdTimestamp = rs.getTimestamp("createdAt");
-                    product.setCreatedAt(createdTimestamp != null ? createdTimestamp.toLocalDateTime() : null);
-
-                    Timestamp updatedTimestamp = rs.getTimestamp("updatedAt");
-                    product.setUpdatedAt(updatedTimestamp != null ? updatedTimestamp.toLocalDateTime() : null);
-
                     // Lấy thông tin Category
                     Category category = categoryDAO.getCategoryById(rs.getInt("categoryId"));
                     product.setCategory(category);
@@ -119,8 +119,7 @@ public class ProductDAO extends DBContext {
                                 ProductImage productImage = new ProductImage();
                                 productImage.setProductImageId(rsImages.getInt("productImageId"));
                                 productImage.setImageUrl(rsImages.getString("imageUrl"));
-                                productImage.setCreatedAt(rsImages.getTimestamp("createdAt") != null
-                                        ? rsImages.getTimestamp("createdAt").toLocalDateTime() : null);
+                                productImage.setCreatedAt(rsImages.getDate("CreatedAt").toLocalDate());
 
                                 // Thiết lập đối tượng product cho mỗi hình ảnh
                                 productImage.setProduct(product);  // Cập nhật đối tượng Product cho ProductImage

@@ -4,7 +4,7 @@
  */
 package entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  *
@@ -14,7 +14,7 @@ public class ProductImage {
      private int productImageId;
     private Product product;
     private String imageUrl;
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     @Override
     public String toString() {
@@ -27,7 +27,7 @@ public class ProductImage {
     public ProductImage() {
     }
 
-    public ProductImage(int productImageId, Product product, String imageUrl, LocalDateTime createdAt) {
+    public ProductImage(int productImageId, Product product, String imageUrl, LocalDate createdAt) {
         this.productImageId = productImageId;
         this.product = product;
         this.imageUrl = imageUrl;
@@ -58,11 +58,11 @@ public class ProductImage {
         this.imageUrl = imageUrl;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
     

@@ -14,8 +14,8 @@ public class OrderDetail {
     private Order order;
     private Product product;
     private int quantity;
-    private Double unitPrice;
-    private Double subTotal;
+    private double unitPrice;
+    private double subTotal;
 
     @Override
     public String toString() {
@@ -31,7 +31,7 @@ public class OrderDetail {
     public OrderDetail() {
     }
 
-    public OrderDetail(int orderDetailId, Order order, Product product, int quantity, Double unitPrice, Double subTotal) {
+    public OrderDetail(int orderDetailId, Order order, Product product, int quantity, double unitPrice, double subTotal) {
         this.orderDetailId = orderDetailId;
         this.order = order;
         this.product = product;
@@ -72,19 +72,19 @@ public class OrderDetail {
         this.quantity = quantity;
     }
 
-    public Double getUnitPrice() {
+    public double getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(Double unitPrice) {
+    public void setUnitPrice(double unitPrice) {
         this.unitPrice = unitPrice;
     }
 
-    public Double getSubTotal() {
+    public double getSubTotal() {
         return subTotal;
     }
 
-    public void setSubTotal(Double subTotal) {
+    public void setSubTotal(double subTotal) {
         this.subTotal = subTotal;
     }
     

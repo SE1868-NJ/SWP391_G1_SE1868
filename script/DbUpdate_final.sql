@@ -40,9 +40,9 @@ CREATE TABLE `Products` (
 	`Price` DECIMAL,
 	`StockQuantity` INTEGER,
 	`CreatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP,
-    `UpdatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    	`UpdatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	`CategoryID` INTEGER,
-    `ShopID` INTEGER NOT NULL,
+    	`ShopID` INTEGER NOT NULL,
 	PRIMARY KEY (`ProductID`),
     FOREIGN KEY (`ShopID`) REFERENCES `Shop` (`ShopID`) 
         ON DELETE CASCADE ON UPDATE CASCADE,
@@ -260,6 +260,7 @@ VALUES
 ('Nước hoa', 'assets/img/shop/shop_p_logo.png', '113 Đường nước hoa, Thành phố', 'Jessica Taylor'),
 ('Đồ chơi trẻ em', 'assets/img/shop/shop_q_logo.png', '114 Đường đồ chơi, Thành phố', 'Emily Wilson'),
 ('Bút vẽ', 'assets/img/shop/shop_r_logo.png', '115 Đường vẽ, Thành phố', 'Andrew Scott'),
+('CoCaa', 'assets/img/shop/shop_dat_logo.png', '115 Đường vẽ, Thành phố', 'ABc Scott'),
 ('Mỹ phẩm cao cấp', 'assets/img/shop/shop_s_logo.png', '116 Đại lộ Mỹ phẩm, Thành phố', 'Hannah Adams');
 
 
@@ -283,7 +284,9 @@ VALUES
 ('Đèn ngủ', 'Đèn ngủ LED tiết kiệm năng lượng', 499000, 100, 1, 16),
 ('Máy chiếu', 'Máy chiếu mini cho gia đình', 1590000, 40, 1, 17),
 ('Màn hình máy tính', 'Màn hình LED Full HD', 2490000, 60, 2, 18),
-('Đồ chơi trẻ em', 'Đồ chơi giáo dục cho trẻ em', 199000, 200, 4, 19);
+('Đồ chơi trẻ em', 'Đồ chơi giáo dục cho trẻ em', 199000, 200, 4, 19),
+('Bàn phím cơ', 'Bàn phím cơ chống nước', 1200000, 80, 1, 20);
+
 
 INSERT INTO `Orders` (`CustomerID`, `OrderDate`, `TotalAmount`, `Status`, `ShippingAddress`, `ShipperID`) 
 VALUES 
@@ -357,23 +360,23 @@ VALUES
 (1, 2, 4, 'Điện thoại ổn, nhưng giá hơi cao.', 'assets/img/productReview/smartphone_review_2.jpg'),
 (2, 3, 5, 'Laptop tuyệt vời cho công việc và giải trí.', 'assets/img/productReview/laptop_review_2.jpg'),
 (3, 4, 3, 'Áo thun khá tốt nhưng cần có size nhỏ hơn.', 'assets/img/productReview/tshirt_review_2.jpg'),
-(4, 5, 5, 'Máy xay sinh tố rất mạnh mẽ, dễ sử dụng.', 'assets/img/productReview/blender_review_2.jpg'),
+(1, 5, 5, 'Máy xay sinh tố rất mạnh mẽ, dễ sử dụng.', 'assets/img/productReview/blender_review_2.jpg'),
 (5, 6, 5, 'Tai nghe tuyệt vời, âm thanh rất chất lượng.', 'assets/img/productReview/headphones_review_2.jpg'),
 (6, 7, 4, 'Giày thể thao rất thoải mái, nhưng thiết kế chưa thật sự nổi bật.', 'assets/img/productReview/sneakers_review_2.jpg'),
 (7, 8, 5, 'Đồng hồ rất đẹp và phù hợp với tất cả các trang phục.', 'assets/img/productReview/watch_review_2.jpg'),
 (8, 9, 4, 'Áo khoác khá đẹp, nhưng màu sắc hơi tối.', 'assets/img/productReview/jacket_review_2.jpg'),
-(9, 10, 5, 'Máy giặt hoạt động rất hiệu quả, tiết kiệm nước.', 'assets/img/productReview/washing_machine_review_2.jpg'),
-(10, 11, 5, 'Điều hòa làm lạnh nhanh và tiết kiệm điện.', 'assets/img/productReview/air_conditioner_review_2.jpg'),
-(11, 12, 5, 'Quần jeans rất thoải mái, chất liệu rất tốt.', 'assets/img/productReview/pants_review_2.jpg'),
-(12, 13, 4, 'Tủ lạnh rất tiện lợi, nhưng hơi ồn.', 'assets/img/productReview/refrigerator_review_2.jpg'),
+(1, 10, 5, 'Máy giặt hoạt động rất hiệu quả, tiết kiệm nước.', 'assets/img/productReview/washing_machine_review_2.jpg'),
+(1, 11, 5, 'Điều hòa làm lạnh nhanh và tiết kiệm điện.', 'assets/img/productReview/air_conditioner_review_2.jpg'),
+(1, 12, 5, 'Quần jeans rất thoải mái, chất liệu rất tốt.', 'assets/img/productReview/pants_review_2.jpg'),
+(1, 13, 4, 'Tủ lạnh rất tiện lợi, nhưng hơi ồn.', 'assets/img/productReview/refrigerator_review_2.jpg'),
 (13, 14, 5, 'Máy xay cà phê rất tốt, mùi cà phê thơm.', 'assets/img/productReview/coffee_maker_review_2.jpg'),
 (14, 15, 5, 'Bàn làm việc rất chắc chắn, đẹp và bền.', 'assets/img/productReview/desk_review_2.jpg'),
-(15, 16, 5, 'Tủ quần áo rất rộng rãi, chất liệu tốt.', 'assets/img/productReview/wardrobe_review_2.jpg'),
+(1, 16, 5, 'Tủ quần áo rất rộng rãi, chất liệu tốt.', 'assets/img/productReview/wardrobe_review_2.jpg'),
 (16, 17, 5, 'Đèn ngủ sáng dịu, không gây khó chịu.', 'assets/img/productReview/night_light_review_2.jpg'),
 (17, 18, 4, 'Máy chiếu đẹp nhưng không đủ sáng trong phòng sáng.', 'assets/img/productReview/projector_review_2.jpg'),
-(18, 19, 5, 'Màn hình sắc nét, không bị mờ khi chơi game.', 'assets/img/productReview/monitor_review_2.jpg'),
+(1, 19, 5, 'Màn hình sắc nét, không bị mờ khi chơi game.', 'assets/img/productReview/monitor_review_2.jpg'),
 (19, 20, 5, 'Đồ chơi rất an toàn, trẻ em rất thích.', 'assets/img/productReview/toy_review_2.jpg'),
-(20, 1, 5, 'Bàn phím cơ rất tốt, không có gì phải phàn nàn.', 'assets/img/productReview/keyboard_review_2.jpg');
+(1, 1, 5, 'Bàn phím cơ rất tốt, không có gì phải phàn nàn.', 'assets/img/productReview/keyboard_review_2.jpg');
 
 
 INSERT INTO `Favorites` (`CustomerID`, `Name`, `CreatedAt`) 
@@ -442,6 +445,7 @@ VALUES
 ('Mason Shipper', 'mason.shipper@example.com', '2233665500', 'Available'),
 ('Ava Shipper', 'ava.shipper@example.com', '3355778899', 'Busy'),
 ('Noah Shipper', 'noah.shipper@example.com', '6677885544', 'Available'),
+('Noah Shipper22', 'noah.shipper@example.com', '667788554422', 'Available'),
 ('Grace Shipper', 'grace.shipper@example.com', '2233779988', 'Available');
 
 INSERT INTO `ProductImages` (`ProductID`, `ImageURL`, `CreatedAt`) 
@@ -509,6 +513,27 @@ VALUES
 (15, 15, 15, 5, 'Giao hàng nhanh chóng, sẽ tiếp tục ủng hộ dịch vụ này.'),
 (16, 16, 16, 4, 'Dịch vụ ổn, nhưng có thể cải thiện thêm.'),
 (17, 17, 17, 5, 'Giao hàng nhanh chóng, dịch vụ rất tốt.'),
+(18, 18, 18, 4, 'Giao hàng đúng hẹn nhưng cần cải thiện đóng gói.'),
+(19, 19, 19, 5, 'Dịch vụ giao hàng rất tuyệt vời.'),
+(20, 20, 20, 3, 'Giao hàng chậm, cần cải thiện thời gian giao hàng.'),
+
+(1, 1, 1, 5, 'Dịch vụ tuyệt vời, giao hàng nhanh chóng và đúng giờ.'),
+(2, 2, 2, 4, 'Dịch vụ tốt, nhưng thời gian giao hơi lâu.'),
+(3, 3, 3, 5, 'Giao hàng nhanh, nhân viên rất thân thiện.'),
+(1, 4, 4, 3, 'Giao hàng chậm, cần cải thiện tốc độ.'),
+(5, 5, 5, 4, 'Nhận hàng đúng hạn, tuy nhiên không có thông báo trước.'),
+(6, 6, 6, 5, 'Giao hàng rất nhanh, đúng hẹn, hài lòng với dịch vụ.'),
+(7, 7, 7, 4, 'Dịch vụ giao hàng tốt, nhưng đóng gói chưa chắc chắn.'),
+(1, 8, 8, 5, 'Giao hàng tuyệt vời, rất chuyên nghiệp.'),
+(9, 9, 9, 4, 'Giao hàng ổn, nhưng chưa đáp ứng hoàn toàn yêu cầu của tôi.'),
+(1, 10, 10, 3, 'Giao hàng lâu hơn so với dự kiến, nhưng vẫn hài lòng.'),
+(11, 11, 11, 5, 'Dịch vụ giao hàng hoàn hảo, rất hài lòng.'),
+(1, 12, 12, 5, 'Giao hàng rất nhanh chóng và đúng hẹn, dịch vụ tuyệt vời.'),
+(13, 13, 13, 4, 'Giao hàng không đúng thời gian nhưng bù lại chất lượng tốt.'),
+(1, 14, 14, 3, 'Giao hàng chậm, nhưng nhân viên giao hàng rất lịch sự.'),
+(1, 15, 15, 5, 'Giao hàng nhanh chóng, sẽ tiếp tục ủng hộ dịch vụ này.'),
+(16, 16, 16, 4, 'Dịch vụ ổn, nhưng có thể cải thiện thêm.'),
+(1, 17, 17, 5, 'Giao hàng nhanh chóng, dịch vụ rất tốt.'),
 (18, 18, 18, 4, 'Giao hàng đúng hẹn nhưng cần cải thiện đóng gói.'),
 (19, 19, 19, 5, 'Dịch vụ giao hàng rất tuyệt vời.'),
 (20, 20, 20, 3, 'Giao hàng chậm, cần cải thiện thời gian giao hàng.');

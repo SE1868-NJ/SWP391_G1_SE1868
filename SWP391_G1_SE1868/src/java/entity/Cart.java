@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package entity;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 /**
@@ -12,8 +13,8 @@ import java.util.List;
 public class Cart {
     private int cartId;
     private Customer customer;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
 
     private List<CartItem> cartItems;
 
@@ -30,7 +31,7 @@ public class Cart {
     public Cart() {
     }
 
-    public Cart(int cartId, Customer customer, LocalDateTime createdAt, LocalDateTime updatedAt, List<CartItem> cartItems) {
+    public Cart(int cartId, Customer customer, LocalDate createdAt, LocalDate updatedAt, List<CartItem> cartItems) {
         this.cartId = cartId;
         this.customer = customer;
         this.createdAt = createdAt;
@@ -55,19 +56,19 @@ public class Cart {
         this.customer = customer;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public LocalDate getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
 

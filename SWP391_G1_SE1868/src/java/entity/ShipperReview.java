@@ -4,36 +4,38 @@
  */
 package entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  *
  * @author Đạt
  */
 public class ShipperReview {
+
     private int reviewId;
     private Shipper shipper;
     private Customer customer;
     private Order order;
     private int rating;
     private String comment;
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
+    private LocalDate UpdatedAt;
 
     @Override
     public String toString() {
-        return "ShipperReview{" +
-                "reviewId=" + reviewId +
-                ", rating=" + rating +
-                ", comment='" + comment + '\'' +
-                ", shipper=" + (shipper != null ? shipper.getFullName() : "null") +
-                ", customer=" + (customer != null ? customer.getFullName() : "null") +
-                '}';
+        return "ShipperReview{"
+                + "reviewId=" + reviewId
+                + ", rating=" + rating
+                + ", comment='" + comment + '\''
+                + ", shipper=" + (shipper != null ? shipper.getFullName() : "null")
+                + ", customer=" + (customer != null ? customer.getFullName() : "null")
+                + '}';
     }
 
     public ShipperReview() {
     }
 
-    public ShipperReview(int reviewId, Shipper shipper, Customer customer, Order order, int rating, String comment, LocalDateTime createdAt) {
+    public ShipperReview(int reviewId, Shipper shipper, Customer customer, Order order, int rating, String comment, LocalDate createdAt) {
         this.reviewId = reviewId;
         this.shipper = shipper;
         this.customer = customer;
@@ -91,13 +93,12 @@ public class ShipperReview {
         this.comment = comment;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
-    
 
 }

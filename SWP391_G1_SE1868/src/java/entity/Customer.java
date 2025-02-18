@@ -8,17 +8,21 @@ package entity;
  *
  * @author Đạt
  */
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 public class Customer {
-  private int customerId;
+   private int customerId;
     private String fullName;
     private String email;
     private String password;
     private String phoneNumber;
     private String address;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private LocalDate  birthDate;
+    private String gender;  // 'Male' or 'Female'
+    private LocalDate  createdAt;
+    private LocalDate  updatedAt;
+    private String profileImage;
 
     private List<Order> orders;
     private List<Favorite> favorites;
@@ -27,19 +31,51 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(int customerId, String fullName, String email, String password, String phoneNumber, String address, LocalDateTime createdAt, LocalDateTime updatedAt, List<Order> orders, List<Favorite> favorites, List<Cart> carts) {
+    public Customer(int customerId, String fullName, String email, String password, String phoneNumber, String address, LocalDate birthDate, String gender, LocalDate createdAt, LocalDate updatedAt, String profileImage, List<Order> orders, List<Favorite> favorites, List<Cart> carts) {
         this.customerId = customerId;
         this.fullName = fullName;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.birthDate = birthDate;
+        this.gender = gender;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.profileImage = profileImage;
         this.orders = orders;
         this.favorites = favorites;
         this.carts = carts;
     }
+
+    
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+   
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
+    }
+
+   
 
     @Override
     public String toString() {
@@ -54,13 +90,6 @@ public class Customer {
                 '}';
     }
 
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
 
     public String getFullName() {
         return fullName;
@@ -102,21 +131,32 @@ public class Customer {
         this.address = address;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public LocalDate getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+  
+
 
     public List<Order> getOrders() {
         return orders;

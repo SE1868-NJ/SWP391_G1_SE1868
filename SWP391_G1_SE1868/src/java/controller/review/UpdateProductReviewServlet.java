@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import models.ProductReviewDAO;
 
@@ -91,7 +92,7 @@ public class UpdateProductReviewServlet extends HttpServlet {
         review.setReviewId(reviewId);
         review.setRating(rating);
         review.setComment(comment);
-        review.setCreatedAt(LocalDateTime.now());  // Thêm thời gian hiện tại
+        review.setCreatedAt(LocalDate.now());  // Thêm thời gian hiện tại
 
         // Cập nhật thông tin vào cơ sở dữ liệu
         ProductReviewDAO productReviewDAO = new ProductReviewDAO();

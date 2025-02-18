@@ -11,6 +11,7 @@ package models;
 import dbcontext.DBContext;
 import entity.Customer;
 import entity.ProductReview;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;   // tap ban ghi 
 import java.sql.Statement;
@@ -23,16 +24,16 @@ public class CustomerDAO extends DBContext {
     // ✅ 1. Thêm khách hàng
 
     public boolean addCustomer(Customer customer) {
-        String sql = "INSERT INTO Customers (fullName, email, password, phoneNumber, address, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Customers (fullName, email, password, phoneNumber, address, BirthDate, Gender, ProfileImage) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, customer.getFullName());
             stmt.setString(2, customer.getEmail());
             stmt.setString(3, customer.getPassword());
             stmt.setString(4, customer.getPhoneNumber());
             stmt.setString(5, customer.getAddress());
-            stmt.setTimestamp(6, Timestamp.valueOf(customer.getCreatedAt()));
-            stmt.setTimestamp(7, Timestamp.valueOf(customer.getUpdatedAt()));
-
+            stmt.setDate(6, Date.valueOf(customer.getBirthDate()));
+            stmt.setString(7, customer.getGender());
+            stmt.setString(8, customer.getProfileImage());
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
                 ResultSet generatedKeys = stmt.getGeneratedKeys();
@@ -49,15 +50,17 @@ public class CustomerDAO extends DBContext {
 
     // ✅ 2. Cập nhật khách hàng
     public boolean updateCustomer(Customer customer) {
-        String sql = "UPDATE Customers SET fullName = ?, email = ?, password = ?, phoneNumber = ?, address = ?, updatedAt = ? WHERE customerId = ?";
+        String sql = "UPDATE Customers SET FullName = ?, Email = ?, Password = ?, PhoneNumber = ?, Address = ?, BirthDate = ?, Gender = ?, ProfileImage = ? WHERE CustomerID = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, customer.getFullName());
             stmt.setString(2, customer.getEmail());
             stmt.setString(3, customer.getPassword());
             stmt.setString(4, customer.getPhoneNumber());
             stmt.setString(5, customer.getAddress());
-            stmt.setTimestamp(6, Timestamp.valueOf(customer.getUpdatedAt()));
-            stmt.setInt(7, customer.getCustomerId());
+            stmt.setDate(6, Date.valueOf(customer.getBirthDate()));  // Chuyển từ LocalDate thành java.sql.Date
+            stmt.setString(7, customer.getGender());  // 'Male' or 'Female'
+            stmt.setString(8, customer.getProfileImage());  // Đường dẫn hình ảnh (có thể null)
+            stmt.setInt(9, customer.getCustomerId());  // Dùng CustomerID để xác định khách hàng cần cập nhật
 
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -124,11 +127,10 @@ public class CustomerDAO extends DBContext {
         return null; // Nếu không tìm thấy, trả về null
     }
 
-    public Customer checkEmailExists (String email) {
+    public Customer checkEmailExists(String email) {
         String sql = "SELECT * FROM Customers WHERE email = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, email);
-            
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -149,13 +151,11 @@ public class CustomerDAO extends DBContext {
         customer.setPassword(rs.getString("password"));
         customer.setPhoneNumber(rs.getString("phoneNumber"));
         customer.setAddress(rs.getString("address"));
-
-        //  Kiểm tra NULL trước khi gọi .toLocalDateTime()
-        Timestamp createdTimestamp = rs.getTimestamp("createdAt");
-        customer.setCreatedAt(createdTimestamp != null ? createdTimestamp.toLocalDateTime() : null);
-
-        Timestamp updatedTimestamp = rs.getTimestamp("updatedAt");
-        customer.setUpdatedAt(updatedTimestamp != null ? updatedTimestamp.toLocalDateTime() : null);
+        customer.setBirthDate(rs.getDate("BirthDate").toLocalDate());
+        customer.setGender(rs.getString("Gender"));
+        customer.setCreatedAt(rs.getDate("CreatedAt").toLocalDate());
+        customer.setUpdatedAt(rs.getDate("UpdatedAt").toLocalDate());
+        customer.setProfileImage(rs.getString("ProfileImage"));
 
         return customer;
     }

@@ -14,7 +14,7 @@ public class Payment {
   private int paymentId;
     private Order order;
     private LocalDateTime paymentDate;
-    private Double amount;
+    private double amount;
     private String paymentMethod;
     private String paymentStatus;
 
@@ -32,7 +32,7 @@ public class Payment {
     public Payment() {
     }
 
-    public Payment(int paymentId, Order order, LocalDateTime paymentDate, Double amount, String paymentMethod, String paymentStatus) {
+    public Payment(int paymentId, Order order, LocalDateTime paymentDate, double amount, String paymentMethod, String paymentStatus) {
         this.paymentId = paymentId;
         this.order = order;
         this.paymentDate = paymentDate;
@@ -65,11 +65,11 @@ public class Payment {
         this.paymentDate = paymentDate;
     }
 
-    public Double getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

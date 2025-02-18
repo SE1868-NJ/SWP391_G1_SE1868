@@ -8,17 +8,18 @@ package entity;
  *
  * @author Đạt
  */
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalDate;
 import java.util.List;
 public class Order {
    private int orderId;
     private Customer customer;
-    private LocalDateTime orderDate;
-    private Double totalAmount;
+    private LocalDate orderDate;
+    private double totalAmount;
     private String status;
     private String shippingAddress;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
 
     private Shipper shipper;
     private List<OrderDetail> orderDetails;
@@ -39,7 +40,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(int orderId, Customer customer, LocalDateTime orderDate, Double totalAmount, String status, String shippingAddress, LocalDateTime createdAt, LocalDateTime updatedAt, Shipper shipper, List<OrderDetail> orderDetails, Payment payment) {
+    public Order(int orderId, Customer customer, LocalDate orderDate, double totalAmount, String status, String shippingAddress, LocalDate createdAt, LocalDate updatedAt, Shipper shipper, List<OrderDetail> orderDetails, Payment payment) {
         this.orderId = orderId;
         this.customer = customer;
         this.orderDate = orderDate;
@@ -69,19 +70,19 @@ public class Order {
         this.customer = customer;
     }
 
-    public LocalDateTime getOrderDate() {
+    public LocalDate getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(LocalDateTime orderDate) {
+    public void setOrderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
     }
 
-    public Double getTotalAmount() {
+    public double getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Double totalAmount) {
+    public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
     }
 
@@ -101,19 +102,19 @@ public class Order {
         this.shippingAddress = shippingAddress;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public LocalDate getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
 
