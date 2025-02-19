@@ -1,3 +1,4 @@
+
 package dbcontext;
 
 import entity.Category;
@@ -32,3 +33,4 @@ public class CategoryDAO extends NguyenDBContext {
         return categories;
     }
 }
+
