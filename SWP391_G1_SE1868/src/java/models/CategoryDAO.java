@@ -19,7 +19,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+
 public class CategoryDAO extends DBContext {
     // ✅ 1. Thêm danh mục
     public boolean addCategory(Category category) {

@@ -189,6 +189,9 @@ public class ProductReviewDAO extends DBContext {
                 review.setRating(rs.getInt("Rating"));
                 review.setComment(rs.getString("Comment"));
                 review.setCreatedAt(rs.getDate("CreatedAt").toLocalDate());
+                
+                
+                
                 reviews.add(review);
             }
         } catch (SQLException e) {
