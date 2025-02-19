@@ -241,31 +241,17 @@
 
                 <form method="get" action="products">
                     <input type="text" name="searchKeyword" placeholder="Search by product name, code, brand, supplier" value="${searchQuery}" class="form-control">
-
-                    <!-- Price Range Filter -->
-                    <input type="number" name="minPrice" placeholder="Min Price" value="${minPrice}" class="form-control">
-                    <input type="number" name="maxPrice" placeholder="Max Price" value="${maxPrice}" class="form-control">
-
-                    <!-- Rating Filter -->
-                    <input type="number" name="minRating" placeholder="Min Rating" value="${minRating}" min="1" max="5" class="form-control">
-                    <input type="number" name="maxRating" placeholder="Max Rating" value="${maxRating}" min="1" max="5" class="form-control">
-
                     <button type="submit" class="btn btn-primary">Search</button>
                 </form>
-
-                <!-- Filter by Top Rated -->
-                <div class="filters">
-                    <a href="products?action=topRated&page=1">Top Rated Products</a>
-                </div>
 
                 <!-- Pagination -->
                 <div class="pagination">
                     <c:if test="${page > 1}">
-                        <a href="products?action=list&page=${page - 1}&searchQuery=${searchQuery}&priceFrom=${priceFrom}&priceTo=${priceTo}&ratingFrom=${ratingFrom}&ratingTo=${ratingTo}">Previous</a>
+                        <a href="products?action=list&page=${page - 1}&searchQuery=${searchQuery}">Previous</a>
                     </c:if>
                     <span>Page ${page} of ${totalPages}</span>
                     <c:if test="${page < totalPages}">
-                        <a href="products?action=list&page=${page + 1}&searchQuery=${searchQuery}&priceFrom=${priceFrom}&priceTo=${priceTo}&ratingFrom=${ratingFrom}&ratingTo=${ratingTo}">Next</a>
+                        <a href="products?action=list&page=${page + 1}&searchQuery=${searchQuery}">Next</a>
                     </c:if>
                 </div>
             </div>
@@ -281,7 +267,7 @@
                                 </div>
                                 <ul>
                                     <c:forEach var="category" items="${categories}">
-                                        <li><a href="products?action=filterByCategory&categoryId=${category.categoryId}&searchQuery=${searchQuery}&priceFrom=${priceFrom}&priceTo=${priceTo}&ratingFrom=${ratingFrom}&ratingTo=${ratingTo}">${category.categoryName}</a></li>
+                                        <li><a href="products?action=filterByCategory&categoryId=${category.categoryId}&searchQuery=${searchQuery}">${category.name}</a></li>
                                         </c:forEach>
                                 </ul>
                             </div>
@@ -290,23 +276,12 @@
                         <div class="product-grid col-lg-9">
                             <c:forEach var="product" items="${products}">
                                 <div class="product-card">
-                                    <img src="${product.image}" alt="${product.productName}" class="product-image" />
+                                    <img src="${product.imageUrl}" alt="${product.name}" class="product-image" />
                                     <div class="product-info">
-                                        <div class="product-name">${product.productName}</div>
+                                        <div class="product-name">${product.name}</div>
                                         <div class="product-price">$${product.price}</div>
-                                        <div class="product-discount">Discount: $${product.discountPrice}</div>
                                         <div class="product-rating">Rating: ${product.averageRating}</div>
-                                        <div class="product-brand">Brand: ${product.brandName}</div>
-                                        <div class="product-supplier">Supplier: ${product.supplierName}</div>
-                                        <div class="product-stockQuantity">Quantity: ${product.stockQuantity}</div>
                                         <a href="productDetail?productId=${product.productId}" class="view-button">View Details</a>
-                                        <c:if test="${product.stockQuantity > 0}">
-                                            <a href="/myCarts?action=addToCart&productId=${product.productId}" style="color : blue;" 
-                                               class="add-to-cart-button">Add to Cart</a>
-                                        </c:if>
-                                        <c:if test="${product.stockQuantity == 0}">
-                                            <button disabled class="add-to-cart-button">Out of Stock</button>
-                                        </c:if>
                                     </div>
                                 </div>
                             </c:forEach>

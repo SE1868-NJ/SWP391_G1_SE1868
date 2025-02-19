@@ -18,10 +18,10 @@ public class CategoryDAO extends DBContext {
 
             while (rs.next()) {
                 int id = rs.getInt("categoryId");
-                String name = rs.getString("categoryName");
+                String name = rs.getString("name");
                 Category category = new Category();
                 category.setCategoryId(id);
-                category.setCategoryName(name);
+                category.setName(name);
                 categories.add(category);
             }
         } catch (SQLException e) {

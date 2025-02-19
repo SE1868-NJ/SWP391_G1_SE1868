@@ -4,15 +4,18 @@
  */
 package controller;
 
+import dbcontext.ProductDAO;
+import dto.ProductItemDTO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
- * @author Giang123
+ * @author Nguyen
  */
 public class HomePage extends HttpServlet {
 
@@ -20,7 +23,10 @@ public class HomePage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("index.html").forward(request, response);
+        ProductDAO productDAO = new ProductDAO();
+        List<ProductItemDTO> products = productDAO.getTopRatedAndDiscountedProducts();
+        request.setAttribute("products", products);
+        request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 
     /**
