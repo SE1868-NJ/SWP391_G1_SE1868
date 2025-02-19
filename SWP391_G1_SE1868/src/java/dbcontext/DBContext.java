@@ -4,37 +4,31 @@
  */
 package dbcontext;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
- 
+
 public class DBContext {
-    private final String SERVERNAME = "localhost";
-    private final String PORTNUMBER = "1433";
-    private final String DATABASENAME = "SWP391_G1_SE1868";
-    private final String ACCOUNT = "sa";
-    private final String PASSWORD = "sa";
-    /*USE BELOW METHOD FOR YOUR DATABASE CONNECTION FOR BOTH SINGLE AND MULTILPE SQL SERVER INSTANCE(s)*/
- /*DO NOT EDIT THE BELOW METHOD, YOU MUST USE ONLY THIS ONE FOR YOUR DATABASE CONNECTION*/
-    public Connection getConnection() throws Exception {
-        String url = "jdbc:sqlserver://" + SERVERNAME + ":" + PORTNUMBER
-                + ";databaseName=" + DATABASENAME;
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        return DriverManager.getConnection(url, ACCOUNT, PASSWORD);
+
+    protected Connection connection;
+    private static final String DB_USER  = "root"; // change this to your MySQL username
+    private static final String DB_PASSWORD  = "123456"; // change this to your MySQL password
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/swp391_g1"; // change mydb to your database name
+
+    public DBContext() {
+        try {
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            System.out.println(connection);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public static void main(String[] args) {
-        try {
-            DBContext dBContext = new DBContext();
-            if (dBContext.getConnection() != null) {
-                System.out.println("Kết nối thành công");
-            } else {
-                System.out.println("Kết nối thất bại");
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        new DBContext();
     }
 }

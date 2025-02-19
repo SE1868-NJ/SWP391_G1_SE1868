@@ -1,2 +1,45 @@
 /SWP391_G1_SE1868/nbproject/private/
+# Thư mục và file NetBeans
+/nbproject/private/
+/nbbuild/
+/build/
+/dist/
+/nbdist/
+/nbactions.xml
+/nb-configuration.xml
+
+# Maven specific
+.mvn/
+target/
+
+# Gradle specific
+.gradle/
+build/
+
+# File biên dịch Java
+*.class
+
+# File nén đóng gói
+*.jar
+*.war
+*.ear
+
+# File tạm thời và log
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# File hệ thống
+.DS_Store
+Thumbs.db
+
+# File cấu hình và nhạy cảm
+.env
+*.properties
+*.config
+*.cfg
 /SWP391_G1_SE1868/build/
+
+/SWP391_G1_SE1868/dist/

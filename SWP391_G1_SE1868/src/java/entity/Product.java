@@ -4,27 +4,70 @@
  */
 package entity;
 
-import java.math.BigDecimal;
-
 /**
  *
- * @author Admin
+ * @author Đạt
  */
+import java.time.LocalDate;
+import java.util.List;
+
 public class Product {
+
     private int productId;
-    private String productName;
-    private int categoryId;
-    private int supplierId;
-    private int brandId;
-    private BigDecimal price;
-    private BigDecimal discountPrice;
-    private int stockQuantity;
+    private String name;
     private String description;
-    private String image;
-    private double averageRating;
-    private String brandName;
-    private String supplierName;
+    private double price;
+    private int stockQuantity;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
+    private Shop shop;
+    private Category category;
+    private List<ProductReview> reviews;
+    private List<ProductImage> images;
+    private List<OrderDetail> orderDetails;
+    private List<FavoriteDetail> favoriteDetails;
+    private List<CartItem> cartItems;
+
+    @Override
+    public String toString() {
+        return "Product{"
+                + "productId=" + productId
+                + ", name='" + name + '\''
+                + ", price=" + price
+                + ", stockQuantity=" + stockQuantity
+                + ", category=" + (category != null ? category.getName() : "null")
+                + '}';
+    }
+
+    public Product() {
+    }
+
     
+
+    public Product(int productId, String name, String description, double price, int stockQuantity, LocalDate createdAt, LocalDate updatedAt, Shop shop, Category category, List<ProductReview> reviews, List<ProductImage> images, List<OrderDetail> orderDetails, List<FavoriteDetail> favoriteDetails, List<CartItem> cartItems) {
+        this.productId = productId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.shop = shop;
+        this.category = category;
+        this.reviews = reviews;
+        this.images = images;
+        this.orderDetails = orderDetails;
+        this.favoriteDetails = favoriteDetails;
+        this.cartItems = cartItems;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
 
     public int getProductId() {
         return productId;
@@ -34,60 +77,12 @@ public class Product {
         this.productId = productId;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getName() {
+        return name;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public int getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(int supplierId) {
-        this.supplierId = supplierId;
-    }
-
-    public int getBrandId() {
-        return brandId;
-    }
-
-    public void setBrandId(int brandId) {
-        this.brandId = brandId;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public BigDecimal getDiscountPrice() {
-        return discountPrice;
-    }
-
-    public void setDiscountPrice(BigDecimal discountPrice) {
-        this.discountPrice = discountPrice;
-    }
-
-    public int getStockQuantity() {
-        return stockQuantity;
-    }
-
-    public void setStockQuantity(int stockQuantity) {
-        this.stockQuantity = stockQuantity;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -98,38 +93,84 @@ public class Product {
         this.description = description;
     }
 
-    public String getImage() {
-        return image;
+    public double getPrice() {
+        return price;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public double getAverageRating() {
-        return averageRating;
+    public int getStockQuantity() {
+        return stockQuantity;
     }
 
-    public void setAverageRating(double averageRating) {
-        this.averageRating = averageRating;
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
     }
 
-    public String getBrandName() {
-        return brandName;
+    public LocalDate getCreatedAt() {
+        return createdAt;
     }
 
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getSupplierName() {
-        return supplierName;
+    public LocalDate getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setSupplierName(String supplierName) {
-        this.supplierName = supplierName;
+    public void setUpdatedAt(LocalDate updatedAt) {
+        this.updatedAt = updatedAt;
     }
-    
-    
-    
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public List<ProductReview> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<ProductReview> reviews) {
+        this.reviews = reviews;
+    }
+
+    public List<ProductImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ProductImage> images) {
+        this.images = images;
+    }
+
+    public List<OrderDetail> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(List<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
+
+    public List<FavoriteDetail> getFavoriteDetails() {
+        return favoriteDetails;
+    }
+
+    public void setFavoriteDetails(List<FavoriteDetail> favoriteDetails) {
+        this.favoriteDetails = favoriteDetails;
+    }
+
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
+
 }
