@@ -65,6 +65,7 @@ CREATE TABLE `Orders` (
 	PRIMARY KEY (`OrderID`),
 	FOREIGN KEY (`CustomerID`) REFERENCES `Customers` (`CustomerID`) 
 		ON DELETE CASCADE ON UPDATE CASCADE
+
 );
 
 CREATE TABLE `OrderDetails` (

@@ -17,7 +17,7 @@
 
         <div class="container d-flex justify-content-center align-items-center" style="min-height:80vh;">
             <div class="card p-4" style="max-width: 500px; width: 100%;">
-                <form action="updateProductReview" method="POST" id="updateReviewForm">
+                <form action="updateProductReview" method="post" >
                     <!-- reviewId được ẩn vì là giá trị không thay đổi -->
                     <input type="hidden" name="reviewId" value="${review.reviewId}">
 

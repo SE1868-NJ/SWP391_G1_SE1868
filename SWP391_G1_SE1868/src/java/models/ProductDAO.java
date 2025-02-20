@@ -10,6 +10,7 @@ import entity.Customer;
 import entity.Product;
 import entity.ProductImage;
 import entity.ProductReview;
+import entity.Shop;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;   // tap ban ghi 
 import java.sql.Statement;
@@ -95,7 +96,11 @@ public class ProductDAO extends DBContext {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, productId);
             try (ResultSet rs = stmt.executeQuery()) {
+                //Goi CatehoryDao
                 CategoryDAO categoryDAO = new CategoryDAO();
+                
+                // Gọi shopDAO
+                ShopDAO shopDAO = new ShopDAO();
 
                 if (rs.next()) {
                     Product product = new Product();
@@ -105,10 +110,17 @@ public class ProductDAO extends DBContext {
                     product.setDescription(rs.getString("description"));
                     product.setPrice(rs.getDouble("price"));
                     product.setStockQuantity(rs.getInt("stockQuantity"));
+                    product.setCreatedAt(rs.getDate("createdAt").toLocalDate());
+                    product.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
 
                     // Lấy thông tin Category
                     Category category = categoryDAO.getCategoryById(rs.getInt("categoryId"));
                     product.setCategory(category);
+                    
+                    // Lấy thong tin shop
+                    
+                    Shop shop = shopDAO.getShopById(rs.getInt("shopId"));
+                    product.setShop(shop);
 
                     // Lấy danh sách hình ảnh sản phẩm
                     try (PreparedStatement stmtImages = connection.prepareStatement(sqlImages)) {

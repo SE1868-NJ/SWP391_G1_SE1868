@@ -62,11 +62,12 @@ public class ProductReviewDAO extends DBContext {
     }
 
     public ProductReview getProductReviewById(int reviewId) {
-        String sql = "SELECT `ProductID`, `CustomerID`, `Rating`, `Comment`, `CreatedAt` "
+        String sql = "SELECT `ProductID`, `CustomerID`, `Rating`, `Comment`, `CreatedAt` , ReviewID "
                 + "FROM `swp391_g1`.`productreviews` "
                 + "WHERE `ReviewID` = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
             stmt.setInt(1, reviewId);
 
             try (ResultSet rs = stmt.executeQuery()) {
@@ -77,7 +78,8 @@ public class ProductReviewDAO extends DBContext {
                 if (rs.next()) {
                     // Lấy dữ liệu từ ResultSet và tạo đối tượng ProductReview
                     ProductReview review = new ProductReview();
-
+                    
+                    review.setReviewId(rs.getInt("ReviewID"));
                     // lấy obj product
                     review.setProduct(productDAO.getProductById(rs.getInt("ProductID")));
 
@@ -88,7 +90,6 @@ public class ProductReviewDAO extends DBContext {
                     review.setComment(rs.getString("Comment"));
                     review.setCreatedAt(rs.getDate("CreatedAt").toLocalDate());
 
-                    
                     return review;
                 }
             }
@@ -189,9 +190,7 @@ public class ProductReviewDAO extends DBContext {
                 review.setRating(rs.getInt("Rating"));
                 review.setComment(rs.getString("Comment"));
                 review.setCreatedAt(rs.getDate("CreatedAt").toLocalDate());
-                
-                
-                
+
                 reviews.add(review);
             }
         } catch (SQLException e) {

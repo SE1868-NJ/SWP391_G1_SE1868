@@ -34,6 +34,7 @@ public class Product {
                 + "productId=" + productId
                 + ", name='" + name + '\''
                 + ", price=" + price
+                 + ", createdAt=" + createdAt
                 + ", stockQuantity=" + stockQuantity
                 + ", category=" + (category != null ? category.getName() : "null")
                 + '}';

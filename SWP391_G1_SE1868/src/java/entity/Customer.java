@@ -26,12 +26,12 @@ public class Customer {
 
     private List<Order> orders;
     private List<Favorite> favorites;
-    private List<Cart> carts;
+    private Cart cart;
 
     public Customer() {
     }
 
-    public Customer(int customerId, String fullName, String email, String password, String phoneNumber, String address, LocalDate birthDate, String gender, LocalDate createdAt, LocalDate updatedAt, String profileImage, List<Order> orders, List<Favorite> favorites, List<Cart> carts) {
+    public Customer(int customerId, String fullName, String email, String password, String phoneNumber, String address, LocalDate birthDate, String gender, LocalDate createdAt, LocalDate updatedAt, String profileImage, List<Order> orders, List<Favorite> favorites, Cart cart) {
         this.customerId = customerId;
         this.fullName = fullName;
         this.email = email;
@@ -45,7 +45,7 @@ public class Customer {
         this.profileImage = profileImage;
         this.orders = orders;
         this.favorites = favorites;
-        this.carts = carts;
+        this.cart = cart;
     }
 
     
@@ -174,12 +174,13 @@ public class Customer {
         this.favorites = favorites;
     }
 
-    public List<Cart> getCarts() {
-        return carts;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setCarts(List<Cart> carts) {
-        this.carts = carts;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
-    
+
+   
 }

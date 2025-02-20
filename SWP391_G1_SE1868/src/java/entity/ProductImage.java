@@ -11,7 +11,7 @@ import java.time.LocalDate;
  * @author Đạt
  */
 public class ProductImage {
-     private int productImageId;
+    private int productImageId;
     private Product product;
     private String imageUrl;
     private LocalDate createdAt;

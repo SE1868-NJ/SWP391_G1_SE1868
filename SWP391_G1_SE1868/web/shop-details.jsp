@@ -33,7 +33,7 @@
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                min-width: 280px;
+                min-width: 350px;
                 max-width: 400px;
                 box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
                 opacity: 0;
@@ -73,39 +73,59 @@
             }
         </style>
         <!-- Popup Success -->
-        <div id="successPopupp" class="popupp success">
-            Success! Your action was completed.
+        <div id="successPopupp" class="popupp success" >
+            <span>Success! Your action was completed.</span>
             <button class="close-btn" onclick="closePopupp('successPopupp')">×</button>
         </div>
 
         <!-- Popup Error -->
-        <div id="errorPopupp" class="popupp error">
-            Error! Something went wrong.
-            <button class="close-btn" onclick="closePopupp('errorPopupp')">×</button>
+        <div id="errorPopupp" class="popupp error ">
+            <span > Error! Something went wrong.</span>
+            <button class="close-btn " onclick="closePopupp('errorPopupp')">×</button>
         </div>
 
-        <c:if test="${true}">
-            <script>
-                // Gọi hàm showPopup khi isSuccess = true
-                $(document).ready(function () {
-                    showPopup('successPopupp');  // successPopup là ID của popup thành công
-                });
-            </script>
+        <!--            // check UpdateProdcutreview succes or false-->
+        <c:if test="${ not empty param.success}">
+            <c:choose>
+
+                <c:when test="${ param.success == 'true'}">
+                    <script>
+                        // Gọi hàm showPopup khi isSuccess = true
+                        $(document).ready(function () {
+                            showPopup('successPopupp');  // successPopup là ID của popup thành công
+                        });
+
+                        // Tự động ẩn popup sau một khoảng thời gian
+                        closePopupp(function () {
+                            closePopupp('successPopupp'); // Thay 'successPopupp' bằng ID của popup bạn muốn ẩn
+                        }, 3000); // Ẩn popup sau 3 giây (3000ms)
+                    </script>
+                </c:when>
+
+                <c:when test="${ param.success == 'false'}">
+                    <script>
+                        // Gọi hàm showPopup khi isSuccess = true
+                        $(document).ready(function () {
+                            showPopup('errorPopupp');  // successPopup là ID của popup thành công
+                        });
+                    </script>
+                </c:when>
+
+            </c:choose>
         </c:if>
+
+
+
+
 
         <script>
             // Hiển thị popup
             function showPopup(id) {
                 let popup = document.getElementById(id);
                 popup.classList.add("show");
-
-                // Đặt timer để tự động đóng popup sau 4 giây (chỉ khi popup chưa bị tắt thủ công)
-                setTimeout(() => {
-                    if (popup.classList.contains("show")) {
-                        closePopup(id);
-                    }
-                }, 2000);
             }
+
+
 
             // Đóng popup khi bấm nút close
             function closePopupp(id) {
@@ -248,15 +268,39 @@
 
 
                             <ul>
-                                <li><b>Availability</b> <span>${product.stockQuantity}</span></li>
+                                <li><strong>Số lượng:</strong> &nbsp ${product.stockQuantity}  </li>
 
-                                <li><b>Weight</b> <span>0.5 kg</span></li>
-
+                                <li><strong>Ngày tạo:</strong> &nbsp ${product.getCreatedAt()} </li>
                             </ul>
+
                         </div>
+                            
                     </div>
+
+                            
+                    
+
                     <div class="col-lg-12">
+
                         <div class="product__details__tab">
+                            
+                            <div class="col-lg-6 col-md-6 mb-4"> 
+                                <a href="home.jsp" class="primary-btn">Back to shop</a>
+                                <br>
+                                <br>
+                                <div class="d-flex align-items-center p-3 border-0 shadow-sm">
+                                    <!-- Icon shop -->
+                                    
+                                    <div class="icon-shop me-3">
+                                        <img src="${product.shop.logo}" alt="Avatar" class="avatar me-2">
+                                    </div>
+                                    <!-- Thông tin shop -->
+                                    <div>
+                                        <h5 class="mb-1 fw-bold"><strong>${product.shop.name}</strong></h5> <!-- Tên shop -->
+                                        <p class="mb-0  fw-normal"><strong>${product.shop.location}</strong></p> <!-- Địa chỉ shop -->
+                                    </div>
+                                </div>
+                            </div>
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
                                     Reviews
@@ -368,7 +412,7 @@
 
                                                         <!-- Phần chứa ảnh và tên người dùng trên cùng một hàng -->
                                                         <div class="d-flex align-items-center">
-                                                            <img src="assets/img/star-icon.png" alt="Avatar" class="avatar me-2">
+                                                            <img src="${review.customer.profileImage}" alt="Avatar" class="avatar me-2">
                                                             <span class="fw-bold">${review.customer.fullName}</span>
                                                         </div>
 
