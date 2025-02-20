@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CategoryDAO extends DBContext {
+public class CategoryDAO extends NguyenDBContext {
 
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();
