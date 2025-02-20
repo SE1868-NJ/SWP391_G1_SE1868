@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Product List</title>
+        <title>Danh sách sản phẩm</title>
         <!-- Css Styles -->
         <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css">
@@ -240,18 +240,18 @@
                 <h1>${title}</h1>
 
                 <form method="get" action="products">
-                    <input type="text" name="searchKeyword" placeholder="Search by product name, code, brand, supplier" value="${searchQuery}" class="form-control">
-                    <button type="submit" class="btn btn-primary">Search</button>
+                    <input type="text" name="searchKeyword" placeholder="Tìm kiếm theo tên phẩm" value="${searchQuery}" class="form-control">
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                 </form>
 
                 <!-- Pagination -->
                 <div class="pagination">
                     <c:if test="${page > 1}">
-                        <a href="products?action=list&page=${page - 1}&searchQuery=${searchQuery}">Previous</a>
+                        <a href="products?action=list&page=${page - 1}&searchQuery=${searchQuery}">Trước</a>
                     </c:if>
                     <span>Page ${page} of ${totalPages}</span>
                     <c:if test="${page < totalPages}">
-                        <a href="products?action=list&page=${page + 1}&searchQuery=${searchQuery}">Next</a>
+                        <a href="products?action=list&page=${page + 1}&searchQuery=${searchQuery}">Sau</a>
                     </c:if>
                 </div>
             </div>
