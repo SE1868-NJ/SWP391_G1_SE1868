@@ -16,6 +16,8 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Bootstrap JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     </head>
     <body>
         <section class="bg-light min-vh-100 d-flex justify-content-center align-items-center py-3 py-md-5">
@@ -77,5 +79,122 @@
         </section>
 
 
+
+
+        <style>
+            /* CSS chung cho popup */
+            .popupp {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 8px;
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                min-width: 350px;
+                max-width: 400px;
+                box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+                opacity: 0;
+                transform: translateX(100%);
+                transition: opacity 0.4s ease, transform 0.4s ease;
+                pointer-events: none;
+                z-index: 9999;
+            }
+
+            /* Hiển thị popup */
+            .popupp.show {
+                opacity: 1;
+                transform: translateX(0);
+                pointer-events: auto;
+            }
+
+            /* Success Popup */
+            .popupp.success {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            /* Error Popup */
+            .popupp.error {
+                background-color: #F44336;
+                color: white;
+            }
+
+            /* Close Button */
+            .popupp .close-btn {
+                margin-left: auto;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 18px;
+                cursor: pointer;
+            }
+        </style>
+        <!-- Popup Success -->
+        <div id="successPopupp" class="popupp success" >
+            <span>Vui lòng kiểm tra gmail để xác minh tài khoản.!</span>
+            <button class="close-btn" onclick="closePopupp('successPopupp')">×</button>
+        </div>
+
+        <!-- Popup Error -->
+        <div id="errorPopupp" class="popupp error ">
+            <span > Error! Something went wrong.</span>
+            <button class="close-btn " onclick="closePopupp('errorPopupp')">×</button>
+        </div>
+
+               
+        <c:if test="${ not empty param.success}">
+            <c:choose>
+
+                <c:when test="${ param.success == 'true'}">
+                    <script>
+                        // Gọi hàm showPopup khi isSuccess = true
+                        $(document).ready(function () {
+                            showPopup('successPopupp');  // successPopup là ID của popup thành công
+                        });
+
+                        // Tự động ẩn popup sau một khoảng thời gian
+                        closePopupp(function () {
+                            closePopupp('successPopupp'); // Thay 'successPopupp' bằng ID của popup bạn muốn ẩn
+                        }, 3000); // Ẩn popup sau 3 giây (3000ms)
+                    </script>
+                </c:when>
+
+                <c:when test="${ param.success == 'false'}">
+                    <script>
+                        // Gọi hàm showPopup khi isSuccess = true
+                        $(document).ready(function () {
+                            showPopup('errorPopupp');  // successPopup là ID của popup thành công
+                        });
+                    </script>
+                </c:when>
+
+            </c:choose>
+        </c:if>
+
+
+
+
+
+        <script>
+            // Hiển thị popup
+            function showPopup(id) {
+                let popup = document.getElementById(id);
+                popup.classList.add("show");
+            }
+
+
+
+            // Đóng popup khi bấm nút close
+            function closePopupp(id) {
+                let popup = document.getElementById(id);
+                popup.classList.remove("show");
+            }
+        </script>
+        
     </body>
 </html>

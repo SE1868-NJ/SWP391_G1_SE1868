@@ -74,13 +74,13 @@
         </style>
         <!-- Popup Success -->
         <div id="successPopupp" class="popupp success" >
-            <span>Success! Your action was completed.</span>
+            <span>Cập nhập đánh giá thành công !!!!</span>
             <button class="close-btn" onclick="closePopupp('successPopupp')">×</button>
         </div>
 
         <!-- Popup Error -->
         <div id="errorPopupp" class="popupp error ">
-            <span > Error! Something went wrong.</span>
+            <span > Cập nhập đánh giá thất bại !!!!</span>
             <button class="close-btn " onclick="closePopupp('errorPopupp')">×</button>
         </div>
 

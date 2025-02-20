@@ -10,40 +10,41 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Register</title>
-        <!-- Bootstrap CSS -->
+       
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Bootstrap JavaScript -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+     
+
     </head>
     <body>
         <div class="container d-flex justify-content-center align-items-center vh-100">
             <div class="card shadow p-4" style="max-width: 450px; width: 100%;">
                 <!-- Register Form -->
-                <form method="post" action="register" enctype="multipart/form-data">
+                <form method="post" action="register">
                     <!-- Name -->
                     <div class="form-outline mb-3">
                         <label class="form-label" for="name">Full Name</label>
-                        <input type="text" id="name" name="fullName" class="form-control" />
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Nguyễn Văn A" />
                         <div class="text-danger">${error_name}</div>
                     </div>
 
                     <!-- Email -->
                     <div class="form-outline mb-3">
                         <label class="form-label" for="email">Email</label>
-                        <input type="email" id="email" name="email" class="form-control" />
+                        <input type="email" id="email" name="email" class="form-control" placeholder="a@123gmai.com"/>
                         <div class="text-danger">${error_email}</div>
                     </div>
+
                     <!-- Phone Number -->
                     <div class="form-outline mb-3">
                         <label class="form-label" for="phone">Phone Number</label>
-                        <input type="text" id="phone" name="phoneNumber" class="form-control" />
+                        <input type="text" id="phone" name="phoneNumber" class="form-control" placeholder="0975111111" />
                         <div class="text-danger">${error_phone}</div>
                     </div>
 
                     <!-- Address -->
                     <div class="form-outline mb-3">
                         <label class="form-label" for="address">Address</label>
-                        <input type="text" id="address" name="address" class="form-control" />
+                        <input type="text" id="address" name="address" class="form-control"  placeholder="Hà Nội"/>
                         <div class="text-danger">${error_address}</div>
                     </div>
 
@@ -75,21 +76,21 @@
                     <!-- Password -->
                     <div class="form-outline mb-3">
                         <label class="form-label" for="password">Password</label>
-                        <input type="password" id="password" name="password" class="form-control" />
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Nhập mật khẩu"/>
                         <div class="text-danger">${error_password}</div>
                     </div>
 
                     <!-- Repeat Password -->
                     <div class="form-outline mb-3">
                         <label class="form-label" for="repeatPassword">Repeat Password</label>
-                        <input type="password" id="repeatPassword" name="repeatPassword" class="form-control" />
+                        <input type="password" id="repeatPassword" name="repeatPassword" class="form-control" placeholder="Nhập lại mật khẩu"/>
                         <div class="text-danger">${error_repeatPassword}</div>
                     </div>
 
 
                     <!-- Terms & Conditions -->
                     <div class="form-check d-flex justify-content-center mb-3">
-                        <input class="form-check-input me-2" type="checkbox" id="check" name="" checked />
+                        <input class="form-check-input me-2" type="checkbox" id="check" name="check" checked />
                         <label class="form-check-label" for="check">I agree to the terms</label>
                         <div class="text-danger">${error_check}</div>
                     </div>
