@@ -8,6 +8,8 @@ package models;
  *
  * @author Đạt
  */
+import Utils.VNPayUtils;
+import config.ConfigVNPay;
 import dbcontext.DBContext;
 import entity.Customer;
 import entity.ProductReview;
@@ -47,14 +49,41 @@ public class CustomerDAO extends DBContext {
         }
         return false;
     }
+    
+    
+     // ✅ 1. Thêm khách hàng mã hóa
+     public boolean addCustomerSHA512(Customer customer) {
+        String sql = "INSERT INTO Customers (fullName, email, password, phoneNumber, address, BirthDate, Gender, ProfileImage) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(1, customer.getFullName());
+            stmt.setString(2, customer.getEmail());
+            stmt.setString(3, VNPayUtils.hmacSHA512(ConfigVNPay.vnp_HashSecret, customer.getPassword()));
+            stmt.setString(4, customer.getPhoneNumber());
+            stmt.setString(5, customer.getAddress());
+            stmt.setDate(6, Date.valueOf(customer.getBirthDate()));
+            stmt.setString(7, customer.getGender());
+            stmt.setString(8, customer.getProfileImage());
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                ResultSet generatedKeys = stmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    customer.setCustomerId(generatedKeys.getInt(1));
+                }
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
-    // ✅ 2. Cập nhật khách hàng
+    //  2. Cập nhật khách hàng mã hóa
     public boolean updateCustomer(Customer customer) {
         String sql = "UPDATE Customers SET FullName = ?, Email = ?, Password = ?, PhoneNumber = ?, Address = ?, BirthDate = ?, Gender = ?, ProfileImage = ? WHERE CustomerID = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, customer.getFullName());
             stmt.setString(2, customer.getEmail());
-            stmt.setString(3, customer.getPassword());
+            stmt.setString(3, VNPayUtils.hmacSHA512(ConfigVNPay.vnp_HashSecret, customer.getPassword()));
             stmt.setString(4, customer.getPhoneNumber());
             stmt.setString(5, customer.getAddress());
             stmt.setDate(6, Date.valueOf(customer.getBirthDate()));  // Chuyển từ LocalDate thành java.sql.Date
@@ -69,7 +98,7 @@ public class CustomerDAO extends DBContext {
         }
     }
 
-    // ✅ 3. Xóa khách hàng
+    //  3. Xóa khách hàng
     public boolean deleteCustomer(int customerId) {
         String sql = "DELETE FROM Customers WHERE customerId = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -96,7 +125,7 @@ public class CustomerDAO extends DBContext {
         return null;
     }
 
-    // ✅ 5. Lấy tất cả khách hàng
+    //  5. Lấy tất cả khách hàng
     public List<Customer> getAllCustomers() {
         List<Customer> customers = new ArrayList<>();
         String sql = "SELECT * FROM Customers ORDER BY createdAt DESC";
@@ -116,6 +145,23 @@ public class CustomerDAO extends DBContext {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, email);
             stmt.setString(2, password);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return mapResultSetToCustomer(rs); // Trả về đối tượng Customer nếu tìm thấy
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Nếu không tìm thấy, trả về null
+    }
+    
+    // Hàm đăng nhập
+    public Customer LoginSHA512(String email, String password) {
+        String sql = "SELECT * FROM Customers WHERE email = ? AND password = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            stmt.setString(2, VNPayUtils.hmacSHA512(ConfigVNPay.vnp_HashSecret, password));
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {

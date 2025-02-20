@@ -26,7 +26,7 @@
                             <div class="card-body p-3 p-md-4 p-xl-5">
                                 <div class="text-center mb-3">
                                     <a href="#!">
-                                        <img src="./assets/img/bsb-logo.svg" alt="BootstrapBrain Logo" width="175" height="57">
+                                        <img src="./assets/img/login.png" alt="BootstrapBrain Logo" width="175" >
                                     </a>
                                 </div>
                                 <h2 class="fs-6 fw-normal text-center text-secondary mb-4">Sign in to your account</h2>
