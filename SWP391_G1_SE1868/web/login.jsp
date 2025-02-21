@@ -56,7 +56,7 @@
                                                         Keep me logged in
                                                     </label>
                                                 </div>
-                                                <a href="#!" class="link-primary text-decoration-none">Forgot password?</a>
+                                                <a href="forgotpassword.jsp" class="link-primary text-decoration-none">Forgot password?</a>
                                             </div>
                                         </div>
 
@@ -134,6 +134,10 @@
                 cursor: pointer;
             }
         </style>
+
+
+        <!--        thông báo khi đã đăng kí đang chờ xác nhận mail  -->
+
         <!-- Popup Success -->
         <div id="successPopupp" class="popupp success" >
             <span>Vui lòng kiểm tra gmail để xác minh tài khoản.!</span>
@@ -142,11 +146,12 @@
 
         <!-- Popup Error -->
         <div id="errorPopupp" class="popupp error ">
-            <span > Error! Something went wrong.</span>
+            <span > Xảy ra lỗi khi gửi gmail để xác minh tài khoản.!</span>
             <button class="close-btn " onclick="closePopupp('errorPopupp')">×</button>
         </div>
 
-               
+
+        <!--        thông báo khi đã đăng kí đang chờ xác nhận mail  -->
         <c:if test="${ not empty param.success}">
             <c:choose>
 
@@ -157,10 +162,7 @@
                             showPopup('successPopupp');  // successPopup là ID của popup thành công
                         });
 
-                        // Tự động ẩn popup sau một khoảng thời gian
-                        closePopupp(function () {
-                            closePopupp('successPopupp'); // Thay 'successPopupp' bằng ID của popup bạn muốn ẩn
-                        }, 3000); // Ẩn popup sau 3 giây (3000ms)
+
                     </script>
                 </c:when>
 
@@ -180,6 +182,94 @@
 
 
 
+
+
+
+        <!--        thông báo khi đã đăng kí và đã xác minh thành công  -->
+        <!-- Popup Success -->
+        <div id="successPopuppEmail" class="popupp success" >
+            <span>Xác minh thành công!!!</span>
+            <button class="close-btn" onclick="closePopupp('successPopuppEmail')">×</button>
+        </div>
+
+        <!-- Popup Error -->
+        <div id="errorPopuppEmail" class="popupp error ">
+            <span > Xác minh thất bại!!!</span>
+            <button class="close-btn " onclick="closePopupp('errorPopuppEmail')">×</button>
+        </div>
+
+
+      
+        <!--        thông báo khi đã đăng kí và đã xác minh thành công  -->       
+
+        <c:if test="${ not empty param.Isverify}">
+            <c:choose>
+
+                <c:when test="${ param.Isverify == 'true'}">
+                    <script>
+                        // Gọi hàm showPopup khi isSuccess = true
+                        $(document).ready(function () {
+                            showPopup('successPopuppEmail');  // successPopup là ID của popup thành công
+                        });
+                    </script>
+                </c:when>
+
+                <c:when test="${ param.Isverify == 'false'}">
+                    <script>
+                        // Gọi hàm showPopup khi isSuccess = true
+                        $(document).ready(function () {
+                            showPopup('errorPopuppEmail');  // successPopup là ID của popup thành công
+                        });
+                    </script>
+                </c:when>
+
+            </c:choose>
+        </c:if>
+
+
+
+
+
+        <!--        thông báo khi đã đổi mật khẩu và đã xác minh thành công  -->
+        <!-- Popup Success -->
+        <div id="successPopuppPassWord" class="popupp success" >
+            <span>Đã gửi mật khẩu về gmail!!</span>
+            <button class="close-btn" onclick="closePopupp('successPopuppPassWord')">×</button>
+        </div>
+
+        <!-- Popup Error -->
+        <div id="errorPopuppPassWord" class="popupp error ">
+            <span > Đã xảy ra lỗi khi gửi mật khẩu về gmail!!</span>
+            <button class="close-btn " onclick="closePopupp('errorPopuppPassWord')">×</button>
+        </div>
+
+
+        <!--        thông báo khi đã đổi mật khẩu và đã xác minh thành công  -->
+
+        <c:if test="${ not empty param.passWord}">
+            <c:choose>
+
+                <c:when test="${ param.passWord == 'true'}">
+                    <script>
+                        // Gọi hàm showPopup khi isSuccess = true
+                        $(document).ready(function () {
+                            showPopup('successPopuppPassWord');  // successPopup là ID của popup thành công
+                        });
+                    </script>
+                </c:when>
+
+                <c:when test="${ param.passWord == 'false'}">
+                    <script>
+                        // Gọi hàm showPopup khi isSuccess = true
+                        $(document).ready(function () {
+                            showPopup('errorPopuppPassWord');  // successPopup là ID của popup thành công
+                        });
+                    </script>
+                </c:when>
+
+            </c:choose>
+        </c:if>
+
         <script>
             // Hiển thị popup
             function showPopup(id) {
@@ -195,6 +285,6 @@
                 popup.classList.remove("show");
             }
         </script>
-        
+
     </body>
 </html>

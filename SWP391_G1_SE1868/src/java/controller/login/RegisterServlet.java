@@ -15,8 +15,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
 import models.CustomerDAO;
+import services.EmailService;
 
 /**
  *
@@ -103,7 +105,7 @@ public class RegisterServlet extends HttpServlet {
         boolean hasError = false;
 
         // Kiểm tra tên
-         if (!UserUtils.isNameValid(name)) {
+        if (!UserUtils.isNameValid(name)) {
             error_name = "Tên không được để trống!";
             hasError = true;
         }
@@ -194,23 +196,68 @@ public class RegisterServlet extends HttpServlet {
             request.setAttribute("error_repeatPassword", error_repeatPassword);
             request.setAttribute("error_check", error_check);
             request.getRequestDispatcher("register.jsp").forward(request, response);
+            return;
         } else {
-            
-            
+
             // Nếu không có lỗi, xử lý đăng ký thành công
-            
-            
-            
             // Khai báo CUsDAO
             CustomerDAO customerDAO = new CustomerDAO();
-            
-            
+
+            // tao customer
+            Customer customer = new Customer(0, name, email, password, phoneNumber, address,
+                    LocalDate.parse(birthDateStr), gender, null, null, null, false);
+
+            // khởi tạo session
+            HttpSession session = request.getSession();
+
+            //lưu mail lên session
+            session.setAttribute("email", email);
+
+            // check mail đã tồn tài chưa (với mail chưa verify)
+            if (customerDAO.getByEmail(email) == null) {
+                // thêm customer vô db với Isverfy = 0
+                customerDAO.addCustomerSHA512(customer);
+            }else{
+                
+                // set lại id vô cutomer để update
+                customer.setCustomerId(customerDAO.getByEmail(email).getCustomerId());
+                
+                // update lại thông tin
+                customerDAO.updateCustomer(customer);
+            }
+
             // tạo mã token
             String token = VNPayUtils.hmacSHA512(ConfigVNPay.vnp_HashSecret, password);
-            
+
             // link để comfirm
-              String linkComfirm = "http://localhost:9999/verify?token=";
-            response.sendRedirect("login.jsp?success=true");
+            String linkComfirm = "http://localhost:9999/verify?token=" + token;
+            
+            // Nội dung email HTML
+            String emailContent = "<html><body>"
+                    + "<h2>Xác nhận tài khoản của bạn</h2>"
+                    + "<p>Chào <strong>" + name + "</strong>,</p>"
+                    + "<p>Cảm ơn bạn đã đăng ký tài khoản. Vui lòng xác nhận email của bạn bằng cách nhấn vào nút bên dưới:</p>"
+                    + "<a href='" + linkComfirm + "' style='display: inline-block; padding: 12px 20px; font-size: 18px; color: white; background-color: #28a745; text-decoration: none; border-radius: 5px; font-weight: bold;'>Xác nhận tài khoản</a>"
+                    + "<p>Nếu bạn không đăng ký tài khoản này, vui lòng bỏ qua email này.</p>"
+                    + "<p>Trân trọng,</p>"
+                    + "<p><strong>Đội ngũ hỗ trợ</strong></p>"
+                    + "</body></html>";
+
+            //gửi mail
+            
+            // khởi tạo EmailService
+            EmailService emailService = new EmailService();
+
+            // gửi mail
+            if (emailService.sendEmail(email, "Xác nhận tài khoản của bạn", emailContent)) {
+
+                response.sendRedirect("login.jsp?success=true");
+
+            } else {
+
+                response.sendRedirect("login.jsp?success=false");
+            }
+
         }
 
     }

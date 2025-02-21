@@ -50,15 +50,14 @@ public class CustomerDAO extends DBContext {
         }
         return false;
     }
-    
-    
-     // ✅ 1. Thêm khách hàng mã hóa
-     public boolean addCustomerSHA512(Customer customer) {
+
+    // ✅ 1. Thêm khách hàng mã hóa
+    public boolean addCustomerSHA512(Customer customer) {
         String sql = "INSERT INTO Customers (fullName, email, password, phoneNumber, address, BirthDate, Gender, ProfileImage) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, customer.getFullName());
             stmt.setString(2, customer.getEmail());
-            stmt.setString(3, VNPayUtils.hmacSHA512(ConfigVNPay.vnp_HashSecret, customer.getPassword()));
+            stmt.setString(3, VNPayUtils.hmacSHA512(ConfigVNPay.vnp_HashSecret, customer.getPassword().trim()));
             stmt.setString(4, customer.getPhoneNumber());
             stmt.setString(5, customer.getAddress());
             stmt.setDate(6, Date.valueOf(customer.getBirthDate()));
@@ -84,7 +83,7 @@ public class CustomerDAO extends DBContext {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, customer.getFullName());
             stmt.setString(2, customer.getEmail());
-            stmt.setString(3, VNPayUtils.hmacSHA512(ConfigVNPay.vnp_HashSecret, customer.getPassword()));
+            stmt.setString(3, VNPayUtils.hmacSHA512(ConfigVNPay.vnp_HashSecret, customer.getPassword().trim()));
             stmt.setString(4, customer.getPhoneNumber());
             stmt.setString(5, customer.getAddress());
             stmt.setDate(6, Date.valueOf(customer.getBirthDate()));  // Chuyển từ LocalDate thành java.sql.Date
@@ -93,6 +92,19 @@ public class CustomerDAO extends DBContext {
             stmt.setBoolean(9, customer.isIsVerify());
             stmt.setInt(10, customer.getCustomerId());  // Dùng CustomerID để xác định khách hàng cần cập nhật
 
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    //   Cập nhật khách hàng đã xác thực mail
+    public boolean updateCustomerWithVerify(Customer customer) {
+        String sql = "UPDATE Customers SET IsVerify = ? WHERE CustomerID = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setBoolean(1, customer.isIsVerify());
+            stmt.setInt(2, customer.getCustomerId());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -127,18 +139,18 @@ public class CustomerDAO extends DBContext {
         return null;
     }
 
-     public Timestamp getUpdatedAtById(int customerId) throws SQLException {
+    public Timestamp getUpdatedAtById(int customerId) throws SQLException {
         String sql = "SELECT * FROM Customers WHERE customerId = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, customerId);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                 //  Lấy `UpdatedAt` từ database (kiểu Timestamp)
+                //  Lấy `UpdatedAt` từ database (kiểu Timestamp)
                 Timestamp timestamp = rs.getTimestamp("UpdatedAt");
 
                 //  Kiểm tra nếu timestamp không null
                 if (timestamp != null) {
-                  
+
                     return timestamp;
                 }
             }
@@ -147,6 +159,7 @@ public class CustomerDAO extends DBContext {
         }
         return null;
     }
+
     //  5. Lấy tất cả khách hàng    //  5. Lấy tất cả khách hàng
     public List<Customer> getAllCustomers() {
         List<Customer> customers = new ArrayList<>();
@@ -163,7 +176,7 @@ public class CustomerDAO extends DBContext {
 
     // Hàm đăng nhập
     public Customer login(String email, String password) {
-       String sql = "SELECT * FROM Customers WHERE email = ? AND password = ? AND IsVerify = 1";
+        String sql = "SELECT * FROM Customers WHERE email = ? AND password = ? AND IsVerify = 1";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, email);
             stmt.setString(2, password);
@@ -177,13 +190,13 @@ public class CustomerDAO extends DBContext {
         }
         return null; // Nếu không tìm thấy, trả về null
     }
-    
+
     // Hàm đăng nhập
     public Customer LoginSHA512(String email, String password) {
-        String sql = "SELECT * FROM Customers WHERE email = ? AND password = ? AND IsVerify = 1";
+        String sql = "SELECT * FROM Customers WHERE email = ? AND password =? AND IsVerify = 1";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, email);
-            stmt.setString(2, VNPayUtils.hmacSHA512(ConfigVNPay.vnp_HashSecret, password));
+            stmt.setString(2, VNPayUtils.hmacSHA512(ConfigVNPay.vnp_HashSecret, password.trim()));
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -195,8 +208,9 @@ public class CustomerDAO extends DBContext {
         return null; // Nếu không tìm thấy, trả về null
     }
 
+    // check mail tồn tài và đã verify
     public Customer checkEmailExists(String email) {
-        String sql = "SELECT * FROM Customers WHERE email = ? AND IsVerify = 1 ";
+        String sql = "SELECT * FROM Customers WHERE email = ? IsVerify = 1";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, email);
 
@@ -210,8 +224,9 @@ public class CustomerDAO extends DBContext {
         return null; // Nếu không tìm thấy, trả về null
     }
 
+    // check mail tồn tài và chưa verify
     public Customer getByEmail(String email) {
-        String sql = "SELECT * FROM Customers WHERE email = ? ";
+        String sql = "SELECT * FROM Customers WHERE email = ? AND IsVerify = 0 ";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, email);
 
@@ -224,6 +239,7 @@ public class CustomerDAO extends DBContext {
         }
         return null; // Nếu không tìm thấy, trả về null
     }
+
     //  Hàm trợ giúp chuyển đổi ResultSet thành Customer (Có kiểm tra NULL)
     private Customer mapResultSetToCustomer(ResultSet rs) throws SQLException {
         Customer customer = new Customer();
@@ -238,14 +254,14 @@ public class CustomerDAO extends DBContext {
         customer.setCreatedAt(rs.getDate("CreatedAt").toLocalDate());
         customer.setUpdatedAt(rs.getDate("UpdatedAt").toLocalDate());
         customer.setProfileImage(rs.getString("ProfileImage"));
-
+        customer.setIsVerify(rs.getBoolean("IsVerify"));
         return customer;
     }
 
     public static void main(String[] args) {
         CustomerDAO customerDAO = new CustomerDAO();
 
-        Customer customer = customerDAO.login("vana@gmail.com", "password123");
+        Customer customer = customerDAO.LoginSHA512("huudat285@gmail.com", "123@@123");
         System.out.println(customer);
     }
 

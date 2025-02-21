@@ -12,6 +12,10 @@ import java.time.Period;
 import models.CustomerDAO;
 import java.sql.Timestamp;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *
@@ -65,10 +69,9 @@ public class UserUtils {
         return age >= requiredAge;
     }
 
-    
     //  Kiểm tra nếu `UpdatedAt` còn hiệu lực hay không
     public static boolean isUpdatedAtValid(int customerId, int allowedMinutes) throws SQLException {
-        CustomerDAO customerDAO  = new CustomerDAO();
+        CustomerDAO customerDAO = new CustomerDAO();
         Timestamp dbTimestamp = customerDAO.getUpdatedAtById(customerId);
 
         if (dbTimestamp == null) {
@@ -76,19 +79,55 @@ public class UserUtils {
             return false;
         }
 
-        // Chuyển `Timestamp` sang `LocalDateTime`
+        // Chuyển Timestamp sang LocalDateTime
         LocalDateTime dbTime = dbTimestamp.toLocalDateTime();
         LocalDateTime now = LocalDateTime.now();
 
         // Tính khoảng cách thời gian
         long minutesDiff = Duration.between(dbTime, now).toMinutes();
 
-        // Trả về `true` nếu thời gian chưa vượt quá `allowedMinutes`, ngược lại trả về `false`
+        // Trả về tue nếu thời gian chưa vượt quá allowedMinutes
         return minutesDiff <= allowedMinutes;
     }
 
-    public static void main(String[] args) {
-        System.out.println(UserUtils.checkEmailExists("john.doe@example.com"));
+    // Hàm tạo mật khẩu ngẫu nhiên
+    public static String generateRandomPassword(int length) {
+        String lowerCase = "abcdefghijklmnopqrstuvwxyz";
+        String upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String numbers = "0123456789";
+        String specialChars = "!@#$%^&*(),.?\":{}|<>";
+
+        // Tất cả các ký tự có thể dùng
+        String allChars = lowerCase + upperCase + numbers + specialChars;
+
+        // Đảm bảo mật khẩu có ít nhất một ký tự số, một ký tự đặc biệt và một chữ cái
+        StringBuilder password = new StringBuilder();
+
+        password.append(numbers.charAt((int) (Math.random() * numbers.length()))); // ít nhất một số
+        password.append(specialChars.charAt((int) (Math.random() * specialChars.length()))); // ít nhất một ký tự đặc biệt
+        password.append(lowerCase.charAt((int) (Math.random() * lowerCase.length()))); // ít nhất một chữ cái
+
+        // Tạo các ký tự còn lại ngẫu nhiên
+        for (int i = password.length(); i < length; i++) {
+            password.append(allChars.charAt((int) (Math.random() * allChars.length())));
+        }
+
+        // Trộn các ký tự trong mật khẩu để đảm bảo tính ngẫu nhiên
+        List<String> passwordList = new ArrayList<>(Arrays.asList(password.toString().split(""))); // Chuyển thành danh sách
+        Collections.shuffle(passwordList); // Xáo trộn danh sách
+
+        // Tạo một StringBuilder để lưu mật khẩu đã được trộn
+        StringBuilder shuffledPassword = new StringBuilder();
+        for (String s : passwordList) {
+            shuffledPassword.append(s); // Duyệt qua danh sách đã xáo trộn
+        }
+
+        return shuffledPassword.toString(); // Trả lại mật khẩu đã xáo trộn
+    }
+
+    
+    public static void main(String[] args) throws SQLException {
+        System.out.println(UserUtils.isUpdatedAtValid(21, 60));
     }
 
 }

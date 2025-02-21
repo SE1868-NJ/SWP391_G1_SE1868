@@ -64,7 +64,7 @@ public class VNPayUtils {
     }
     public static void main(String[] args) {
       
-        String a = hmacSHA512(config.ConfigVNPay.vnp_HashSecret, "123@@123");
+        String a = hmacSHA512(config.ConfigVNPay.vnp_HashSecret, "#Kh20!uI");
     
         System.out.println(a);
     }

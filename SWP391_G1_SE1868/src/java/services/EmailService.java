@@ -15,6 +15,8 @@ import javax.mail.Transport;                     // Gửi email qua server SMTP
 import javax.mail.MessagingException;           // Ngoại lệ khi gửi email
 
 import config.EmailConfig;
+import java.io.UnsupportedEncodingException;
+import javax.mail.internet.MimeUtility;
 
 /**
  *
@@ -36,28 +38,19 @@ public class EmailService {
 
     }
 
-    public boolean sendEmail(String to, String subject, String messageContent, String username, String confirmationLink) {
+    public  boolean sendEmail(String to, String subject, String messageContent) throws UnsupportedEncodingException {
         try {
-            // Nội dung email HTML
-            String emailContent = "<html><body>"
-                    + "<h2>Xác nhận tài khoản của bạn</h2>"
-                    + "<p>Chào <strong>" + username + "</strong>,</p>"
-                    + "<p>Cảm ơn bạn đã đăng ký tài khoản. Vui lòng xác nhận email của bạn bằng cách nhấn vào nút bên dưới:</p>"
-                    + "<a href='" + confirmationLink + "' style='display: inline-block; padding: 12px 20px; font-size: 18px; color: white; background-color: #28a745; text-decoration: none; border-radius: 5px; font-weight: bold;'>Xác nhận tài khoản</a>"
-                    + "<p>Nếu bạn không đăng ký tài khoản này, vui lòng bỏ qua email này.</p>"
-                    + "<p>Trân trọng,</p>"
-                    + "<p><strong>Đội ngũ hỗ trợ</strong></p>"
-                    + "</body></html>";
+            
             
             Message message = new MimeMessage(session);
 
             message.setFrom(new InternetAddress(EmailConfig.getEmailUsername())); // Người gửi
 
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to)); // Người nhận
-            message.setSubject(subject); // Tiêu đề email
+            message.setSubject(MimeUtility.encodeText(subject, "UTF-8", "B")); // Tiêu đề email
 //            message.setText(messageContent); // Nội dung email
 
-            message.setContent(messageContent, "text/html");    // Nếu muốn gửi nội dung HTML
+            message.setContent(messageContent, "text/html;  charset=UTF-8");    // Nếu muốn gửi nội dung HTML
             Transport.send(message); // Gửi email
             return true;
         } catch (MessagingException e) {
@@ -66,13 +59,13 @@ public class EmailService {
         }
     }
 
-//    public static void main(String[] args) {
-//         EmailService emailService = new EmailService();
-//        boolean success = emailService.sendEmail("huudat285@gmail.com", "Test", "ádgayusdguasd");
-//        if(success){
-//            System.out.println("DOne");
-//        }else{
-//            System.out.println("Not");
-//        }
-//    }
+    public static void main(String[] args) throws UnsupportedEncodingException {
+         EmailService emailService = new EmailService();
+        boolean success = emailService.sendEmail("huudat285@gmail.com", "Đạt 123", "ádgayusdguasd");
+        if(success){
+            System.out.println("DOne");
+        }else{
+            System.out.println("Not");
+        }
+    }
 }
