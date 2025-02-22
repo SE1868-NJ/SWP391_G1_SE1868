@@ -14,7 +14,6 @@ public class Cart {
     private int cartId;
     private Customer customer;
     private LocalDate createdAt;
-    private LocalDate updatedAt;
 
     private List<CartItem> cartItems;
 
@@ -24,18 +23,17 @@ public class Cart {
                 "cartId=" + cartId +
                 ", customer=" + (customer != null ? customer.getFullName() : "null") +
                 ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
                 '}';
     }   
 
     public Cart() {
     }
 
-    public Cart(int cartId, Customer customer, LocalDate createdAt, LocalDate updatedAt, List<CartItem> cartItems) {
+    public Cart(int cartId, Customer customer, LocalDate createdAt, List<CartItem> cartItems) {
         this.cartId = cartId;
         this.customer = customer;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+  
         this.cartItems = cartItems;
     }
     
@@ -62,14 +60,6 @@ public class Cart {
 
     public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public LocalDate getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDate updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public List<CartItem> getCartItems() {

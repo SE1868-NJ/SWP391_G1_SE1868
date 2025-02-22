@@ -151,6 +151,39 @@ public class ProductDAO extends DBContext {
 
         return null;  // Nếu không tìm thấy sản phẩm, trả về null
     }
+    
+    
+    
+    
+    public Product getProductByIdNoJoin(int productId) {
+        String sql = "SELECT * FROM Products WHERE productId = ?";
+        
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, productId);
+            try (ResultSet rs = stmt.executeQuery()) {
+               
+
+                if (rs.next()) {
+                    Product product = new Product();
+
+                    product.setProductId(rs.getInt("productId"));
+                    product.setName(rs.getString("name"));
+                    product.setDescription(rs.getString("description"));
+                    product.setPrice(rs.getDouble("price"));
+                    product.setStockQuantity(rs.getInt("stockQuantity"));
+                    product.setCreatedAt(rs.getDate("createdAt").toLocalDate());
+                    product.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
+
+                    return product;  // Trả về đối tượng Product đã được cập nhật
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;  // Nếu không tìm thấy sản phẩm, trả về null
+    }
 
     public static void main(String[] args) {
 

@@ -57,6 +57,7 @@ public class PaymentDAO extends DBContext{
 
             // khai báo CustomerDAO
             CustomerDAO customerDAO = new CustomerDAO();
+            
             if (rs.next()) {
                 Order order = new Order();
                 order.setOrderId(rs.getInt("orderId"));
@@ -74,8 +75,6 @@ public class PaymentDAO extends DBContext{
         }
         return null;
     }
-        
-        
         
         public static void main(String[] args) {
         PaymentDAO paymentDAO = new PaymentDAO();
