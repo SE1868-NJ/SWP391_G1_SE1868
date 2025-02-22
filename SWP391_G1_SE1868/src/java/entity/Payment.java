@@ -8,31 +8,38 @@ package entity;
  *
  * @author Đạt
  */
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
+
 public class Payment {
-  private int paymentId;
+
+    private int paymentId;
     private Order order;
-    private LocalDateTime paymentDate;
+    private LocalDate paymentDate;
     private double amount;
     private String paymentMethod;
     private String paymentStatus;
 
     @Override
     public String toString() {
-        return "Payment{" +
-                "paymentId=" + paymentId +
-                ", paymentDate=" + paymentDate +
-                ", amount=" + amount +
-                ", paymentMethod='" + paymentMethod + '\'' +
-                ", paymentStatus='" + paymentStatus + '\'' +
+        // Lấy fullName của khách hàng từ order
+        String customerFullName = (order != null && order.getCustomer() != null) ? order.getCustomer().getFullName() : "Unknown";
+
+        return "Payment{"
+                + "paymentId=" + paymentId
+                + ", paymentDate=" + paymentDate
+                + ", amount=" + amount
+                + ", paymentMethod='" + paymentMethod + '\''
+                + ", paymentStatus='" + paymentStatus + '\''
+                + ", customerFullName='" + customerFullName + '\''
+                + // Thêm fullName vào chuỗi trả về
                 '}';
     }
 
     public Payment() {
     }
 
-    public Payment(int paymentId, Order order, LocalDateTime paymentDate, double amount, String paymentMethod, String paymentStatus) {
+    public Payment(int paymentId, Order order, LocalDate paymentDate, double amount, String paymentMethod, String paymentStatus) {
         this.paymentId = paymentId;
         this.order = order;
         this.paymentDate = paymentDate;
@@ -57,11 +64,11 @@ public class Payment {
         this.order = order;
     }
 
-    public LocalDateTime getPaymentDate() {
+    public LocalDate getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(LocalDateTime paymentDate) {
+    public void setPaymentDate(LocalDate paymentDate) {
         this.paymentDate = paymentDate;
     }
 
@@ -88,5 +95,5 @@ public class Payment {
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
-    
+
 }

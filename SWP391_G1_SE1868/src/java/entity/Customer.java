@@ -11,17 +11,19 @@ package entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
 public class Customer {
-   private int customerId;
+
+    private int customerId;
     private String fullName;
     private String email;
     private String password;
     private String phoneNumber;
     private String address;
-    private LocalDate  birthDate;
+    private LocalDate birthDate;
     private String gender;  // 'Male' or 'Female'
-    private LocalDate  createdAt;
-    private LocalDate  updatedAt;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
     private String profileImage;
     private boolean isVerify;
     private List<Order> orders;
@@ -46,7 +48,6 @@ public class Customer {
         this.isVerify = isVerify;
     }
 
-    
     public Customer(int customerId, String fullName, String email, String password, String phoneNumber, String address, LocalDate birthDate, String gender, LocalDate createdAt, LocalDate updatedAt, String profileImage, boolean isVerify, List<Order> orders, List<Favorite> favorites, List<Cart> carts) {
         this.customerId = customerId;
         this.fullName = fullName;
@@ -185,22 +186,43 @@ public class Customer {
         this.carts = carts;
     }
 
-   
-
     @Override
     public String toString() {
-        return "Customer{" +
-                "customerId=" + customerId +
-                ", fullName='" + fullName + '\'' +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", address='" + address + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+        StringBuilder cartsInfo = new StringBuilder();
+
+        if (carts != null && !carts.isEmpty()) {
+            for (Cart cart : carts) {
+                cartsInfo.append("\n  Cart ID: ").append(cart.getCartId())
+                        .append(", Created At: ").append(cart.getCreatedAt());
+                
+                
+                // Hiển thị danh sách CartItem của mỗi Cart
+                if (cart.getCartItems() != null && !cart.getCartItems().isEmpty()) {
+                    cartsInfo.append("\n   Cart Items:");
+                    for (CartItem item : cart.getCartItems()) {
+                        cartsInfo.append("\n     - Item ID: ").append(item.getCartItemId())
+                                .append(", Product: ").append(item.getProduct().getName())
+                                .append(", Quantity: ").append(item.getQuantity())
+                                .append(", Added At: ").append(item.getAddedAt());
+                    }
+                } else {
+                    cartsInfo.append("\n    No Cart Items.");
+                }
+            }
+        } else {
+            cartsInfo.append("\n  No Carts.");
+        }
+
+        return "Customer{"
+                + "customerId=" + customerId
+                + ", fullName='" + fullName + '\''
+                + ", email='" + email + '\''
+                + ", phoneNumber='" + phoneNumber + '\''
+                + ", address='" + address + '\''
+                + ", createdAt=" + createdAt
+                + ", updatedAt=" + updatedAt
+                + ", carts=" + cartsInfo.toString()
+                + "\n}";
     }
 
-
-    
-    
 }
