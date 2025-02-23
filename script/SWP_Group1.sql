@@ -18,38 +18,6 @@ USE `swp391_g1`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `cartitems`
---
-
-DROP TABLE IF EXISTS `cartitems`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `cartitems` (
-  `CartItemID` int NOT NULL AUTO_INCREMENT,
-  `CartID` int DEFAULT NULL,
-  `ProductID` int DEFAULT NULL,
-  `Quantity` int DEFAULT NULL,
-  `AddedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`CartItemID`),
-  UNIQUE KEY `CartItemID` (`CartItemID`),
-  KEY `CartID` (`CartID`),
-  KEY `ProductID` (`ProductID`),
-  CONSTRAINT `cartitems_ibfk_1` FOREIGN KEY (`CartID`) REFERENCES `carts` (`CartID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `cartitems_ibfk_2` FOREIGN KEY (`ProductID`) REFERENCES `products` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `cartitems`
---
-
-LOCK TABLES `cartitems` WRITE;
-/*!40000 ALTER TABLE `cartitems` DISABLE KEYS */;
-INSERT INTO `cartitems` VALUES (1,1,1,1,'2023-07-01 10:00:00'),(2,2,2,2,'2023-07-02 14:30:00'),(3,3,3,3,'2023-07-03 16:45:00'),(4,4,4,1,'2023-07-04 09:15:00'),(5,5,5,1,'2023-07-05 11:00:00'),(6,6,6,1,'2023-07-06 18:30:00'),(7,7,7,2,'2023-07-07 13:00:00'),(8,8,8,1,'2023-07-08 10:15:00'),(9,9,9,1,'2023-07-09 14:30:00'),(10,10,10,1,'2023-07-10 16:45:00'),(11,11,11,1,'2023-07-11 11:00:00'),(12,12,12,2,'2023-07-12 18:30:00'),(13,13,13,1,'2023-07-13 14:15:00'),(14,14,14,3,'2023-07-14 09:30:00'),(15,15,15,2,'2023-07-15 16:00:00'),(16,16,16,1,'2023-07-16 12:30:00'),(17,17,17,1,'2023-07-17 14:00:00'),(18,18,18,1,'2023-07-18 16:00:00'),(19,19,19,1,'2023-07-19 09:00:00'),(20,20,20,1,'2023-07-20 18:30:00');
-/*!40000 ALTER TABLE `cartitems` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `carts`
 --
 
@@ -58,13 +26,16 @@ DROP TABLE IF EXISTS `carts`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `carts` (
   `CartID` int NOT NULL AUTO_INCREMENT,
-  `CustomerID` int DEFAULT NULL,
-  `CreatedAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `CustomerID` int NOT NULL,
+  `CreatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `ProductID` int NOT NULL,
+  `Quantity` int NOT NULL,
   PRIMARY KEY (`CartID`),
-  UNIQUE KEY `CartID` (`CartID`),
   KEY `CustomerID` (`CustomerID`),
-  CONSTRAINT `carts_ibfk_1` FOREIGN KEY (`CustomerID`) REFERENCES `customers` (`CustomerID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `ProductID` (`ProductID`),
+  CONSTRAINT `carts_ibfk_1` FOREIGN KEY (`CustomerID`) REFERENCES `customers` (`CustomerID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `carts_ibfk_2` FOREIGN KEY (`ProductID`) REFERENCES `products` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,7 +44,7 @@ CREATE TABLE `carts` (
 
 LOCK TABLES `carts` WRITE;
 /*!40000 ALTER TABLE `carts` DISABLE KEYS */;
-INSERT INTO `carts` VALUES (1,1,'2023-07-01 10:00:00'),(2,2,'2023-07-02 14:30:00'),(3,3,'2023-07-03 16:45:00'),(4,4,'2023-07-04 09:15:00'),(5,5,'2023-07-05 11:00:00'),(6,6,'2023-07-06 18:30:00'),(7,7,'2023-07-07 13:00:00'),(8,8,'2023-07-08 10:15:00'),(9,9,'2023-07-09 14:30:00'),(10,10,'2023-07-10 16:45:00'),(11,11,'2023-07-11 11:00:00'),(12,12,'2023-07-12 18:30:00'),(13,13,'2023-07-13 14:15:00'),(14,14,'2023-07-14 09:30:00'),(15,15,'2023-07-15 16:00:00'),(16,16,'2023-07-16 12:30:00'),(17,17,'2023-07-17 14:00:00'),(18,18,'2023-07-18 16:00:00'),(19,19,'2023-07-19 09:00:00'),(20,20,'2023-07-20 18:30:00'),(21,1,'2023-07-01 10:00:00'),(22,2,'2023-07-02 14:30:00'),(23,3,'2023-07-03 16:45:00'),(24,4,'2023-07-04 09:15:00'),(25,5,'2023-07-05 11:00:00'),(26,6,'2023-07-06 18:30:00'),(27,7,'2023-07-07 13:00:00'),(28,8,'2023-07-08 10:15:00'),(29,9,'2023-07-09 14:30:00'),(30,10,'2023-07-10 16:45:00'),(31,11,'2023-07-11 11:00:00'),(32,12,'2023-07-12 18:30:00'),(33,13,'2023-07-13 14:15:00'),(34,14,'2023-07-14 09:30:00'),(35,15,'2023-07-15 16:00:00'),(36,16,'2023-07-16 12:30:00'),(37,17,'2023-07-17 14:00:00'),(38,18,'2023-07-18 16:00:00'),(39,19,'2023-07-19 09:00:00'),(40,20,'2023-07-20 18:30:00');
+INSERT INTO `carts` VALUES (1,1,'2025-02-18 23:22:03',1,2),(2,3,'2025-02-18 23:22:03',2,2),(3,1,'2025-02-18 23:22:03',5,2),(4,2,'2025-02-18 23:22:03',4,1),(5,4,'2025-02-18 23:22:03',6,2),(6,5,'2025-02-18 23:22:03',4,2),(7,6,'2025-02-18 23:22:03',3,2),(8,7,'2025-02-18 23:22:03',2,5),(9,8,'2025-02-18 23:22:03',3,6),(10,1,'2025-02-18 23:22:03',5,2),(11,1,'2025-02-18 23:22:03',4,7);
 /*!40000 ALTER TABLE `carts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -126,7 +97,7 @@ CREATE TABLE `customers` (
   PRIMARY KEY (`CustomerID`),
   UNIQUE KEY `CustomerID` (`CustomerID`),
   UNIQUE KEY `Email` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -135,7 +106,7 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-INSERT INTO `customers` VALUES (1,'John Doe','john.doe@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','1234567890','123 Main St, Thành phố','1990-01-01','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-12.jpg',1),(2,'Jane Smith','jane.smith@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','0987654321','456 Oak St, Thành phố','1992-05-15','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-11.jpg',1),(3,'David Lee','david.lee@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','1122334455','789 Pine St, Thành phố','1985-02-20','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-5.jpg',1),(4,'Mary Johnson','mary.johnson@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','6677889900','101 Maple St, Thành phố','1993-07-30','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-details-4.jpg',1),(5,'Michael Brown','michael.brown@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','2233445566','102 Birch St, Thành phố','1987-11-11','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/thumb-1.jpg',1),(6,'Emily Davis','emily.davis@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','3344556677','103 Cedar St, Thành phố','1995-09-25','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-6.jpg',1),(7,'James White','james.white@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','4455667788','104 Elm St, Thành phố','1988-08-09','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-10.jpg',1),(8,'Olivia Brown','olivia.brown@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','5566778899','105 Fir St, Thành phố','1996-12-17','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/thumb-3.jpg',1),(9,'Liam Green','liam.green@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','6677889900','106 Pine St, Thành phố','1994-04-23','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-details-1.jpg',1),(10,'Sophia Wilson','sophia.wilson@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','7788990011','107 Oak St, Thành phố','1992-02-13','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/sophia_wilson.png',1),(11,'Ethan Scott','ethan.scott@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','8899001122','108 Birch St, Thành phố','1997-11-01','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-7.jpg',1),(12,'Ava Harris','ava.harris@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','9900112233','109 Cedar St, Thành phố','1999-05-25','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-3.jpg',1),(13,'Noah Turner','noah.turner@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','1122334455','110 Elm St, Thành phố','1989-06-18','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/thumb-2.jpg',1),(14,'Lily King','lily.king@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','2233445566','111 Maple St, Thành phố','1994-03-14','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-details-2.jpg',1),(15,'Mason Lee','mason.lee@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','3344556677','112 Pine St, Thành phố','1992-08-10','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-details-5.jpg',1),(16,'Chloe Adams','chloe.adams@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','4455667788','113 Birch St, Thành phố','1998-01-21','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-4.jpg',1),(17,'William Brown','william.brown@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','5566778899','114 Oak St, Thành phố','1985-11-15','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/william_brown.png',1),(18,'Isabella Carter','isabella.carter@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','6677889900','115 Fir St, Thành phố','1991-04-30','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-9.jpg',1),(19,'Lucas Harris','lucas.harris@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','7788990011','116 Cedar St, Thành phố','1995-07-17','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-details-3.jpg',1),(20,'Grace Mitchell','grace.mitchell@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','8899001122','117 Elm St, Thành phố','1999-02-05','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-8.jpg',1);
+INSERT INTO `customers` VALUES (1,'John Doe','john.doe@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','1234567890','123 Main St, Thành phố','1990-01-01','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-12.jpg',1),(2,'Jane Smith','jane.smith@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','0987654321','456 Oak St, Thành phố','1992-05-15','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-11.jpg',1),(3,'David Lee','david.lee@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','1122334455','789 Pine St, Thành phố','1985-02-20','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-5.jpg',1),(4,'Mary Johnson','mary.johnson@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','6677889900','101 Maple St, Thành phố','1993-07-30','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-details-4.jpg',1),(5,'Michael Brown','michael.brown@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','2233445566','102 Birch St, Thành phố','1987-11-11','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/thumb-1.jpg',1),(6,'Emily Davis','emily.davis@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','3344556677','103 Cedar St, Thành phố','1995-09-25','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-6.jpg',1),(7,'James White','james.white@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','4455667788','104 Elm St, Thành phố','1988-08-09','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-10.jpg',1),(8,'Olivia Brown','olivia.brown@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','5566778899','105 Fir St, Thành phố','1996-12-17','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/thumb-3.jpg',1),(9,'Liam Green','liam.green@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','6677889900','106 Pine St, Thành phố','1994-04-23','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-details-1.jpg',1),(10,'Sophia Wilson','sophia.wilson@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','7788990011','107 Oak St, Thành phố','1992-02-13','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/sophia_wilson.png',1),(11,'Ethan Scott','ethan.scott@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','8899001122','108 Birch St, Thành phố','1997-11-01','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-7.jpg',1),(12,'Ava Harris','ava.harris@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','9900112233','109 Cedar St, Thành phố','1999-05-25','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-3.jpg',1),(13,'Noah Turner','noah.turner@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','1122334455','110 Elm St, Thành phố','1989-06-18','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/thumb-2.jpg',1),(14,'Lily King','lily.king@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','2233445566','111 Maple St, Thành phố','1994-03-14','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-details-2.jpg',1),(15,'Mason Lee','mason.lee@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','3344556677','112 Pine St, Thành phố','1992-08-10','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-details-5.jpg',1),(16,'Chloe Adams','chloe.adams@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','4455667788','113 Birch St, Thành phố','1998-01-21','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-4.jpg',1),(17,'William Brown','william.brown@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','5566778899','114 Oak St, Thành phố','1985-11-15','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/william_brown.png',1),(18,'Isabella Carter','isabella.carter@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','6677889900','115 Fir St, Thành phố','1991-04-30','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-9.jpg',1),(19,'Lucas Harris','lucas.harris@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','7788990011','116 Cedar St, Thành phố','1995-07-17','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-details-3.jpg',1),(20,'Grace Mitchell','grace.mitchell@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','8899001122','117 Elm St, Thành phố','1999-02-05','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-8.jpg',1),(29,'Nguyễn Hữu Đạt','huudat285@gmail.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','0975111111','Hà Nội','1122-01-01','Female','2025-02-21 02:20:42','2025-02-21 23:50:45',NULL,1);
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -218,7 +189,7 @@ CREATE TABLE `orderdetails` (
   KEY `ProductID` (`ProductID`),
   CONSTRAINT `orderdetails_ibfk_1` FOREIGN KEY (`OrderID`) REFERENCES `orders` (`OrderID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `orderdetails_ibfk_2` FOREIGN KEY (`ProductID`) REFERENCES `products` (`ProductID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -227,7 +198,7 @@ CREATE TABLE `orderdetails` (
 
 LOCK TABLES `orderdetails` WRITE;
 /*!40000 ALTER TABLE `orderdetails` DISABLE KEYS */;
-INSERT INTO `orderdetails` VALUES (1,1,1,1,16999000,16999000),(2,2,2,1,29999000,29999000),(3,3,3,2,499000,998000),(4,4,4,1,2290000,2290000),(5,5,5,1,4590000,4590000),(6,6,6,1,1890000,1890000),(7,7,7,1,3490000,3490000),(8,8,8,1,1890000,1890000),(9,9,9,1,7490000,7490000),(10,10,10,1,899000,899000),(11,11,11,1,4990000,4990000),(12,12,12,1,2490000,2490000),(13,13,13,1,17990000,17990000),(14,14,14,1,1590000,1590000),(15,15,15,1,1200000,1200000),(16,16,16,1,2490000,2490000),(17,17,17,1,3490000,3490000),(18,18,18,1,2490000,2490000),(19,19,19,1,3490000,3490000),(20,20,20,1,3990000,3990000);
+INSERT INTO `orderdetails` VALUES (1,1,1,1,16999000,16999000),(2,2,2,1,29999000,29999000),(3,3,3,2,499000,998000),(4,4,4,1,2290000,2290000),(5,5,5,1,4590000,4590000),(6,6,6,1,1890000,1890000),(7,7,7,1,3490000,3490000),(8,8,8,1,1890000,1890000),(9,9,9,1,7490000,7490000),(10,10,10,1,899000,899000),(11,11,11,1,4990000,4990000),(12,12,12,1,2490000,2490000),(13,13,13,1,17990000,17990000),(14,14,14,1,1590000,1590000),(15,15,15,1,1200000,1200000),(16,16,16,1,2490000,2490000),(17,17,17,1,3490000,3490000),(18,18,18,1,2490000,2490000),(19,19,19,1,3490000,3490000),(20,20,20,1,3990000,3990000),(21,1,2,1,2490000,2490000),(22,1,4,3,899000,3490000),(23,1,3,2,2490000,7490000);
 /*!40000 ALTER TABLE `orderdetails` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -285,7 +256,7 @@ CREATE TABLE `payment` (
   UNIQUE KEY `PaymentID` (`PaymentID`),
   KEY `OrderID` (`OrderID`),
   CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`OrderID`) REFERENCES `orders` (`OrderID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -294,6 +265,7 @@ CREATE TABLE `payment` (
 
 LOCK TABLES `payment` WRITE;
 /*!40000 ALTER TABLE `payment` DISABLE KEYS */;
+INSERT INTO `payment` VALUES (1,1,'2025-02-18 23:22:03',16999000,'ATM','Đã thanh toán');
 /*!40000 ALTER TABLE `payment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -503,4 +475,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-21  2:13:23
+-- Dump completed on 2025-02-23 22:06:27
