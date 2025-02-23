@@ -32,6 +32,8 @@ public class Customer {
 
     public Customer() {
     }
+    
+    
 
     public Customer(int customerId, String fullName, String email, String password, String phoneNumber, String address, LocalDate birthDate, String gender, LocalDate createdAt, LocalDate updatedAt, String profileImage, boolean isVerify) {
         this.customerId = customerId;
@@ -186,43 +188,7 @@ public class Customer {
         this.carts = carts;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder cartsInfo = new StringBuilder();
+   
 
-        if (carts != null && !carts.isEmpty()) {
-            for (Cart cart : carts) {
-                cartsInfo.append("\n  Cart ID: ").append(cart.getCartId())
-                        .append(", Created At: ").append(cart.getCreatedAt());
-                
-                
-                // Hiển thị danh sách CartItem của mỗi Cart
-                if (cart.getCartItems() != null && !cart.getCartItems().isEmpty()) {
-                    cartsInfo.append("\n   Cart Items:");
-                    for (CartItem item : cart.getCartItems()) {
-                        cartsInfo.append("\n     - Item ID: ").append(item.getCartItemId())
-                                .append(", Product: ").append(item.getProduct().getName())
-                                .append(", Quantity: ").append(item.getQuantity())
-                                .append(", Added At: ").append(item.getAddedAt());
-                    }
-                } else {
-                    cartsInfo.append("\n    No Cart Items.");
-                }
-            }
-        } else {
-            cartsInfo.append("\n  No Carts.");
-        }
-
-        return "Customer{"
-                + "customerId=" + customerId
-                + ", fullName='" + fullName + '\''
-                + ", email='" + email + '\''
-                + ", phoneNumber='" + phoneNumber + '\''
-                + ", address='" + address + '\''
-                + ", createdAt=" + createdAt
-                + ", updatedAt=" + updatedAt
-                + ", carts=" + cartsInfo.toString()
-                + "\n}";
-    }
 
 }

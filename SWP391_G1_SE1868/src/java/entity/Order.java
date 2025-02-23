@@ -20,7 +20,6 @@ public class Order {
     private String shippingAddress;
     private LocalDate createdAt;
     private LocalDate updatedAt;
-
     private Shipper shipper;
     private List<OrderDetail> orderDetails;
     private Payment payment;

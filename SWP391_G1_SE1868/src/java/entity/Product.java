@@ -26,7 +26,7 @@ public class Product {
     private List<ProductImage> images;
     private List<OrderDetail> orderDetails;
     private List<FavoriteDetail> favoriteDetails;
-    private List<CartItem> cartItems;
+   
 
     @Override
     public String toString() {
@@ -45,7 +45,7 @@ public class Product {
 
     
 
-    public Product(int productId, String name, String description, double price, int stockQuantity, LocalDate createdAt, LocalDate updatedAt, Shop shop, Category category, List<ProductReview> reviews, List<ProductImage> images, List<OrderDetail> orderDetails, List<FavoriteDetail> favoriteDetails, List<CartItem> cartItems) {
+    public Product(int productId, String name, String description, double price, int stockQuantity, LocalDate createdAt, LocalDate updatedAt, Shop shop, Category category, List<ProductReview> reviews, List<ProductImage> images, List<OrderDetail> orderDetails, List<FavoriteDetail> favoriteDetails) {
         this.productId = productId;
         this.name = name;
         this.description = description;
@@ -59,7 +59,7 @@ public class Product {
         this.images = images;
         this.orderDetails = orderDetails;
         this.favoriteDetails = favoriteDetails;
-        this.cartItems = cartItems;
+    
     }
 
     public Shop getShop() {
@@ -166,12 +166,6 @@ public class Product {
         this.favoriteDetails = favoriteDetails;
     }
 
-    public List<CartItem> getCartItems() {
-        return cartItems;
-    }
 
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
-    }
 
 }

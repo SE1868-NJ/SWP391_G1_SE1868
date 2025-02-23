@@ -162,8 +162,9 @@ public class ProductDAO extends DBContext {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, productId);
             try (ResultSet rs = stmt.executeQuery()) {
+               // khai bao dao Categoty
+               CategoryDAO categoryDAO =  new CategoryDAO();
                
-
                 if (rs.next()) {
                     Product product = new Product();
 
@@ -174,6 +175,8 @@ public class ProductDAO extends DBContext {
                     product.setStockQuantity(rs.getInt("stockQuantity"));
                     product.setCreatedAt(rs.getDate("createdAt").toLocalDate());
                     product.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
+                    product.setCategory(categoryDAO.getCategoryById(rs.getInt("categoryId")));
+                    
 
                     return product;  // Trả về đối tượng Product đã được cập nhật
                 }

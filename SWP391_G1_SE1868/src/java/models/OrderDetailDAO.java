@@ -17,7 +17,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 
 /**
  *
@@ -39,7 +38,7 @@ public class OrderDetailDAO extends DBContext {
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setOrderDetailId(rs.getInt("orderDetailId"));
                 orderDetail.setOrder(getOrderById(rs.getInt("orderId"))); // Lấy thông tin Order
-                orderDetail.setProduct(productDAO.getProductById(rs.getInt("productId"))); // Lấy thông tin Product
+                orderDetail.setProduct(productDAO.getProductByIdNoJoin(rs.getInt("productId"))); // Lấy thông tin Product
                 orderDetail.setQuantity(rs.getInt("quantity"));
                 orderDetail.setUnitPrice(rs.getDouble("unitPrice"));
                 orderDetail.setSubTotal(rs.getDouble("subTotal"));
@@ -59,9 +58,6 @@ public class OrderDetailDAO extends DBContext {
             stmt.setInt(1, orderId);
             ResultSet rs = stmt.executeQuery();
 
-            // khai báo CustomerDAO
-            CustomerDAO customerDAO = new CustomerDAO();
-
             if (rs.next()) {
                 Order order = new Order();
                 order.setOrderId(rs.getInt("orderId"));
@@ -71,7 +67,7 @@ public class OrderDetailDAO extends DBContext {
                 order.setShippingAddress(rs.getString("shippingAddress"));
                 order.setCreatedAt(rs.getDate("createdAt").toLocalDate());
                 order.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
-                order.setCustomer(customerDAO.getCustomerById(rs.getInt("CustomerID")));
+              
                 return order;
             }
         } catch (SQLException e) {

@@ -58,6 +58,7 @@ public class ShipperReviewDAO extends DBContext {
     }
 
     private Shipper getShipperById(int shipperId) {
+        
         String sql = "SELECT * FROM shipper WHERE shipperId = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, shipperId);

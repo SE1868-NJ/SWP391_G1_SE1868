@@ -12,8 +12,8 @@ import Utils.VNPayUtils;
 import config.ConfigVNPay;
 import dbcontext.DBContext;
 import entity.Cart;
-import entity.CartItem;
 import entity.Customer;
+import entity.Product;
 import entity.ProductReview;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -137,8 +137,25 @@ public class CustomerDAO extends DBContext {
 
                 // Lấy danh sách Cart của Customer (đã được sắp xếp mới nhất trước)
                 List<Cart> carts = getCartsByCustomerId(customerId);
-                
+
                 customer.setCarts(carts);
+
+                return customer;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //  Lấy khách hàng theo ID 
+    public Customer getCustomerByIdNoJoin(int customerId) {
+        String sql = "SELECT * FROM Customers WHERE customerId = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, customerId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Customer customer = mapResultSetToCustomer(rs);
 
                 return customer;
             }
@@ -268,7 +285,7 @@ public class CustomerDAO extends DBContext {
     }
 
     // lấy list(có thể 1 hoặc nhiều) cart theo customerId
-    private List<Cart> getCartsByCustomerId(int customerId) {
+    public List<Cart> getCartsByCustomerId(int customerId) {
         List<Cart> carts = new ArrayList<>();
         String sql = "SELECT * FROM Carts WHERE customerId = ? ORDER BY CreatedAt DESC";
 
@@ -276,13 +293,24 @@ public class CustomerDAO extends DBContext {
             stmt.setInt(1, customerId);
             ResultSet rs = stmt.executeQuery();
 
+            // khai báo dao PRoduct
+            ProductDAO productDAO = new ProductDAO();
             while (rs.next()) {
                 Cart cart = new Cart();
                 cart.setCartId(rs.getInt("cartId"));
                 cart.setCreatedAt(rs.getDate("CreatedAt").toLocalDate());
 
-                // Lấy danh sách CartItem theo cartId
-                cart.setCartItems(getCartItemsByCartId(cart.getCartId()));
+                // Lấy đối tượng Customer cho Cart
+                Customer customer = getCustomerByIdNoJoin(rs.getInt("customerId"));
+                cart.setCustomer(customer);
+
+                
+                // Lấy thông tin sản phẩm từ Carts
+                Product product = productDAO.getProductByIdNoJoin(rs.getInt("productId"));
+                cart.setProduct(product);
+
+                // Lấy số lượng sản phẩm
+                cart.setQuantity(rs.getInt("quantity"));
 
                 carts.add(cart);
             }
@@ -293,41 +321,14 @@ public class CustomerDAO extends DBContext {
         return carts;
     }
 
-    // lấy cartItems theo cartId
-    private List<CartItem> getCartItemsByCartId(int cartId) {
-        List<CartItem> cartItems = new ArrayList<>();
-        String sql = "SELECT * FROM CartItems WHERE cartId = ?";
-
-        // khai báo ProdcutDao
-        ProductDAO productDAO = new ProductDAO();
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, cartId);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                CartItem cartItem = new CartItem();
-                cartItem.setCartItemId(rs.getInt("cartItemId"));
-                cartItem.setQuantity(rs.getInt("quantity"));
-                cartItem.setAddedAt(rs.getDate("addedAt").toLocalDate());
-
-                // Lấy thông tin sản phẩm từ Product table
-                cartItem.setProduct(productDAO.getProductById(rs.getInt("productId")));
-
-                cartItems.add(cartItem);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return cartItems;
-    }
-
     public static void main(String[] args) {
         CustomerDAO customerDAO = new CustomerDAO();
 
-        Customer customer = customerDAO.getCustomerById(1);
-        System.out.println(customer);
+        List<Cart> customer = customerDAO.getCartsByCustomerId(1);
+        for (Cart cart : customer) {
+            
+            System.out.println(cart);
+        }
     }
 
 }

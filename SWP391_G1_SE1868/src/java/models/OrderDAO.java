@@ -6,7 +6,6 @@ package models;
 
 import dbcontext.DBContext;
 import entity.Cart;
-import entity.CartItem;
 import entity.Category;
 import entity.Customer;
 import entity.Order;
@@ -70,6 +69,7 @@ public class OrderDAO extends DBContext {
                     order.setShippingAddress(rs.getString("shippingAddress"));
                     order.setCreatedAt(rs.getDate("createdAt").toLocalDate());
                     order.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
+       
                     return order;
                 }
             }
@@ -87,13 +87,13 @@ public class OrderDAO extends DBContext {
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             // Thêm thông tin của order vào câu lệnh SQL
-            stmt.setInt(1, order.getCustomer().getCustomerId()); // Giả sử có getter cho customerId
-            stmt.setDate(2, Date.valueOf(order.getOrderDate()));  // Chuyển LocalDate sang java.sql.Date
+            stmt.setInt(1, order.getCustomer().getCustomerId()); 
+            stmt.setDate(2, Date.valueOf(order.getOrderDate()));  
             stmt.setDouble(3, order.getTotalAmount());
             stmt.setString(4, order.getStatus());
             stmt.setString(5, order.getShippingAddress());
-            stmt.setDate(6, Date.valueOf(order.getCreatedAt())); // Chuyển LocalDate sang java.sql.Date
-            stmt.setDate(7, Date.valueOf(order.getUpdatedAt())); // Chuyển LocalDate sang java.sql.Date
+            stmt.setDate(6, Date.valueOf(order.getCreatedAt())); 
+            stmt.setDate(7, Date.valueOf(order.getUpdatedAt())); 
 
             // Thực thi câu lệnh INSERT
             int rowsInserted = stmt.executeUpdate();
@@ -107,11 +107,11 @@ public class OrderDAO extends DBContext {
     }
 
     // Xóa tất cả CartItems có cartId tương ứng
-    public boolean deleteCartItemsByCartId(int cartId) {
-        String sql = "DELETE FROM CartItems WHERE cartId = ?"; // Xóa tất cả CartItems có cartId tương ứng
+    public boolean deleteCartBycustomerID(int customerId) {
+        String sql = "DELETE FROM Carts WHERE customerId = ?"; // Xóa tất cả CartItems có cartId tương ứng
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, cartId);  // Thiết lập cartId cho câu lệnh truy vấn
+            stmt.setInt(1, customerId);  // Thiết lập cartId cho câu lệnh truy vấn
 
             // Thực thi câu lệnh DELETE
             int rowsDeleted = stmt.executeUpdate();
@@ -124,117 +124,10 @@ public class OrderDAO extends DBContext {
         }
     }
 
-    // lấy ra các cartItem với cartId truyền vào
-    public List<CartItem> getCartItemsByCartId(int cartId) {
-        List<CartItem> cartItems = new ArrayList<>();
-        String sql = "SELECT * FROM CartItems WHERE cartId = ?";  // Truy vấn CartItems theo cartId
-
-        // Tạo đối tượng Cart chỉ một lần để tránh việc gọi getCartByCustomerId nhiều lần
-        Cart cart = getCartByCartId(cartId);
-        
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, cartId);  // Thiết lập cartId cho câu lệnh truy vấn
-
-            // khai báo prodcut Dao
-            ProductDAO productDAO = new ProductDAO();
-            try (ResultSet rs = stmt.executeQuery()) {
-                // Duyệt qua kết quả truy vấn và tạo đối tượng CartItem từ ResultSet
-                while (rs.next()) {
-                    CartItem cartItem = new CartItem();
-                    cartItem.setCartItemId(rs.getInt("cartItemId"));
-                    cartItem.setCart(cart);
-                    cartItem.setProduct(productDAO.getProductByIdNoJoin(rs.getInt("productId")));
-                    cartItem.setQuantity(rs.getInt("quantity"));
-                    cartItem.setAddedAt(rs.getDate("addedAt").toLocalDate());
-
-                    cartItems.add(cartItem);  // Thêm CartItem vào danh sách
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return cartItems;  // Trả về danh sách tất cả CartItems
-    }
-    
-
-    // lấy cart thẻo CustomerID
-    public Cart getCartByCustomerId(int CustomerId) {
-
-        String sql = "SELECT * FROM Carts WHERE CustomerId = ? ORDER BY cartId DESC LIMIT 1 "; // Truy vấn giỏ hàng theo cartId
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, CustomerId);  // Thiết lập cartId cho câu lệnh truy vấn
-            
-            // khai báo customerDAO
-            CustomerDAO customerDAO = new CustomerDAO();
-            
-            // tạo cusotmer 
-            Customer customer = customerDAO.getCustomerById(CustomerId);
-            
-            try (ResultSet rs = stmt.executeQuery()) {
-                // Nếu tìm thấy giỏ hàng với cartId, lấy thông tin
-                if (rs.next()) {
-                    Cart cart = new Cart();
-                    cart.setCartId(rs.getInt("cartId"));
-
-                    // truyền đối tương customer
-                    cart.setCustomer(customer);
-
-                    cart.setCreatedAt(rs.getDate("createdAt").toLocalDate());
-
-                    return cart;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;  // Trả về đối tượng Cart nếu tìm thấy, ngược lại trả về null
-    }
-    
-    
-    // lấy cart thẻo CartID
-    public Cart getCartByCartId(int CartID) {
-
-        String sql = "SELECT * FROM Carts WHERE CartID = ?"; // Truy vấn giỏ hàng theo cartId
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, CartID);  // Thiết lập cartId cho câu lệnh truy vấn
-           
-            // khai báo customerDAO
-            CustomerDAO customerDAO = new CustomerDAO();
-            
-            
-            
-            try (ResultSet rs = stmt.executeQuery()) {
-                // Nếu tìm thấy giỏ hàng với cartId, lấy thông tin
-                if (rs.next()) {
-                    Cart cart = new Cart();
-                    
-                    cart.setCartId(rs.getInt("cartId"));
-                    
-                    // truyền đối tương customer
-                    cart.setCustomer(customerDAO.getCustomerById(rs.getInt("CustomerId")));
-                    
-                    cart.setCreatedAt(rs.getDate("createdAt").toLocalDate());
-
-                    return cart;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;  // Trả về đối tượng Cart nếu tìm thấy, ngược lại trả về null
-    }
 
     public static void main(String[] args) {
         OrderDAO orderDAO = new OrderDAO();
 
-        List<CartItem> cart = orderDAO.getCartItemsByCartId(1);
-        for (CartItem cartItem : cart) {
-            System.out.println(cartItem);
-        }
+       
     }
 }

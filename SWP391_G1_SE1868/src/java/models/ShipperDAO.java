@@ -73,7 +73,7 @@ public class ShipperDAO extends DBContext{
                 // Tạo đối tượng Order từ kết quả truy vấn
                 Order order = new Order();
                 order.setOrderId(rs.getInt("orderId"));
-                order.setCustomer(customerDAO.getCustomerById(rs.getInt("customerId"))); 
+//                order.setCustomer(customerDAO.getCustomerById(rs.getInt("customerId"))); 
                 order.setOrderDate(rs.getDate("orderDate").toLocalDate());
                 order.setTotalAmount(rs.getDouble("totalAmount"));
                 order.setStatus(rs.getString("status"));
@@ -96,7 +96,7 @@ public class ShipperDAO extends DBContext{
     public static void main(String[] args) {
         ShipperDAO shipperDAO = new ShipperDAO();
         
-     Shipper shipper =  shipperDAO.getShipperById(1);
+     Shipper shipper =  shipperDAO.getShipperById(2);
         
         System.out.println(shipper);
     }
