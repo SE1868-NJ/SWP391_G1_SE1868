@@ -33,16 +33,20 @@
                         <div class="section-title">
                             <h2>Sản phẩm nổi bật</h2>
                         </div>
-                </div>
-                <div class="row featured__filter">
-                    <c:forEach var="product" items="${products}">
+                    </div>
+                    <div class="row featured__filter">
+                        <c:forEach var="product" items="${products}">
                             <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
                                 <div class="featured__item">
                                     <div class="featured__item__pic set-bg" data-setbg="${product.imageUrl}">
                                         <ul class="featured__item__pic__hover">
                                             <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                                    <c:if test="${product.stockQuantity > 0}">
+                                                        <li><a href="/myCarts?action=addToCart&productId=${product.productId}"><i class="fa fa-shopping-cart"></i></a></li>
+                                                    </c:if>
+                                                    <c:if test="${product.stockQuantity <= 0}">
+                                                        <button disabled class="add-to-cart-button">Hết hàng</button>
+                                                    </c:if>
                                         </ul>
                                     </div>
                                     <div class="featured__item__text">
@@ -52,8 +56,8 @@
                                 </div>
                             </div>
                         </c:forEach>
+                    </div>
                 </div>
-            </div>
         </section>
         <!-- Featured Section End -->
 
