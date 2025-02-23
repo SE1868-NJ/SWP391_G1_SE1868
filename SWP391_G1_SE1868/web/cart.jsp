@@ -142,7 +142,6 @@
                         <th>Product Name</th>
                         <th>Image</th>
                         <th>Price</th>
-                        <th>Discount Price</th>
                         <th>Quantity</th>
                         <th>Total</th>
                         <th>Actions</th>
@@ -154,8 +153,7 @@
                         <tr>
                             <td><strong>${cartItem.productName}</strong></td>
                             <td><img src="${cartItem.image}" /></td>
-                            <td>$${cartItem.price}</td>
-                            <td>$${cartItem.discountPrice}</td>
+                            <td>${cartItem.price} VND</td>
                             <td>
                                 <form action="/myCarts" method="GET">
                                     <input type="number" name="quantity" value="${cartItem.quantity}" min="1" />
@@ -164,7 +162,7 @@
                                     <button type="submit" class="update-button">Update Quantity</button>
                                 </form>
                             </td>
-                            <td>$${cartItem.discountPrice * cartItem.quantity}</td>
+                            <td>${cartItem.price * cartItem.quantity} VND</td>
                             <td>
                                 <a href="/myCarts?action=removeFromCart&productId=${cartItem.productId}" class="remove-button">Remove</a>
                             </td>
@@ -175,12 +173,12 @@
 
             <!-- Calculate total price -->
             <div class="total-price">
-                Total: $
+                Total: 
                 <c:set var="totalPrice" value="0" />
                 <c:forEach var="cartItem" items="${cartList}">
-                    <c:set var="totalPrice" value="${totalPrice + cartItem.discountPrice * cartItem.quantity}" />
+                    <c:set var="totalPrice" value="${totalPrice + cartItem.price * cartItem.quantity}" />
                 </c:forEach>
-                ${totalPrice}
+                ${totalPrice} VND
             </div>
 
             <!-- Clear Cart button -->

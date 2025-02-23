@@ -195,5 +195,27 @@ public class ProductDAO extends NguyenDBContext {
         }
         return count;
     }
+    
+    public ProductItemDTO getProductById(int productId) {
+        String query = "SELECT `products`.`StockQuantity` FROM `products` WHERE productId = ?";
+
+        try (PreparedStatement stmt = getConnection().prepareStatement(query)) {
+            stmt.setInt(1, productId);
+            // Thực thi câu truy vấn và lấy kết quả
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    ProductItemDTO productItemDTO = new ProductItemDTO();
+                    productItemDTO.setStockQuantity(rs.getInt("StockQuantity"));
+                    return productItemDTO;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return null;
+    }
 
 }
