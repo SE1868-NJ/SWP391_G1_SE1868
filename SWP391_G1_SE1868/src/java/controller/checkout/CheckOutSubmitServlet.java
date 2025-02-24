@@ -1,0 +1,157 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
+package controller.checkout;
+
+import Utils.UserUtils;
+import java.io.IOException;
+import java.io.PrintWriter;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import models.CustomerDAO;
+import services.VNPayService;
+
+/**
+ *
+ * @author Đạt
+ */
+@WebServlet(name = "CheckOutSubmitServlet", urlPatterns = {"/checkoutsubmit"})
+public class CheckOutSubmitServlet extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet CheckOutSubmitServlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet CheckOutSubmitServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String phoneNumber = request.getParameter("phone");
+        String address = request.getParameter("address");
+        String paymentMethod = request.getParameter("paymentMethod");
+
+        // Biến lỗi
+        String error_name = "";
+        String error_email = "";
+        String error_phone = "";
+        String error_address = "";
+
+        boolean hasError = false;
+
+        // Kiểm tra tên
+        if (!UserUtils.isNameValid(name)) {
+            error_name = "Tên không được để trống!";
+            hasError = true;
+        }
+
+        // Kiểm tra email
+        if (email == null || email.trim().isEmpty()) {
+            error_email = "Email không được để trống!";
+            hasError = true;
+        } else if (!UserUtils.isEmailValid(email)) {
+            error_email = "Email không đúng định dạng!";
+            hasError = true;
+        }
+
+        // Kiểm tra số điện thoại
+        if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
+            error_phone = "Số điện thoại không được để trống!";
+            hasError = true;
+        } else if (!UserUtils.isPhoneValid(phoneNumber)) {
+            error_phone = "Số điện thoại không hợp lệ! (Phải bắt đầu bằng 0 và có 10 chữ số)";
+            hasError = true;
+        }
+
+        // Kiểm tra địa chỉ
+        if (address == null || address.trim().isEmpty()) {
+            error_address = "Địa chỉ không được để trống!";
+            hasError = true;
+        }
+
+        // Nếu có lỗi, quay lại form đăng ký và hiển thị lỗi
+        if (hasError) {
+            request.setAttribute("error_name", error_name);
+            request.setAttribute("error_email", error_email);
+            request.setAttribute("error_phone", error_phone);
+            request.setAttribute("error_address", error_address);
+
+            request.getRequestDispatcher("checkout.jsp").forward(request, response);
+            return;
+        } else {
+            if (paymentMethod.equals("ATM")) {
+
+                // khai báo DAO customer
+                CustomerDAO customerDAO = new CustomerDAO();
+                
+                int total = Integer.parseInt(String.format("%.0f", customerDAO.getTotalAmount(2)));
+                
+                System.out.println(total);
+                // gọi paymentService
+                String urlVNPay = VNPayService.createPaymentUrl(total, name, request.getLocalAddr());
+                response.sendRedirect(urlVNPay);
+            }
+
+        }
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}

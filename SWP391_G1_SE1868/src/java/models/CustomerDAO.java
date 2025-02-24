@@ -304,7 +304,6 @@ public class CustomerDAO extends DBContext {
                 Customer customer = getCustomerByIdNoJoin(rs.getInt("customerId"));
                 cart.setCustomer(customer);
 
-                
                 // Lấy thông tin sản phẩm từ Carts
                 Product product = productDAO.getProductByIdNoJoin(rs.getInt("productId"));
                 cart.setProduct(product);
@@ -320,13 +319,24 @@ public class CustomerDAO extends DBContext {
 
         return carts;
     }
+// tình tổng đơn hàng
+    public double getTotalAmount(int customerId) {
+        List<Cart> carts = getCartsByCustomerId(customerId);
+        double totalAmount = 0;
+
+        for (Cart cart : carts) {
+            totalAmount += cart.getProduct().getPrice() * cart.getQuantity();
+        }
+
+        return totalAmount;
+    }
 
     public static void main(String[] args) {
         CustomerDAO customerDAO = new CustomerDAO();
 
         List<Cart> customer = customerDAO.getCartsByCustomerId(1);
         for (Cart cart : customer) {
-            
+
             System.out.println(cart);
         }
     }
