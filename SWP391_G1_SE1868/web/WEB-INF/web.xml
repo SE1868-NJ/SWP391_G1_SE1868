@@ -10,7 +10,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>HomePage</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/home</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
