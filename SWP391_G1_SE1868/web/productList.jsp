@@ -279,7 +279,7 @@
                                     <img src="${product.imageUrl}" alt="${product.name}" class="product-image" />
                                     <div class="product-info">
                                         <div class="product-name">${product.name}</div>
-                                        <div class="product-price">$${product.price}</div>
+                                        <div class="product-price">${product.price} VND</div>
                                         <div class="product-rating">Rating: ${product.averageRating}</div>
                                         <a href="getReview?productId=${product.productId}" class="view-button">View Details</a>
                                     </div>
