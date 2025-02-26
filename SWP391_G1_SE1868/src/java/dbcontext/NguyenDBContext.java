@@ -10,7 +10,7 @@ public class NguyenDBContext {
     private final String PORTNUMBER = "3306"; // Default MySQL port
     private final String DATABASENAME = "SWP391_G1";
     private final String ACCOUNT = "root"; // MySQL default user
-    private final String PASSWORD = "1111"; // Update this to your MySQL password
+    private final String PASSWORD = "123456"; // Update this to your MySQL password
 
     /*USE BELOW METHOD FOR YOUR DATABASE CONNECTION FOR BOTH SINGLE AND MULTIPLE MYSQL INSTANCE(s)*/
     /*DO NOT EDIT THE BELOW METHOD, YOU MUST USE ONLY THIS ONE FOR YOUR DATABASE CONNECTION*/
