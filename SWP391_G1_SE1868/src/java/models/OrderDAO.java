@@ -195,7 +195,53 @@ public class OrderDAO extends DBContext {
             return false;  // Nếu có lỗi xảy ra, trả về false
         }
     }
+ // lấy list đơn hang của cumtomer
+    public List<Order> getOrdersByCustomerId(int customerId) {
+        // Khai báo danh sách đơn hàng để lưu các đơn hàng tìm được
+        List<Order> orders = new ArrayList<>();
 
+        // Truy vấn lấy tất cả đơn hàng của một customerId
+        String sql = "SELECT * FROM Orders WHERE customerId = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, customerId);  // Thiết lập customerId cho câu lệnh truy vấn
+
+            // khai báo PaymentDAO
+            
+            PaymentDAO paymentDAO =  new PaymentDAO();
+            
+            // khai báo shipDAo
+            
+            ShipperDAO shipperDAO =  new ShipperDAO();
+            // lấy ra đối tượng shipper (hashcode ID =1)
+            Shipper shipper =  shipperDAO.getShipperById(1);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                // Duyệt qua các kết quả trả về và tạo đối tượng Order
+                while (rs.next()) {
+                    Order order = new Order();
+                    order.setOrderId(rs.getInt("orderId"));
+                    order.setOrderDate(rs.getDate("orderDate").toLocalDate());
+                    order.setTotalAmount(rs.getDouble("totalAmount"));
+                    order.setStatus(rs.getString("status"));
+                    order.setShippingAddress(rs.getString("shippingAddress"));
+                    order.setCreatedAt(rs.getDate("createdAt").toLocalDate());
+                    order.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
+                    order.setPayment(paymentDAO.getPaymentByOrderId(rs.getInt("orderId")));
+                    order.setShipper(shipper);
+                    // Thêm đơn hàng vào danh sách
+                    orders.add(order);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Trả về danh sách các đơn hàng
+        return orders;
+    }
+
+    // lấy đơn hàng mới nhất của cutomer
     public Order getLatestOrderByCustomerId(int customerId) {
 
         // Truy vấn đơn hàng mới nhất của customerId, sắp xếp theo ngày tạo (createdAt) giảm dần
@@ -226,16 +272,43 @@ public class OrderDAO extends DBContext {
         return null;  // Trả về null nếu không tìm thấy đơn hàng
     }
 
+    // Phương thức cập nhật số lượng sản phẩm từ giỏ hàng
+    public boolean updateProductStockFromCart(List<Cart> carts) {
+        String sql = "UPDATE Products SET stockQuantity = ? WHERE productId = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            for (Cart cart : carts) {
+                Product product = cart.getProduct();
+                int quantityInCart = cart.getQuantity();
+                int updatedStock = product.getStockQuantity() - quantityInCart;
+
+                // Chỉ cập nhật nếu có đủ hàng trong kho
+                if (updatedStock >= 0) {
+                    stmt.setInt(1, updatedStock);
+                    stmt.setInt(2, product.getProductId());
+                    // Cập nhật và kiểm tra xem có thay đổi nào không
+                    if (stmt.executeUpdate() > 0) {
+                        return true;  // Trả về true ngay khi có thay đổi đầu tiên
+                    }
+                }
+            }
+
+            // Trả về false nếu không có cập nhật nào thành công
+            return false;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
         OrderDAO orderDAO = new OrderDAO();
         CustomerDAO customerDAO = new CustomerDAO();
-        Customer customer = new Customer(1, "John Doe", "john.doe@example.com",
-                "acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3",
-                "1234567890", "123 Main St, Thành phố", null, "Male", null, null, "assets/img/profile/product-12.jpg", true);
-        String shippingAddress = "hà Nội";
-        String paymentMethod = "ATM";
+        
 
-        boolean check = orderDAO.createOrderWithPaymentAndDetails(customer, customerDAO.getCartsByCustomerId(1), shippingAddress, paymentMethod);
-        System.out.println(check);
+        var check = orderDAO.getOrdersByCustomerId(1);
+        for (Order order : check) {
+            System.out.println(order);
+        }
     }
 }

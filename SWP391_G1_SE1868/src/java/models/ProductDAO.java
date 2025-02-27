@@ -201,35 +201,7 @@ public class ProductDAO extends DBContext {
         }
     }
 
-    // Phương thức cập nhật số lượng sản phẩm từ giỏ hàng
-    public boolean updateProductStockFromCart(List<Cart> carts) {
-        String sql = "UPDATE Products SET stockQuantity = ? WHERE productId = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-
-            for (Cart cart : carts) {
-                Product product = cart.getProduct();
-                int quantityInCart = cart.getQuantity();
-                int updatedStock = product.getStockQuantity() - quantityInCart;
-
-                // Chỉ cập nhật nếu có đủ hàng trong kho
-                if (updatedStock >= 0) {
-                    stmt.setInt(1, updatedStock);
-                    stmt.setInt(2, product.getProductId());
-                    // Cập nhật và kiểm tra xem có thay đổi nào không
-                    if (stmt.executeUpdate() > 0) {
-                        return true;  // Trả về true ngay khi có thay đổi đầu tiên
-                    }
-                }
-            }
-            
-
-            // Trả về false nếu không có cập nhật nào thành công
-            return false;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+    
     
 
     public static void main(String[] args) {

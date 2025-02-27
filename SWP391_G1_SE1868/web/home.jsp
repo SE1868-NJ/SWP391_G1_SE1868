@@ -198,7 +198,7 @@
        
             <c:choose>
 
-                <c:when test="${param.statusOrder == 'true'}">
+                <c:when test="${ (param.statusOrder == 'true') || (statusOrder =='true') }">
                     <script>
                         // Gọi hàm showPopup khi isSuccess = true
                         $(document).ready(function () {
@@ -207,7 +207,7 @@
                     </script>
                 </c:when>
 
-                <c:when test="${param.statusOrder == 'false'}">
+                <c:when test="${ (param.statusOrder == 'false')  || (statusOrder =='false')}">
                     <script>
                         // Gọi hàm showPopup khi isSuccess = true
                         $(document).ready(function () {

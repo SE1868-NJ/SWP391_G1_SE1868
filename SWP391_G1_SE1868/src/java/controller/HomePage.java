@@ -37,6 +37,7 @@ public class HomePage extends HttpServlet {
         List<ProductItemDTO> products = productDAO.getTopRatedAndDiscountedProducts();
         request.setAttribute("products", products);
 
+        ///// xử lí checkOut thanh toán thành công  với vnpay
         // Lấy dữ liệu từ request.getParameterMap()
         Map<String, String> fields = new HashMap<>();
 
@@ -54,36 +55,45 @@ public class HomePage extends HttpServlet {
         // khai báo order Dao 
         OrderDAO orderDAO = new OrderDAO();
 
-        
-         HttpSession session =  request.getSession();
-        
+        HttpSession session = request.getSession();
+
         // lấy đố tương cusomret ở session
-        Customer customer = (Customer)session.getAttribute("user");
-        
+        Customer customer = (Customer) session.getAttribute("user");
+
         // Lấy chữ ký bảo mật từ VNPay
         String vnp_SecureHash = request.getParameter("vnp_SecureHash");
 
         // Xác thực phản hồi từ VNPay
         VNPayResponse paymentResponse = VNPayService.validateResponse(fields, vnp_SecureHash);
 
-        if (paymentResponse != null) {
-            request.setAttribute("paymentResponse", paymentResponse);
+        // check thanh toán (sờ fake bill) và kiểm tra trạng thái thanh toán thành công thì mới được đặt hàng
+        if (paymentResponse != null && paymentResponse.getVnp_ResponseCode().equals("00")) {
             
-             // tạo đơn hàng mới 
-              boolean check =   orderDAO.createOrderWithPaymentAndDetails(customer, customerDAO.getCartsByCustomerId(customer.getCustomerId()), customer.getAddress(), "Thanh toán ATM");
+
+            // tạo đơn hàng mới 
+            boolean check = orderDAO.createOrderWithPaymentAndDetails(customer, customerDAO.getCartsByCustomerId(customer.getCustomerId()), customer.getAddress(), "Thanh toán ATM");
+
+            // khai báo order
+            Order order = orderDAO.getLatestOrderByCustomerId(customer.getCustomerId());
+
+            // kiểm tra update thành công và lấy đơn hàng mới nhất của người dùng đấy
+            if (check && order != null) {
+                // update stock 
+                boolean checkUpdateStock = orderDAO.updateProductStockFromCart(customerDAO.getCartsByCustomerId(customer.getCustomerId()));
                 
-              // khai báo order
-              
-              Order order =  orderDAO.getLatestOrderByCustomerId(customer.getCustomerId());
-              
-              // kiểm tra update thành công và lấy đơn hàng mới nhất của người dùng đấy
-              if(check && order!=null){
-                  request.setAttribute("statusOrder", "true");
-              }else{
-                   request.setAttribute("statusOrder", "false");
-              }
-            
+                // check update kho thành công thì mới xóa cart
+                if (checkUpdateStock) {
+                    // tạo order thành công thì xóa cart
+                    orderDAO.deleteCartBycustomerID(customer.getCustomerId());
+                }
+                request.setAttribute("statusOrder", "true");
+
+            } else {
+                request.setAttribute("statusOrder", "false");
+            }
+
         }
+        request.setAttribute("paymentResponse", paymentResponse);
 
         request.getRequestDispatcher("home.jsp").forward(request, response);
     }

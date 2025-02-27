@@ -145,7 +145,7 @@
                             <button class="w-100 btn btn-primary btn-lg" type="submit">Tiếp tục thanh toán</button>
                             <br>
                             <br>
-                            <a href="home.jsp" class="w-100 btn btn-primary btn-lg">Trở lại trang chủ</a>
+                            <a href="/home" class="w-100 btn btn-primary btn-lg">Trở lại trang chủ</a>
                         </form>
                     </div>
                 </div>

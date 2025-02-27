@@ -106,7 +106,7 @@ public class VerifyServlet extends HttpServlet {
             }
             
         }else{
-            response.sendRedirect("home.jsp");
+            response.sendRedirect("home");
         }
 
     }

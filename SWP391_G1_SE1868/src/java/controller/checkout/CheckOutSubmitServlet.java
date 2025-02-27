@@ -93,20 +93,17 @@ public class CheckOutSubmitServlet extends HttpServlet {
         String error_address = "";
 
         // lấy sessiong customer
-        
-        HttpSession session =  request.getSession();
-        
+        HttpSession session = request.getSession();
+
         // lấy đố tương cusomret ở session
-        Customer customer = (Customer)session.getAttribute("user");
-        
-        
+        Customer customer = (Customer) session.getAttribute("user");
+
         // check custoemer
-        if (customer==null) {
+        if (customer == null) {
             response.sendRedirect("login.jsp");
             return;
         }
-        
-        
+
         boolean hasError = false;
 
         // Kiểm tra tên
@@ -149,41 +146,48 @@ public class CheckOutSubmitServlet extends HttpServlet {
             request.getRequestDispatcher("checkout.jsp").forward(request, response);
             return;
         } else {
-            
-             // khai báo DAO customer
-                CustomerDAO customerDAO = new CustomerDAO();
-                
-                // khai báo order Dao 
-                OrderDAO  orderDAO =  new OrderDAO();
-                
-               
-                
-                // lấy giá tiền tổng đơn hàng
-                int total = Integer.parseInt(String.format("%.0f", customerDAO.getTotalAmount(customer.getCustomerId())));
-                
-                System.out.println(total);
+
+            // khai báo DAO customer
+            CustomerDAO customerDAO = new CustomerDAO();
+
+            // khai báo order Dao 
+            OrderDAO orderDAO = new OrderDAO();
+
+            // lấy giá tiền tổng đơn hàng
+            int total = Integer.parseInt(String.format("%.0f", customerDAO.getTotalAmount(customer.getCustomerId())));
+
+            System.out.println(total);
+            // thanh toán bằng ATM
             if (paymentMethod.equals("ATM")) {
 
-               
                 // gọi paymentService
                 String urlVNPay = VNPayService.createPaymentUrl(total, name, request.getLocalAddr());
                 response.sendRedirect(urlVNPay);
-            }else{
-                
-                 // tạo đơn hàng mới 
-              boolean check =   orderDAO.createOrderWithPaymentAndDetails(customer, customerDAO.getCartsByCustomerId(customer.getCustomerId()), address, "Thanh toán khi nhận hàng");
-                
-              // khai báo order
-              
-              Order order =  orderDAO.getLatestOrderByCustomerId(customer.getCustomerId());
-              
-              // kiểm tra update thành công và lấy đơn hàng mới nhất của người dùng đấy
-              if(check && order!=null){
-                  response.sendRedirect("home?statusOrder=true");
-              }else{
-                  response.sendRedirect("home?statusOrder=false");
-              }
-                
+            } else {
+                // thanh toán khi nhận hàng
+
+                // tạo đơn hàng mới 
+                boolean checkOrder = orderDAO.createOrderWithPaymentAndDetails(customer, customerDAO.getCartsByCustomerId(customer.getCustomerId()), address, "Thanh toán khi nhận hàng");
+
+                // khai báo order
+                Order order = orderDAO.getLatestOrderByCustomerId(customer.getCustomerId());
+
+                // kiểm tra update thành công và lấy đơn hàng mới nhất của người dùng đấy
+                if (checkOrder && order != null) {
+                    // update stock 
+                    boolean checkUpdateStock = orderDAO.updateProductStockFromCart(customerDAO.getCartsByCustomerId(customer.getCustomerId()));
+
+                    // update stock thành công 
+                    if (checkUpdateStock) {
+                        //  update stock thành công thì xóa cart
+                        orderDAO.deleteCartBycustomerID(customer.getCustomerId());
+                    }
+
+                    response.sendRedirect("home?statusOrder=true");
+                } else {
+                    response.sendRedirect("home?statusOrder=false");
+                }
+
             }
 
         }
