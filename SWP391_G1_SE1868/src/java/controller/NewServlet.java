@@ -69,7 +69,6 @@ public class NewServlet extends HttpServlet {
         fields.put(entry.getKey(), entry.getValue()[0]);
     }
     
-   response.getWriter().write(" giao dịch: " + fields);
     // Lấy chữ ký bảo mật từ VNPay
     String vnp_SecureHash = request.getParameter("vnp_SecureHash");
 

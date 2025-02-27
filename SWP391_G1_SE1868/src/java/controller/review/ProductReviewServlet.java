@@ -66,7 +66,7 @@ public class ProductReviewServlet extends HttpServlet {
 
         try {
             // Lấy tham số từ request
-            int productId = 1;
+            int productId = Integer.parseInt(request.getParameter("productId"));
 
             int pageSize = 5;
 

@@ -5,6 +5,8 @@
 package controller.checkout;
 
 import Utils.UserUtils;
+import entity.Customer;
+import entity.Order;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,7 +14,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.time.LocalDate;
 import models.CustomerDAO;
+import models.OrderDAO;
+import models.ShipperDAO;
 import services.VNPayService;
 
 /**
@@ -86,6 +92,21 @@ public class CheckOutSubmitServlet extends HttpServlet {
         String error_phone = "";
         String error_address = "";
 
+        // lấy sessiong customer
+        
+        HttpSession session =  request.getSession();
+        
+        // lấy đố tương cusomret ở session
+        Customer customer = (Customer)session.getAttribute("user");
+        
+        
+        // check custoemer
+        if (customer==null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+        
+        
         boolean hasError = false;
 
         // Kiểm tra tên
@@ -128,17 +149,41 @@ public class CheckOutSubmitServlet extends HttpServlet {
             request.getRequestDispatcher("checkout.jsp").forward(request, response);
             return;
         } else {
-            if (paymentMethod.equals("ATM")) {
-
-                // khai báo DAO customer
+            
+             // khai báo DAO customer
                 CustomerDAO customerDAO = new CustomerDAO();
                 
-                int total = Integer.parseInt(String.format("%.0f", customerDAO.getTotalAmount(2)));
+                // khai báo order Dao 
+                OrderDAO  orderDAO =  new OrderDAO();
+                
+               
+                
+                // lấy giá tiền tổng đơn hàng
+                int total = Integer.parseInt(String.format("%.0f", customerDAO.getTotalAmount(customer.getCustomerId())));
                 
                 System.out.println(total);
+            if (paymentMethod.equals("ATM")) {
+
+               
                 // gọi paymentService
                 String urlVNPay = VNPayService.createPaymentUrl(total, name, request.getLocalAddr());
                 response.sendRedirect(urlVNPay);
+            }else{
+                
+                 // tạo đơn hàng mới 
+              boolean check =   orderDAO.createOrderWithPaymentAndDetails(customer, customerDAO.getCartsByCustomerId(customer.getCustomerId()), address, "Thanh toán khi nhận hàng");
+                
+              // khai báo order
+              
+              Order order =  orderDAO.getLatestOrderByCustomerId(customer.getCustomerId());
+              
+              // kiểm tra update thành công và lấy đơn hàng mới nhất của người dùng đấy
+              if(check && order!=null){
+                  response.sendRedirect("home?statusOrder=true");
+              }else{
+                  response.sendRedirect("home?statusOrder=false");
+              }
+                
             }
 
         }

@@ -285,7 +285,7 @@
                         <div class="product__details__tab">
                             
                             <div class="col-lg-6 col-md-6 mb-4"> 
-                                <a href="home.jsp" class="primary-btn">Back to shop</a>
+                                <a href="/home" class="primary-btn">Back to shop</a>
                                 <br>
                                 <br>
                                 <div class="d-flex align-items-center p-3 border-0 shadow-sm">
@@ -324,12 +324,12 @@
                                         <div class="filter-rating">
                                             <strong>Lọc theo số sao:</strong>
                                             <ul>
-                                                <li><button data-star="0" class="filter-active"  onclick="filterReviews(0, 1)">Tất cả</button></li>
-                                                <li><button data-star="5" onclick="filterReviews(5, 1)">5 Sao</button></li>
-                                                <li><button data-star="4" onclick="filterReviews(4, 1)">4 Sao</button></li>
-                                                <li><button data-star="3" onclick="filterReviews(3, 1)">3 Sao</button></li>
-                                                <li><button data-star="2" onclick="filterReviews(2, 1)">2 Sao</button></li>
-                                                <li><button data-star="1" onclick="filterReviews(1, 1)">1 Sao</button></li>
+                                                <li><button data-star="0" class="filter-active"  onclick="filterReviews(0, ${product.productId})">Tất cả</button></li>
+                                                <li><button data-star="5" onclick="filterReviews(5, ${product.productId})">5 Sao</button></li>
+                                                <li><button data-star="4" onclick="filterReviews(4, ${product.productId})">4 Sao</button></li>
+                                                <li><button data-star="3" onclick="filterReviews(3, ${product.productId})">3 Sao</button></li>
+                                                <li><button data-star="2" onclick="filterReviews(2, ${product.productId})">2 Sao</button></li>
+                                                <li><button data-star="1" onclick="filterReviews(1, ${product.productId})">1 Sao</button></li>
 
                                             </ul>
 
@@ -459,7 +459,7 @@
                                                     <span class="page-link active">${pageNum}</span>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <a class="page-link" href="getReviews?productId=1&page=${pageNum}&starFilter=${param.starFilter}">${pageNum}</a>
+                                                    <a class="page-link" href="getReviews?productId=${param.productId}&page=${pageNum}&starFilter=${param.starFilter}">${pageNum}</a>
                                                 </c:otherwise>
                                             </c:choose>
                                         </c:forEach>

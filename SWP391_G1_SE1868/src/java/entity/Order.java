@@ -39,6 +39,19 @@ public class Order {
     public Order() {
     }
 
+    public Order(int orderId, Customer customer, LocalDate orderDate, double totalAmount, String status, String shippingAddress, LocalDate createdAt, LocalDate updatedAt, Shipper shipper) {
+        this.orderId = orderId;
+        this.customer = customer;
+        this.orderDate = orderDate;
+        this.totalAmount = totalAmount;
+        this.status = status;
+        this.shippingAddress = shippingAddress;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.shipper = shipper;
+    }
+    
+
     public Order(int orderId, Customer customer, LocalDate orderDate, double totalAmount, String status, String shippingAddress, LocalDate createdAt, LocalDate updatedAt, Shipper shipper, List<OrderDetail> orderDetails, Payment payment) {
         this.orderId = orderId;
         this.customer = customer;
