@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CategoryDAO extends DBContext {
+public class CategoryDAO extends NguyenDBContext {
 
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();
@@ -18,10 +18,10 @@ public class CategoryDAO extends DBContext {
 
             while (rs.next()) {
                 int id = rs.getInt("categoryId");
-                String name = rs.getString("categoryName");
+                String name = rs.getString("name");
                 Category category = new Category();
                 category.setCategoryId(id);
-                category.setCategoryName(name);
+                category.setName(name);
                 categories.add(category);
             }
         } catch (SQLException e) {

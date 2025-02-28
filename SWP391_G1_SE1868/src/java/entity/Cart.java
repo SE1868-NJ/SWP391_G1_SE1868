@@ -3,93 +3,81 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package entity;
-
-import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-
-
+import java.util.List;
+/**
+ *
+ * @author Đạt
+ */
 public class Cart {
     private int cartId;
-    private int customerId;
-    private LocalDateTime createdDate;
-    private int productId;
-    private int quantity;
-    private String productName;
-    private String image;
-    private BigDecimal discountPrice;
-    private BigDecimal price;
+    private Customer customer;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
+
+    private List<CartItem> cartItems;
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "cartId=" + cartId +
+                ", customer=" + (customer != null ? customer.getFullName() : "null") +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }   
+
+    public Cart() {
+    }
+
+    public Cart(int cartId, Customer customer, LocalDate createdAt, LocalDate updatedAt, List<CartItem> cartItems) {
+        this.cartId = cartId;
+        this.customer = customer;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.cartItems = cartItems;
+    }
+    
 
     public int getCartId() {
         return cartId;
     }
 
-    public void setCartId(int cartId) {
+    public void setCartId(Integer cartId) {
         this.cartId = cartId;
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
+    public LocalDate getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
+    public void setCreatedAt(LocalDate createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public int getProductId() {
-        return productId;
+    public LocalDate getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setUpdatedAt(LocalDate updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public List<CartItem> getCartItems() {
+        return cartItems;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public BigDecimal getDiscountPrice() {
-        return discountPrice;
-    }
-
-    public void setDiscountPrice(BigDecimal discountPrice) {
-        this.discountPrice = discountPrice;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-    
     
 }
