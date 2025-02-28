@@ -236,7 +236,7 @@ public class CustomerDAO extends DBContext {
 
     // check mail tồn tài và đã verify
     public Customer checkEmailExists(String email) {
-        String sql = "SELECT * FROM Customers WHERE email = ? IsVerify = 1";
+        String sql = "SELECT * FROM Customers WHERE email = ? and IsVerify = 1";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, email);
 
@@ -334,11 +334,8 @@ public class CustomerDAO extends DBContext {
     public static void main(String[] args) {
         CustomerDAO customerDAO = new CustomerDAO();
 
-        List<Cart> customer = customerDAO.getCartsByCustomerId(1);
-        for (Cart cart : customer) {
-
-            System.out.println(cart);
-        }
+       Customer customer = customerDAO.checkEmailExists("huudat285@gmail.com");
+        System.out.println(customer);
     }
 
 }

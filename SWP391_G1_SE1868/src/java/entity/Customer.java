@@ -32,6 +32,11 @@ public class Customer {
 
     public Customer() {
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" + "customerId=" + customerId + ", fullName=" + fullName + ", email=" + email + ", password=" + password + ", phoneNumber=" + phoneNumber + ", address=" + address + ", birthDate=" + birthDate + ", gender=" + gender + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", profileImage=" + profileImage + ", isVerify=" + isVerify + '}';
+    }
     
     
 
