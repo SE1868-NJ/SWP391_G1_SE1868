@@ -24,16 +24,32 @@ import java.sql.SQLException;
  */
 public class OrderDetailDAO extends DBContext {
 
-    public List<OrderDetail> getOrderDetailsByOrderId(int orderId) {
+    // list OrderDetail
+    public List<OrderDetail> getOrderDetailsByOrderIdSorted(int orderId, String sortOrderDetailBy, String sortOrderDetail) {
         List<OrderDetail> orderDetails = new ArrayList<>();
-        String sql = "SELECT * FROM OrderDetails WHERE orderId = ?";
+
+        // Xác định cột sắp xếp hợp lệ (Mặc định là quantity)
+        String validSortOrderDetailBy = "quantity";
+        if ("subTotal".equals(sortOrderDetailBy)) {
+            validSortOrderDetailBy = "subTotal";
+        }
+
+        // Xác định thứ tự sắp xếp hợp lệ (ASC hoặc DESC, mặc định là DESC)
+        String validSortOrderDetail = "DESC";
+        if ("ASC".equalsIgnoreCase(sortOrderDetail)) {
+            validSortOrderDetail = "ASC";
+        }
+
+        // Câu truy vấn SQL với sắp xếp động
+        String sql = "SELECT * FROM OrderDetails WHERE orderId = ? ORDER BY " + validSortOrderDetailBy + " " + validSortOrderDetail;
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, orderId);
             ResultSet rs = stmt.executeQuery();
 
-            // khai báo DAO Porduct
+            // Khai báo ProductDAO để lấy thông tin sản phẩm
             ProductDAO productDAO = new ProductDAO();
+
             while (rs.next()) {
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setOrderDetailId(rs.getInt("orderDetailId"));
@@ -67,7 +83,7 @@ public class OrderDetailDAO extends DBContext {
                 order.setShippingAddress(rs.getString("shippingAddress"));
                 order.setCreatedAt(rs.getDate("createdAt").toLocalDate());
                 order.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
-              
+
                 return order;
             }
         } catch (SQLException e) {
@@ -126,11 +142,11 @@ public class OrderDetailDAO extends DBContext {
     public static void main(String[] args) {
         OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
 
-        List<OrderDetail> orderDetails = orderDetailDAO.getOrderDetailsByOrderId(1);
-
-        for (OrderDetail orderDetail : orderDetails) {
-            System.out.println(orderDetail);
-        }
+//        List<OrderDetail> orderDetails = orderDetailDAO.getOrderDetailsByOrderId(1);
+//
+//        for (OrderDetail orderDetail : orderDetails) {
+//            System.out.println(orderDetail);
+//        }
 
     }
 

@@ -4,8 +4,8 @@
  */
 package controller.Order;
 
-import entity.Customer;
 import entity.Order;
+import entity.OrderDetail;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,13 +17,14 @@ import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.List;
 import models.OrderDAO;
+import models.OrderDetailDAO;
 
 /**
  *
  * @author Đạt
  */
-@WebServlet(name = "ViewOrderServlet", urlPatterns = {"/viewOrder"})
-public class ViewOrderServlet extends HttpServlet {
+@WebServlet(name = "ViewOrderDetailServlet", urlPatterns = {"/viewOrderDetail"})
+public class ViewOrderDetailServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +43,10 @@ public class ViewOrderServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewOrderServlet</title>");
+            out.println("<title>Servlet ViewOrderDetailServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewOrderServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ViewOrderDetailServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,16 +65,10 @@ public class ViewOrderServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
-        String startDateParam = request.getParameter("startDate");
-        String endDateParam = request.getParameter("endDate");
+        int orderId = Integer.parseInt(request.getParameter("orderId"));
 
-        LocalDate startDate = (startDateParam != null && !startDateParam.isEmpty()) ? LocalDate.parse(startDateParam) : null;
-        LocalDate endDate = (endDateParam != null && !endDateParam.isEmpty()) ? LocalDate.parse(endDateParam) : null;
-
-        String page = request.getParameter("page") != null ? request.getParameter("page") : "1";
-        int pageSize = 1;
-        String sortBy = request.getParameter("sortBy") != null ? request.getParameter("sortBy") : "orderDate";
-        String sortOrder = request.getParameter("sortOrder") != null ? request.getParameter("sortOrder") : "DESC";
+        String sortOrderDetailBy = request.getParameter("sortOrderDetailBy") != null ? request.getParameter("sortOrderDetailBy") : "quantity";
+        String sortOrderDetail = request.getParameter("sortOrderDetail") != null ? request.getParameter("sortOrderDetail") : "DESC";
         // lấy sessiong customer
         HttpSession session = request.getSession();
 
@@ -84,26 +79,20 @@ public class ViewOrderServlet extends HttpServlet {
 //            response.sendRedirect("login.jsp");W
 //            return;
 //        }
-        // khai báo OrderDAO
-        OrderDAO orderDAO = new OrderDAO();
+        // khai báo orderDetailDAO
+        OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
 
-        // lấy list odder theo customerID
-        List<Order> orders = orderDAO.getOrdersByCustomerId(1, startDate, endDate, Integer.parseInt(page), pageSize, sortBy, sortOrder);
+        // lấy list OrderDetail theo orderId
+        List<OrderDetail> details = orderDetailDAO.getOrderDetailsByOrderIdSorted(1, sortOrderDetailBy, sortOrderDetail);
 
-        // get totalPage
-        int totalPage = orderDAO.getTotalOrderPages(1, startDate, endDate, pageSize);
-
-        request.setAttribute("orders", orders);
-        request.setAttribute("totalPage", totalPage);
-        request.setAttribute("currentPage", page);
-
-        
+        request.setAttribute("details", details);
         // Gửi giá trị đến JSP
-        request.setAttribute("sortBy", sortBy);
-        request.setAttribute("sortOrder", sortOrder);
+        request.setAttribute("sortOrderDetailBy", sortOrderDetailBy);
+        request.setAttribute("sortOrderDetail", sortOrderDetail);
         
+        request.setAttribute("totalOrderDetail", orderDetailDAO.calculateTotalAmountByOrderId(1));
         
-        request.getRequestDispatcher("view-order.jsp").forward(request, response);
+        request.getRequestDispatcher("view-orderdetail.jsp").forward(request, response);
 
     }
 

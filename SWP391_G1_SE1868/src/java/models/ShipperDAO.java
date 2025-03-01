@@ -82,7 +82,7 @@ public class ShipperDAO extends DBContext{
                 order.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
                     
                 // set các orderDetail trương iungws với mối OdderId
-                order.setOrderDetails(orderDetailDAO.getOrderDetailsByOrderId(rs.getInt("orderId")));
+                order.setOrderDetails(orderDetailDAO.getOrderDetailsByOrderIdSorted(rs.getInt("orderId"),"",""));
                 
                 orders.add(order); // Thêm Order vào danh sách
             }

@@ -12,21 +12,166 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>View Order</title>
+        <!-- Bootstrap 5 -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     </head>
     <body>
         <%@include file="header.jsp" %>
         <div class="container py-5">
             <div class="row mb-4">
-                <div class="col-md-8">
-                    <h2 class="mb-3">Order History</h2>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Search orders..." aria-label="Search orders">
-                        <input type="date" class="form-control" aria-label="Start date">
-                        <input type="date" class="form-control" aria-label="End date">
-                        <button class="btn btn-primary" type="button">Search</button>
+                <div class="col-md-12">
+                    <h2 class="mb-3 text-center">Order History</h2>
+
+                    <hr class="mb-4">
+                    <br>
+                    <div class="row g-2">
+                        <!-- Input ngày và nút Search cùng hàng -->
+                        <div class="col-md-4">
+                            <input type="date" class="form-control" id="startDate" name="startDate" aria-label="Start date">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="date" class="form-control" id="endDate" name="endDate" aria-label="End date">
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button class="btn btn-primary w-100" type="button" onclick="searchOrders()">Search</button>
+                        </div>
+
+
+                        <!-- Chọn tiêu chí sắp xếp -->
+                        <div class="col-md-8">
+                            <label class="d-block fw-bold">Sắp xếp theo:</label>
+                            <div class="d-flex">
+                                <div class="form-check me-3">
+                                    <input class="form-check-input" type="radio" name="sortBy" id="sortByDate" value="orderDate"
+                                           ${sortBy == 'orderDate' || sortBy == null ? 'checked' : ''} onchange="updateSort()">
+                                    <label class="form-check-label" for="sortByDate">Ngày đặt hàng</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sortBy" id="sortByTotal" value="totalAmount"
+                                           ${sortBy == 'totalAmount' ? 'checked' : ''} onchange="updateSort()">
+                                    <label class="form-check-label" for="sortByTotal">Tổng tiền</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hướng sắp xếp -->
+                        <div class="col-md-4">
+                            <label class="d-block fw-bold">Hướng sắp xếp:</label>
+                            <div class="d-flex">
+                                <div class="form-check me-3">
+                                    <input class="form-check-input" type="radio" name="sortOrder" id="sortDesc" value="DESC"
+                                           ${sortOrder == 'DESC' || sortOrder == null ? 'checked' : ''} onchange="updateSort()">
+                                    <label class="form-check-label" for="sortDesc">Giảm dần</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sortOrder" id="sortAsc" value="ASC"
+                                           ${sortOrder == 'ASC' ? 'checked' : ''} onchange="updateSort()">
+                                    <label class="form-check-label" for="sortAsc">Tăng dần</label>
+                                </div>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
+
+            <script>
+                function searchOrders() {
+                    const startDate = document.getElementById("startDate")?.value || "";
+                    const endDate = document.getElementById("endDate")?.value || "";
+                    const sortBy = document.querySelector('input[name="sortBy"]:checked')?.value || "";
+                    const sortOrder = document.querySelector('input[name="sortOrder"]:checked')?.value || "";
+
+                    console.log("Start Date:", startDate);
+                    console.log("End Date:", endDate);
+                    console.log("Sort By:", sortBy);
+                    console.log("Sort Order:", sortOrder);
+
+                    // Nếu người dùng nhập một trong hai ngày nhưng thiếu ngày còn lại
+                    if ((startDate && !endDate) || (!startDate && endDate)) {
+                        alert("Vui lòng nhập cả ngày bắt đầu và ngày kết thúc hoặc để trống cả hai!");
+                        return;
+                    }
+
+                    // Nếu có ngày bắt đầu và ngày kết thúc, kiểm tra hợp lệ
+                    if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+                        alert("Lỗi: Ngày bắt đầu không thể lớn hơn ngày kết thúc!");
+                        return;
+                    }
+
+                    // Xây dựng URL động: nếu người dùng không nhập ngày thì không thêm vào URL
+                    let url = "viewOrder?";
+                    let params = [];
+
+                    if (startDate)
+                        params.push("startDate=" + encodeURIComponent(startDate));
+                    if (endDate)
+                        params.push("endDate=" + encodeURIComponent(endDate));
+                    if (sortBy)
+                        params.push("sortBy=" + encodeURIComponent(sortBy));
+                    if (sortOrder)
+                        params.push("sortOrder=" + encodeURIComponent(sortOrder));
+
+                    url += params.join("&"); // Ghép các tham số lại với "&"
+
+                    console.log("Redirecting to:", url);
+                    window.location.href = url; // Chuyển hướng đến URL mới
+                }
+
+
+                // Gửi request ngay khi người dùng thay đổi radio button
+                function updateSort() {
+
+
+                    const sortBy = document.querySelector('input[name="sortBy"]:checked')?.value || "";
+                    const sortOrder = document.querySelector('input[name="sortOrder"]:checked')?.value || "";
+
+                    const startDate = document.getElementById("startDate")?.value || "";
+                    const endDate = document.getElementById("endDate")?.value || "";
+
+                    // Nếu chỉ nhập một trong hai ngày, yêu cầu nhập đủ
+                    if ((startDate && !endDate) || (!startDate && endDate)) {
+                        alert("Vui lòng nhập cả ngày bắt đầu và ngày kết thúc hoặc để trống cả hai!");
+                        return;
+                    }
+
+                    // Nếu ngày bắt đầu lớn hơn ngày kết thúc, báo lỗi
+                    if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+                        alert("Lỗi: Ngày bắt đầu không thể lớn hơn ngày kết thúc!");
+                        return;
+                    }
+
+                    // Xây dựng URL động
+                    let url = "viewOrder?";
+                    let params = [];
+
+                    // Chỉ thêm startDate & endDate nếu người dùng nhập đủ ngày
+                    if (startDate && endDate) {
+                        params.push("startDate=" + encodeURIComponent(startDate));
+                        params.push("endDate=" + encodeURIComponent(endDate));
+                    }
+
+                    // Thêm tham số sắp xếp
+                    if (sortBy)
+                        params.push("sortBy=" + encodeURIComponent(sortBy));
+                    if (sortOrder)
+                        params.push("sortOrder=" + encodeURIComponent(sortOrder));
+
+                    url += params.join("&");
+
+                    console.log("Redirecting to:", url);
+                    window.location.href = url;
+                }
+
+
+            </script>
+
+
+            <br>
+
+
 
             <div>
                 <table class="table  table-striped table-bordered">
@@ -54,8 +199,13 @@
                                 <td>${order.shipper.fullName}</td>
                                 <td>${order.payment.paymentMethod !=null ?"ATM" :"Thanh toán khi nhận hàng"}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-outline-primary" >View</button>
+                                    <div class="d-flex gap-2">
+                                        <a href="/viewOrderDetail?orderId=${order.orderId}" class="btn btn-sm btn-outline-primary">Xem</a> &nbsp;
+                                        
+                                        <a href="" class="btn btn-sm btn-outline-primary">Đánh giá shipper</a> &nbsp;
+                                    </div>
                                 </td>
+
                             </tr>
                         </c:forEach>
 
@@ -65,15 +215,21 @@
 
             <nav aria-label="Order history pagination">
                 <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
+
+
+                    <c:if test="${totalPage > 1}">
+                        <c:forEach var="pageNum" begin="1" end="${totalPage}">
+                            <c:choose>
+                                <c:when test="${pageNum == currentPage}">
+                                    <span class="page-link active">${pageNum}</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="page-item "><a class="page-link" href="viewOrder?startDate=${param.startDate}&endDate=${param.endDate}&sortBy=${param.sortBy}&sortOrder=${param.sortOrder}&page=${pageNum}">${pageNum}</a></li>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </c:if>
+
                 </ul>
             </nav>
 

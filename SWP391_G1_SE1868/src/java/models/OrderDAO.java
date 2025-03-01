@@ -195,29 +195,49 @@ public class OrderDAO extends DBContext {
             return false;  // Nếu có lỗi xảy ra, trả về false
         }
     }
- // lấy list đơn hang của cumtomer
-    public List<Order> getOrdersByCustomerId(int customerId) {
-        // Khai báo danh sách đơn hàng để lưu các đơn hàng tìm được
+
+    // lấy list đơn hang của cumtomer
+    public List<Order> getOrdersByCustomerId(int customerId, LocalDate startDate, LocalDate endDate, int page, int pageSize, String sortBy, String sortOrder) {
         List<Order> orders = new ArrayList<>();
 
-        // Truy vấn lấy tất cả đơn hàng của một customerId
-        String sql = "SELECT * FROM Orders WHERE customerId = ?";
+        // Xác định cột sắp xếp hợp lệ
+        String validSortBy = "orderDate"; // Mặc định sắp xếp theo orderDate
+        if ("totalAmount".equals(sortBy)) {
+            validSortBy = "totalAmount";
+        }
+
+        // Xác định thứ tự sắp xếp hợp lệ (ASC hoặc DESC)
+        String validSortOrder = "DESC"; // Mặc định là giảm dần
+        if ("ASC".equalsIgnoreCase(sortOrder)) {
+            validSortOrder = "ASC";
+        }
+
+        // Xây dựng truy vấn SQL động với điều kiện thời gian, sắp xếp và phân trang
+        String sql = "SELECT * FROM Orders WHERE customerId = ? ";
+        if (startDate != null && endDate != null) {
+            sql += "AND orderDate BETWEEN ? AND ? ";
+        }
+        sql += "ORDER BY " + validSortBy + " " + validSortOrder + " LIMIT ? OFFSET ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, customerId);  // Thiết lập customerId cho câu lệnh truy vấn
+            stmt.setInt(1, customerId);
 
-            // khai báo PaymentDAO
-            
-            PaymentDAO paymentDAO =  new PaymentDAO();
-            
-            // khai báo shipDAo
-            
-            ShipperDAO shipperDAO =  new ShipperDAO();
-            // lấy ra đối tượng shipper (hashcode ID =1)
-            Shipper shipper =  shipperDAO.getShipperById(1);
-            
+            int index = 2;
+            if (startDate != null && endDate != null) {
+                stmt.setDate(index++, Date.valueOf(startDate));
+                stmt.setDate(index++, Date.valueOf(endDate));
+            }
+
+            // Thiết lập giới hạn (LIMIT) và vị trí bắt đầu (OFFSET)
+            stmt.setInt(index++, pageSize);
+            stmt.setInt(index, (page - 1) * pageSize);
+
+            // Khai báo PaymentDAO và ShipperDAO
+            PaymentDAO paymentDAO = new PaymentDAO();
+            ShipperDAO shipperDAO = new ShipperDAO();
+            Shipper shipper = shipperDAO.getShipperById(1);
+
             try (ResultSet rs = stmt.executeQuery()) {
-                // Duyệt qua các kết quả trả về và tạo đối tượng Order
                 while (rs.next()) {
                     Order order = new Order();
                     order.setOrderId(rs.getInt("orderId"));
@@ -229,7 +249,7 @@ public class OrderDAO extends DBContext {
                     order.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
                     order.setPayment(paymentDAO.getPaymentByOrderId(rs.getInt("orderId")));
                     order.setShipper(shipper);
-                    // Thêm đơn hàng vào danh sách
+
                     orders.add(order);
                 }
             }
@@ -237,8 +257,37 @@ public class OrderDAO extends DBContext {
             e.printStackTrace();
         }
 
-        // Trả về danh sách các đơn hàng
         return orders;
+    }
+
+    // lấy tổng số đơn hàng
+    public int getTotalOrderPages(int customerId, LocalDate startDate, LocalDate endDate, int pageSize) {
+        int totalOrders = 0;
+        String sql = "SELECT COUNT(*) FROM Orders WHERE customerId = ?";
+
+        if (startDate != null && endDate != null) {
+            sql += " AND orderDate BETWEEN ? AND ?";
+        }
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, customerId);
+
+            int index = 2;
+            if (startDate != null && endDate != null) {
+                stmt.setDate(index++, Date.valueOf(startDate));
+                stmt.setDate(index, Date.valueOf(endDate));
+            }
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    totalOrders = rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return (int) Math.ceil((double) totalOrders / pageSize);
     }
 
     // lấy đơn hàng mới nhất của cutomer
@@ -304,9 +353,8 @@ public class OrderDAO extends DBContext {
     public static void main(String[] args) {
         OrderDAO orderDAO = new OrderDAO();
         CustomerDAO customerDAO = new CustomerDAO();
-        
 
-        var check = orderDAO.getOrdersByCustomerId(1);
+        var check = orderDAO.getOrdersByCustomerId(1,null, null, 1, 10, null, null);
         for (Order order : check) {
             System.out.println(order);
         }
