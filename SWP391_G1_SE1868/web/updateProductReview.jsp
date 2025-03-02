@@ -72,7 +72,7 @@
                     </div>
                 </form>
                     <div class="mb-3">
-                        <a href="getReviews"><button type="button" class="btn btn-primary w-100">Quay lại shop</button></a>
+                        <a href="/getReviews?productId=${review.product.productId}"><button type="button" class="btn btn-primary w-100">Quay lại shop</button></a>
                     </div>
             </div>
         </div>

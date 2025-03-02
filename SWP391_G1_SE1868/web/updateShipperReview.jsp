@@ -16,14 +16,14 @@
 
         <div class="container d-flex justify-content-center align-items-center" style="min-height:80vh;">
             <div class="card p-4" style="max-width: 500px; width: 100%;">
-                <form action="updateProductReview" method="post" >
+                <form action="updateShipperReview" method="post" >
                     <!-- reviewId được ẩn vì là giá trị không thay đổi -->
                     <input type="hidden" name="reviewId" value="${review.reviewId}">
 
                     <!-- Sản phẩm -->
                     <div class="mb-3">
-                        <label for="productName" class="form-label">Sản phẩm:</label>
-                        <input type="text" id="productName" name="productName" value="${review.product.name}" class="form-control" readonly>
+                        <label for="productName" class="form-label">Tên shipper:</label>
+                        <input type="text" id="productName" name="productName" value="${review.shipper.fullName}" class="form-control" readonly>
                     </div>
 
                     <!-- Khách hàng -->
@@ -71,7 +71,7 @@
                     </div>
                 </form>
                     <div class="mb-3">
-                        <a href="getReviews"><button type="button" class="btn btn-primary w-100">Quay lại shop</button></a>
+                        <a href="/shipperReview?shipperId=${review.shipper.shipperId}"><button type="button" class="btn btn-primary w-100">Trở lại đánh giá shipper</button></a>
                     </div>
             </div>
         </div>

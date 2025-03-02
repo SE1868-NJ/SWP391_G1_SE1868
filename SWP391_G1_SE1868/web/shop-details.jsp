@@ -94,11 +94,6 @@
                         $(document).ready(function () {
                             showPopup('successPopupp');  // successPopup là ID của popup thành công
                         });
-
-                        // Tự động ẩn popup sau một khoảng thời gian
-                        closePopupp(function () {
-                            closePopupp('successPopupp'); // Thay 'successPopupp' bằng ID của popup bạn muốn ẩn
-                        }, 3000); // Ẩn popup sau 3 giây (3000ms)
                     </script>
                 </c:when>
 

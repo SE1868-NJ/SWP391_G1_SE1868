@@ -98,7 +98,7 @@ public class UpdateProductReviewServlet extends HttpServlet {
 
         // Truyền giá trị thành công qua query parameter
         String successParam = success ? "true" : "false";
-        response.sendRedirect("getReviews?success=" + successParam);
+        response.sendRedirect("getReviews?productId="+review.getProduct().getProductId()+"&success=" + successParam);
 
     }
 

@@ -72,6 +72,50 @@ public class ShipperReviewDAO extends DBContext {
 
         return reviews;
     }
+    // Lấy review theo reviewId
+
+    public ShipperReview getReviewById(int reviewId) {
+        ShipperReview review = null;
+        String sql = "SELECT * FROM ShipperReviews WHERE reviewId = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, reviewId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                review = new ShipperReview();
+                review.setReviewId(rs.getInt("reviewId"));
+                review.setCustomer(getCustomerByIdForShipperReviews(rs.getInt("customerId")));
+                review.setShipper(getShipperById(rs.getInt("shipperId")));
+                review.setRating(rs.getInt("rating"));
+                review.setComment(rs.getString("comment"));
+                review.setCreatedAt(rs.getDate("createdAt").toLocalDate());
+                review.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return review;
+    }
+
+    // Cập nhật rating và comment của ShipperReview theo reviewId
+    public boolean updateShipperReview(ShipperReview review) {
+        String sql = "UPDATE ShipperReviews SET rating = ?, comment = ?, updatedAt = NOW() WHERE reviewId = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, review.getRating());
+            stmt.setString(2, review.getComment());
+            stmt.setInt(3, review.getReviewId());
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0; // Trả về true nếu cập nhật thành công
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false; // Trả về false nếu có lỗi
+    }
 
     // lấy tổng số đánh giá của shipper theo ID
     public int getTotalReviewsByShipperId(int shipperId) {
@@ -92,9 +136,8 @@ public class ShipperReviewDAO extends DBContext {
 
         return totalReviews; // Trả về tổng số đánh giá
     }
-    
-    //  trung bình rating của shipper theo ID
 
+    //  trung bình rating của shipper theo ID
     public double getAverageRatingByShipperId(int shipperId) {
         double avgRating = 0.0;
 
@@ -139,31 +182,31 @@ public class ShipperReviewDAO extends DBContext {
         }
         return null;
     }
+
     // lấy tổng sô page
     public int getTotalPagesForShipperReviews(int shipperId, int pageSize) {
-    int totalReviews = 0;
-    int totalPages = 0;
+        int totalReviews = 0;
+        int totalPages = 0;
 
-    String sql = "SELECT COUNT(*) FROM ShipperReviews WHERE shipperId = ?";
+        String sql = "SELECT COUNT(*) FROM ShipperReviews WHERE shipperId = ?";
 
-    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-        stmt.setInt(1, shipperId); // Gán shipperId vào SQL
-        ResultSet rs = stmt.executeQuery();
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, shipperId); // Gán shipperId vào SQL
+            ResultSet rs = stmt.executeQuery();
 
-        if (rs.next()) {
-            totalReviews = rs.getInt(1); // Lấy tổng số đánh giá
+            if (rs.next()) {
+                totalReviews = rs.getInt(1); // Lấy tổng số đánh giá
+            }
+
+            // Tính totalPages, làm tròn lên nếu còn dư
+            totalPages = (int) Math.ceil((double) totalReviews / pageSize);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        // Tính totalPages, làm tròn lên nếu còn dư
-        totalPages = (int) Math.ceil((double) totalReviews / pageSize);
-
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return totalPages; // Trả về tổng số trang
     }
-
-    return totalPages; // Trả về tổng số trang
-}
-
 
     //  Lấy khách hàng theo ID 
     private Customer getCustomerByIdForShipperReviews(int customerId) {
