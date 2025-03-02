@@ -67,6 +67,33 @@ public class OrderDetailDAO extends DBContext {
         return orderDetails;
     }
 
+    public OrderDetail getOrderDetailById(int orderDetailId) {
+        OrderDetail orderDetail = null;
+
+        String sql = "SELECT * FROM OrderDetails WHERE orderDetailId = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, orderDetailId);
+            ResultSet rs = stmt.executeQuery();
+
+            // Khai báo ProductDAO để lấy thông tin sản phẩm
+            ProductDAO productDAO = new ProductDAO();
+
+            if (rs.next()) {
+                orderDetail = new OrderDetail();
+                orderDetail.setOrderDetailId(rs.getInt("orderDetailId"));
+                orderDetail.setOrder(getOrderById(rs.getInt("orderId"))); // Lấy thông tin Order
+                orderDetail.setProduct(productDAO.getProductByIdNoJoin(rs.getInt("productId"))); // Lấy thông tin Product
+                orderDetail.setQuantity(rs.getInt("quantity"));
+                orderDetail.setUnitPrice(rs.getDouble("unitPrice"));
+                orderDetail.setSubTotal(rs.getDouble("subTotal"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orderDetail;
+    }
+
     // hàm lấy orderById private
     private Order getOrderById(int orderId) {
         String sql = "SELECT * FROM orders WHERE orderId = ?";
@@ -142,11 +169,11 @@ public class OrderDetailDAO extends DBContext {
     public static void main(String[] args) {
         OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
 
-//        List<OrderDetail> orderDetails = orderDetailDAO.getOrderDetailsByOrderId(1);
-//
-//        for (OrderDetail orderDetail : orderDetails) {
-//            System.out.println(orderDetail);
-//        }
+        List<OrderDetail> orderDetails = orderDetailDAO.getOrderDetailsByOrderIdSorted(36, null, null);
+
+        for (OrderDetail orderDetail : orderDetails) {
+             System.out.println(orderDetail);
+        }
 
     }
 

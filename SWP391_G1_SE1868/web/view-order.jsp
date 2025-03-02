@@ -202,7 +202,7 @@
                                     <div class="d-flex gap-2">
                                         <a href="/viewOrderDetail?orderId=${order.orderId}" class="btn btn-sm btn-outline-primary">Xem</a> &nbsp;
                                         
-                                        <a href="" class="btn btn-sm btn-outline-primary">Đánh giá shipper</a> &nbsp;
+                                        <a href="/shipperReview?shipperId=${order.shipper.shipperId}" class="btn btn-sm btn-outline-primary">Đánh giá shipper</a> &nbsp;
                                     </div>
                                 </td>
 

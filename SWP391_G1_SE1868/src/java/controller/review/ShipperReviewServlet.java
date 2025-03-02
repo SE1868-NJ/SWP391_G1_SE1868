@@ -2,10 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.Order;
+package controller.review;
 
 import entity.Customer;
-import entity.Order;
+import entity.Shipper;
+import entity.ShipperReview;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,16 +15,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.time.LocalDate;
 import java.util.List;
-import models.OrderDAO;
+import models.ShipperReviewDAO;
 
 /**
  *
  * @author Đạt
  */
-@WebServlet(name = "ViewOrderServlet", urlPatterns = {"/viewOrder"})
-public class ViewOrderServlet extends HttpServlet {
+@WebServlet(name = "ShipperReviewServlet", urlPatterns = {"/shipperReview"})
+public class ShipperReviewServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +42,10 @@ public class ViewOrderServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewOrderServlet</title>");
+            out.println("<title>Servlet ShipperReviewServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewOrderServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ShipperReviewServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,46 +64,56 @@ public class ViewOrderServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
-        String startDateParam = request.getParameter("startDate");
-        String endDateParam = request.getParameter("endDate");
+        int shipperId = Integer.parseInt(request.getParameter("shipperId"));
 
-        LocalDate startDate = (startDateParam != null && !startDateParam.isEmpty()) ? LocalDate.parse(startDateParam) : null;
-        LocalDate endDate = (endDateParam != null && !endDateParam.isEmpty()) ? LocalDate.parse(endDateParam) : null;
-
-        String page = request.getParameter("page") != null ? request.getParameter("page") : "1";
+        String page = request.getParameter("page");
+        String rating = request.getParameter("rating");
         int pageSize = 3;
-        String sortBy = request.getParameter("sortBy") != null ? request.getParameter("sortBy") : "orderDate";
-        String sortOrder = request.getParameter("sortOrder") != null ? request.getParameter("sortOrder") : "DESC";
+
+        if (rating == null || rating.isEmpty()) {
+            rating = "0";  // thiết lập giá trị mặc định là 1 nếu tham số không có
+        }
+
+        if (page == null || page.isEmpty()) {
+            page = "1";  // thiết lập giá trị mặc định là 1 nếu tham số không có
+        }
         // lấy sessiong customer
         HttpSession session = request.getSession();
 
-        // lấy đố tương cusomret ở session
-        //       Customer customer = (Customer) session.getAttribute("user");
-//        // check custoemer
+        //lấy đố tương cusomret ở session
+        Customer customer = (Customer) session.getAttribute("user");
+        // check custoemer
 //        if (customer == null) {
 //            response.sendRedirect("login.jsp");
 //            return;
 //        }
-        // khai báo OrderDAO
-        OrderDAO orderDAO = new OrderDAO();
 
-        // lấy list odder theo customerID
-        List<Order> orders = orderDAO.getOrdersByCustomerId(1, startDate, endDate, Integer.parseInt(page), pageSize, sortBy, sortOrder);
+        // khai bao Dao ShipperReview
+        ShipperReviewDAO shipperReviewDAO = new ShipperReviewDAO();
 
-        // get totalPage
-        int totalPage = orderDAO.getTotalOrderPages(1, startDate, endDate, pageSize);
+        // lấy list shipepr review
+        List<ShipperReview> shipperReviews = shipperReviewDAO.getReviewsByShipperIdWithPagination(1, Integer.parseInt(rating), Integer.parseInt(page), pageSize);
 
-        request.setAttribute("orders", orders);
-        request.setAttribute("totalPage", totalPage);
+        // lấy thông tin shipper
+        Shipper shipper = shipperReviewDAO.getShipperById(shipperId);
+
+        // laays toongr soo đabgs giá của shipper
+        int totalReview = shipperReviewDAO.getTotalReviewsByShipperId(shipperId);
+
+        // lấy trung bình số rating
+        double totalRating = shipperReviewDAO.getAverageRatingByShipperId(shipperId);
+
+        // lấy totalPage để paging
+        int totalPage = shipperReviewDAO.getTotalPagesForShipperReviews(shipperId, pageSize);
+
+        request.setAttribute("totalReview", totalReview);
+        request.setAttribute("shipperReviews", shipperReviews);
+        request.setAttribute("totalRating", totalRating);
         request.setAttribute("currentPage", page);
+        request.setAttribute("shipper", shipper);
+        request.setAttribute("totalPage", totalPage);
 
-        
-        // Gửi giá trị đến JSP
-        request.setAttribute("sortBy", sortBy);
-        request.setAttribute("sortOrder", sortOrder);
-        
-        
-        request.getRequestDispatcher("view-order.jsp").forward(request, response);
+        request.getRequestDispatcher("shipper-review.jsp").forward(request, response);
 
     }
 

@@ -123,13 +123,14 @@
                                 <td>${detail.product.name}</td>
 
                                 <td>${detail.product.category.name}</td>
-                                <td><img src="${detail.product.images[0].imageUrl}" style="width: 50px" alt="ProductImage"/></td>
-                                <td>${detail.quantity}</td>
-                                <td><fmt:formatNumber type="number" currencyCode="true" value="${detail.unitPrice}"/> đ</td>
-                                <td><fmt:formatNumber type="number" currencyCode="true" value="${detail.subTotal}"/> đ</td>
-                                <td>
-                                    <div class="d-flex gap-2">
-                                        <a href="" class="btn btn-sm btn-outline-primary">Đánh giá sản phẩm</a> &nbsp;
+                                <td><img src="${detail.product.images[0].imageUrl}" class="rounded-circle" style="width: 50px" alt="ProductImage" 
+                                         onerror="this.onerror=null; this.src='./assets/img/login.png'" /></td>
+                                         <td>${detail.quantity}</td>
+                                         <td><fmt:formatNumber type="number" currencyCode="true" value="${detail.unitPrice}"/> đ</td>
+                                         <td><fmt:formatNumber type="number" currencyCode="true" value="${detail.subTotal}"/> đ</td>
+                                         <td>
+                                         <div class="d-flex gap-2">
+                                    <a href="" class="btn btn-sm btn-outline-primary">Đánh giá sản phẩm</a> &nbsp;
                                     </div>
                                 </td>
 
@@ -140,9 +141,10 @@
                 </table>
                 <hr class="mb-4">
                 <br>
-                <div class="d-flex justify-content-center align-items-center">
+                <div class="d-flex justify-content-between align-items-center">
                     <a href="/viewOrder" class="btn btn-outline-primary">Back to Order</a>
-                    <div class="me-auto text-center px-5"> <!-- Thêm margin-end (me-auto) và padding-x (px-3) -->
+                    
+                    <div class="ms-auto text-center px-5"> <!-- Thêm margin-end (me-auto) và padding-x (px-3) -->
                         <span>Total (VND): </span>
                         <strong><fmt:formatNumber type="number" value="${totalOrderDetail}" currencyCode="true"/> đ</strong>
                     </div>

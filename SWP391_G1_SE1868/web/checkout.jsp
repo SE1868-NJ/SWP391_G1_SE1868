@@ -34,7 +34,8 @@
                             <c:forEach var="cart" items="${requestScope.carts}">
                                 <li class="list-group-item d-flex justify-content-between lh-sm align-items-center">
                                     <div class="d-flex">
-                                        <img src="${cart.product.images[0].imageUrl}" class="rounded me-3 img-thumbnail" style="max-width: 40px;" alt="Product Image">
+                                        <img src="${cart.product.images[0].imageUrl}" class="rounded me-3 img-thumbnail" style="max-width: 40px;" 
+                                             alt="Product Image" onerror="this.onerror=null; this.src='./assets/img/login.png' ">
                                         <div>
                                             <h6 class="my-0">${cart.product.name}</h6>
                                             <small class="text-muted">${cart.product.category.name}</small>

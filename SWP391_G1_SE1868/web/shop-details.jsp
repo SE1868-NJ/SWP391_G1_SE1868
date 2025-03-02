@@ -145,8 +145,8 @@
                     <div class="col-lg-6 col-md-6">
                         <div class="product__details__pic">
                             <div class="product__details__pic__item">
-                                <img class="product__details__pic__item--large"
-                                     src="${product.images[1].imageUrl}"  alt=""
+                                <img class="rounded-circle"
+                                     src="${product.images[1].imageUrl}"   alt=""
                                      >
                             </div>
 
@@ -155,7 +155,7 @@
                                 <c:forEach var="img" items="${product.images}" varStatus="status">
                                     <c:if test="${status.index < 5}"> <!-- Giới hạn số lượng ảnh hiển thị -->
                                         <img data-imgbigurl="${img.imageUrl}" 
-                                             src="${img.imageUrl}" alt="Product Image" 
+                                             src="${img.imageUrl}"  alt="Product Image" 
                                              class="thumbnail" onclick="openPopup(this)">
                                     </c:if>
                                 </c:forEach>
@@ -274,25 +274,26 @@
                             </ul>
 
                         </div>
-                            
+
                     </div>
 
-                            
-                    
+
+
 
                     <div class="col-lg-12">
 
                         <div class="product__details__tab">
-                            
+
                             <div class="col-lg-6 col-md-6 mb-4"> 
                                 <a href="/home" class="primary-btn">Back to shop</a>
                                 <br>
                                 <br>
                                 <div class="d-flex align-items-center p-3 border-0 shadow-sm">
                                     <!-- Icon shop -->
-                                    
+
                                     <div class="icon-shop me-3">
-                                        <img src="${product.shop.logo}" alt="Avatar" class="avatar me-2">
+                                        <img src="${product.shop.logo} " class="rounded-circle" style="width: 50px" alt="Avatar"
+                                             onerror="this.onerror=null; this.src='./assets/img/login.png'" >
                                     </div>
                                     <!-- Thông tin shop -->
                                     <div>
@@ -312,93 +313,32 @@
                                     <div class="product__details__tab__desc">
                                         <h4>Danh sách đánh giá của người dùng</h4>
 
-                                        <!-- Tổng số sao và trung bình đánh giá -->
-                                        <div class="rating-summary">
-                                            <p><strong>Tổng số đánh giá:</strong> <span id="total-reviews">${totalReview}</span></p>
-                                            <p><strong>Trung bình:</strong> <span class="stars" id="average-rating" 
-                                                                                  data-rating="<fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1" />"> </span>
-                                                <fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1"  /> /5.0</p>
-                                        </div>
 
-                                        <!-- Bộ lọc số sao -->
-                                        <div class="filter-rating">
-                                            <strong>Lọc theo số sao:</strong>
-                                            <ul>
-                                                <li><button data-star="0" class="filter-active"  onclick="filterReviews(0, ${product.productId})">Tất cả</button></li>
-                                                <li><button data-star="5" onclick="filterReviews(5, ${product.productId})">5 Sao</button></li>
-                                                <li><button data-star="4" onclick="filterReviews(4, ${product.productId})">4 Sao</button></li>
-                                                <li><button data-star="3" onclick="filterReviews(3, ${product.productId})">3 Sao</button></li>
-                                                <li><button data-star="2" onclick="filterReviews(2, ${product.productId})">2 Sao</button></li>
-                                                <li><button data-star="1" onclick="filterReviews(1, ${product.productId})">1 Sao</button></li>
 
-                                            </ul>
 
+                                        <div class="container">
+                                            <div class="filter-rating d-flex align-items-center justify-content-between flex-wrap">
+                                                <!-- Tổng số sao và trung bình đánh giá -->
+                                                <div class="rating-summary">
+                                                    <p><strong>Tổng số đánh giá:</strong> <span id="total-reviews">${totalReview}</span></p>
+                                                    <p><strong>Trung bình:</strong> <span class="stars" id="average-rating" 
+                                                                                          data-rating="<fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1" />"> </span>
+                                                        <fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1"  /> /5.0</p>
+                                                </div>
+                                                <!-- Các nút lọc căn giữa -->
+                                                <div class="d-flex justify-content-center flex-wrap gap-2 filter-rating">
+                                                    <button class="btn btn-outline-primary active" data-star="0" onclick="filterReviews(0, ${product.productId})">Tất cả</button>
+                                                    <button class="btn btn-outline-primary" data-star="5" onclick="filterReviews(5, ${product.productId})">5 Sao</button>
+                                                    <button class="btn btn-outline-primary" data-star="4" onclick="filterReviews(4, ${product.productId})">4 Sao</button>
+                                                    <button class="btn btn-outline-primary" data-star="3" onclick="filterReviews(3, ${product.productId})">3 Sao</button>
+                                                    <button class="btn btn-outline-primary" data-star="2" onclick="filterReviews(2, ${product.productId})">2 Sao</button>
+                                                    <button class="btn btn-outline-primary" data-star="1" onclick="filterReviews(1, ${product.productId})">1 Sao</button>
+                                                </div>
+
+                                            </div>
                                         </div>
                                         <br>
-                                        <style>
-                                            /* Bộ lọc số sao */
-                                            .filter-rating ul {
-                                                display: flex;
-                                                gap: 10px;
-                                                list-style: none;
-                                                padding: 0;
-                                            }
 
-
-
-                                            .filter-rating button:hover  {
-                                                background-color: #007bff;
-                                                color: white;
-                                            }
-
-
-                                            /* Khi nút được chọn (active), nó đổi màu xanh */
-                                            .filter-rating button.filter-active {
-                                                background-color: #007bff;
-                                                color: white;
-                                            }
-
-
-                                            /* Định dạng danh sách đánh giá */
-                                            .review-list {
-                                                list-style: none;
-                                                padding: 0;
-                                            }
-
-                                            .review-list li {
-                                                padding: 10px;
-                                                border-bottom: 1px solid #ddd;
-                                                display: flex;
-                                                align-items: center;
-                                                gap: 10px;
-                                            }
-
-
-
-
-                                            .pagination-controls {
-                                                display: flex;
-                                                justify-content: center;
-                                                margin: 20px 0;
-                                                gap: 10px;
-                                            }
-
-                                            .pagination-controls button {
-                                                padding: 5px 10px;
-                                                border: 1px solid #007bff;
-                                                background-color: white;
-                                                color: #007bff;
-                                                cursor: pointer;
-                                                border-radius: 3px;
-                                            }
-
-                                            .pagination-controls button:disabled {
-                                                background-color: #ccc;
-                                                color: #666;
-                                                cursor: not-allowed;
-                                            }
-
-                                        </style>
 
 
                                         <!-- Danh sách đánh giá -->
@@ -412,13 +352,15 @@
 
                                                         <!-- Phần chứa ảnh và tên người dùng trên cùng một hàng -->
                                                         <div class="d-flex align-items-center">
-                                                            <img src="${review.customer.profileImage}" alt="Avatar" class="avatar me-2">
-                                                            <span class="fw-bold">${review.customer.fullName}</span>
+                                                            <img src="${review.customer.profileImage}" class="rounded-circle" alt="Avatar"  
+                                                                 style="width: 50px"
+                                                                 onerror="this.onerror=null; this.src='./assets/img/login.png'">
+                                                                 <span class="fw-bold">${review.customer.fullName}</span>
                                                         </div>
 
 
                                                         <!-- Đánh giá sao -->
-                                                        <span class="stars">${review.rating} </span>
+                                                        <span class="stars text-warning">${review.rating} </span>
                                                     </div>
 
                                                     <!-- Bình luận nằm dưới tên người dùng -->
@@ -451,143 +393,103 @@
                                     </div>
                                 </div>
                                 <!-- Phân trang -->
-                                <div class="pagination">
-                                    <c:if test="${totalPages > 1}">
-                                        <c:forEach var="pageNum" begin="1" end="${totalPages}">
-                                            <c:choose>
-                                                <c:when test="${pageNum == currentPage}">
-                                                    <span class="page-link active">${pageNum}</span>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <a class="page-link" href="getReviews?productId=${param.productId}&page=${pageNum}&starFilter=${param.starFilter}">${pageNum}</a>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:forEach>
-                                    </c:if>
-                                </div>
-                                <style>
-                                    .pagination {
-                                        text-align: center;
-                                        margin-top: 20px;
+
+                                <nav aria-label="Order history pagination">
+                                    <ul class="pagination justify-content-center">
+
+                                        <c:if test="${totalPages > 1}">
+                                            <c:forEach var="pageNum" begin="1" end="${totalPages}">
+                                                <c:choose>
+                                                    <c:when test="${pageNum == currentPage}">
+                                                        <span class="page-link active">${pageNum}</span>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <a class="page-link" href="getReviews?productId=${param.productId}&page=${pageNum}&starFilter=${param.starFilter}">${pageNum}</a>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
+                                        </c:if>
+
+                                    </ul>
+                                </nav>
+
+
+
+                                <script>
+
+
+                                    // Hiển thị popup và phóng to ảnh
+                                    function openPopup(imgElement) {
+                                        let popup = document.getElementById("imagePopup");
+                                        let popupImage = document.getElementById("popupImage");
+
+                                        popupImage.src = imgElement.src;  // Lấy ảnh từ thumbnail
+                                        popup.classList.add("show");  // Hiển thị popup
+                                        popup.style.display = "flex";
                                     }
 
-                                    .page-link {
-                                        display: inline-block;
-                                        padding: 8px 15px;
-                                        margin: 0 5px;
-                                        text-decoration: none;
-                                        font-size: 16px;
-                                        color: #007bff;
-                                        border: 1px solid #007bff;
-                                        border-radius: 5px;
-                                        transition: background 0.3s, color 0.3s;
-                                    }
-
-                                    .page-link:hover {
-                                        background: #007bff;
-                                        color: white;
-                                    }
-
-                                    .page-link.active {
-                                        background: #007bff;
-                                        color: white;
-                                        font-weight: bold;
-                                        border: 1px solid #0056b3;
-                                        cursor: default;
-                                    }
-
-
-
-
-                                    .avatar {
-                                        width: 40px; /* Kích thước ảnh */
-                                        height: 40px;
-                                        border-radius: 50%; /* Làm tròn ảnh */
-                                        object-fit: cover; /* Giữ tỷ lệ ảnh không bị méo */
-                                        margin-right: 10px;
-                                        vertical-align: middle; /* Căn giữa với text */
-                                    }
-                                </style>
-
-                            </div>
-
-
-
-                            <script>
-
-
-                                // Hiển thị popup và phóng to ảnh
-                                function openPopup(imgElement) {
-                                    let popup = document.getElementById("imagePopup");
-                                    let popupImage = document.getElementById("popupImage");
-
-                                    popupImage.src = imgElement.src;  // Lấy ảnh từ thumbnail
-                                    popup.classList.add("show");  // Hiển thị popup
-                                    popup.style.display = "flex";
-                                }
-
-                                // Đóng popup khi bấm vào X hoặc bên ngoài ảnh
-                                function closePopup(event) {
-                                    let popup = document.getElementById("imagePopup");
-                                    if (event.target === popup || event.target.classList.contains("close-btn")) {
-                                        popup.classList.remove("show");
-                                        setTimeout(() => {
-                                            popup.style.display = "none"; // Delay để giữ hiệu ứng
-                                        }, 300);
-                                    }
-                                }
-
-                                // Hàm hiển thị sao tự động
-                                function updateStars() {
-                                    document.querySelectorAll(".stars").forEach(star => {
-                                        const rating = parseInt(star.closest("li")?.getAttribute("data-rating") || star.getAttribute("data-rating"));
-                                        if (rating === 5)
-                                            star.innerHTML = "★★★★★";
-                                        else if (rating === 4)
-                                            star.innerHTML = "★★★★☆";
-                                        else if (rating === 3)
-                                            star.innerHTML = "★★★☆☆";
-                                        else if (rating === 2)
-                                            star.innerHTML = "★★☆☆☆";
-                                        else if (rating === 1)
-                                            star.innerHTML = "★☆☆☆☆";
-                                        else
-                                            star.innerHTML = "☆☆☆☆☆";
-                                    });
-                                }
-
-
-
-                                function filterReviews(star, productId) {
-                                    // Lưu trạng thái của nút đã chọn vào localStorage
-                                    localStorage.setItem("selectedStar", star);
-                                    const url = "getReviews?productId=" + productId + "&starFilter=" + star;
-                                    console.log("Chuyển hướng đến URL:", url);
-                                    window.location.href = url;
-                                }
-
-                                window.addEventListener("load", () => {
-                                    const selectedStar = localStorage.getItem("selectedStar");
-                                    // Xóa class "filter-active" khỏi tất cả các nút trước khi thêm vào nút mới
-                                    document.querySelectorAll(".filter-rating button").forEach(btn => btn.classList.remove("filter-active"));
-
-                                    if (selectedStar) {
-                                        const allButtons = document.querySelectorAll(".filter-rating button");
-                                        const activeButton = Array.from(allButtons).find(btn => btn.getAttribute("data-star") === selectedStar);
-                                        if (activeButton) {
-                                            activeButton.classList.add("filter-active");
+                                    // Đóng popup khi bấm vào X hoặc bên ngoài ảnh
+                                    function closePopup(event) {
+                                        let popup = document.getElementById("imagePopup");
+                                        if (event.target === popup || event.target.classList.contains("close-btn")) {
+                                            popup.classList.remove("show");
+                                            setTimeout(() => {
+                                                popup.style.display = "none"; // Delay để giữ hiệu ứng
+                                            }, 300);
                                         }
                                     }
-                                });
 
-                                updateStars();
-                            </script>
+                                    // Hàm hiển thị sao tự động
+                                    function updateStars() {
+                                        document.querySelectorAll(".stars").forEach(star => {
+                                            const rating = parseInt(star.closest("li")?.getAttribute("data-rating") || star.getAttribute("data-rating"));
+                                            if (rating === 5)
+                                                star.innerHTML = "★★★★★";
+                                            else if (rating === 4)
+                                                star.innerHTML = "★★★★☆";
+                                            else if (rating === 3)
+                                                star.innerHTML = "★★★☆☆";
+                                            else if (rating === 2)
+                                                star.innerHTML = "★★☆☆☆";
+                                            else if (rating === 1)
+                                                star.innerHTML = "★☆☆☆☆";
+                                            else
+                                                star.innerHTML = "☆☆☆☆☆";
+                                        });
+                                    }
 
 
+
+                                    function filterReviews(star, productId) {
+                                        // Lưu trạng thái của nút đã chọn vào localStorage
+                                        localStorage.setItem("selectedStar", star);
+                                        const url = "getReviews?productId=" + productId + "&starFilter=" + star;
+                                        console.log("Chuyển hướng đến URL:", url);
+                                        window.location.href = url;
+                                    }
+
+                                    window.addEventListener("load", () => {
+                                        const selectedStar = localStorage.getItem("selectedStar");
+                                        // Xóa class "filter-active" khỏi tất cả các nút trước khi thêm vào nút mới
+                                        document.querySelectorAll(".filter-rating button").forEach(btn => btn.classList.remove("active"));
+
+                                        if (selectedStar) {
+                                            const allButtons = document.querySelectorAll(".filter-rating button");
+                                            const activeButton = Array.from(allButtons).find(btn => btn.getAttribute("data-star") === selectedStar);
+                                            if (activeButton) {
+                                                activeButton.classList.add("active");
+                                            }
+                                        }
+                                    });
+
+                                    updateStars();
+                                </script>
+
+
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </section>
         <!-- Product Details Section End -->
 
