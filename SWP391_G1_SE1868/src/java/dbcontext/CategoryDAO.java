@@ -1,3 +1,4 @@
+
 package dbcontext;
 
 import entity.Category;
@@ -6,7 +7,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CategoryDAO extends GiangDBcontext {
+public class CategoryDAO extends NguyenDBContext {
 
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();
@@ -32,3 +33,4 @@ public class CategoryDAO extends GiangDBcontext {
         return categories;
     }
 }
+

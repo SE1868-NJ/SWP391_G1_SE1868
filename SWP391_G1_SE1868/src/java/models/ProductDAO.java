@@ -5,11 +5,13 @@
 package models;
 
 import dbcontext.DBContext;
+import entity.Cart;
 import entity.Category;
 import entity.Customer;
 import entity.Product;
 import entity.ProductImage;
 import entity.ProductReview;
+import entity.Shop;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;   // tap ban ghi 
 import java.sql.Statement;
@@ -40,8 +42,8 @@ public class ProductDAO extends DBContext {
             stmt.setInt(5, product.getCategory() != null ? product.getCategory().getCategoryId() : null);
 
             // Kiểm tra shopId (nếu shop không phải null)
-           stmt.setInt(6, product.getCategory() != null ? product.getShop().getShopId() : null);
-           
+            stmt.setInt(6, product.getCategory() != null ? product.getShop().getShopId() : null);
+
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
                 // Lấy productId được sinh tự động (AUTO_INCREMENT)
@@ -55,25 +57,6 @@ public class ProductDAO extends DBContext {
             e.printStackTrace();
         }
         return false;
-    }
-
-    // . Cập nhật sản phẩm
-    public boolean updateProduct(Product product) {
-        String sql = "UPDATE Products SET name = ?, description = ?, price = ?, stockQuantity = ?,  categoryId = ?, shopId = ? WHERE productId = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, product.getName());
-            stmt.setString(2, product.getDescription());
-            stmt.setDouble(3, product.getPrice());
-            stmt.setInt(4, product.getStockQuantity());
-            stmt.setObject(5, product.getCategory() != null ? product.getCategory().getCategoryId() : null);
-            stmt.setObject(6, product.getCategory() != null ? product.getCategory().getCategoryId() : null);
-            stmt.setInt(7, product.getProductId());
-
-            return stmt.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
     // . Xóa sản phẩm
@@ -95,7 +78,11 @@ public class ProductDAO extends DBContext {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, productId);
             try (ResultSet rs = stmt.executeQuery()) {
+                //Goi CatehoryDao
                 CategoryDAO categoryDAO = new CategoryDAO();
+
+                // Gọi shopDAO
+                ShopDAO shopDAO = new ShopDAO();
 
                 if (rs.next()) {
                     Product product = new Product();
@@ -105,10 +92,16 @@ public class ProductDAO extends DBContext {
                     product.setDescription(rs.getString("description"));
                     product.setPrice(rs.getDouble("price"));
                     product.setStockQuantity(rs.getInt("stockQuantity"));
+                    product.setCreatedAt(rs.getDate("createdAt").toLocalDate());
+                    product.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
 
                     // Lấy thông tin Category
                     Category category = categoryDAO.getCategoryById(rs.getInt("categoryId"));
                     product.setCategory(category);
+
+                    // Lấy thong tin shop
+                    Shop shop = shopDAO.getShopById(rs.getInt("shopId"));
+                    product.setShop(shop);
 
                     // Lấy danh sách hình ảnh sản phẩm
                     try (PreparedStatement stmtImages = connection.prepareStatement(sqlImages)) {
@@ -139,6 +132,77 @@ public class ProductDAO extends DBContext {
 
         return null;  // Nếu không tìm thấy sản phẩm, trả về null
     }
+
+    public Product getProductByIdNoJoin(int productId) {
+        String sql = "SELECT * FROM Products WHERE productId = ?";
+        String sqlImages = "SELECT * FROM ProductImages WHERE productId = ?";  // Truy vấn để lấy danh sách hình ảnh
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, productId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                // khai bao dao Categoty
+                CategoryDAO categoryDAO = new CategoryDAO();
+
+                if (rs.next()) {
+                    Product product = new Product();
+
+                    product.setProductId(rs.getInt("productId"));
+                    product.setName(rs.getString("name"));
+                    product.setDescription(rs.getString("description"));
+                    product.setPrice(rs.getDouble("price"));
+                    product.setStockQuantity(rs.getInt("stockQuantity"));
+                    product.setCreatedAt(rs.getDate("createdAt").toLocalDate());
+                    product.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
+                    product.setCategory(categoryDAO.getCategoryById(rs.getInt("categoryId")));
+
+                    // Lấy danh sách hình ảnh sản phẩm
+                    try (PreparedStatement stmtImages = connection.prepareStatement(sqlImages)) {
+                        stmtImages.setInt(1, productId);
+                        try (ResultSet rsImages = stmtImages.executeQuery()) {
+                            List<ProductImage> images = new ArrayList<>();
+                            while (rsImages.next()) {
+                                ProductImage productImage = new ProductImage();
+                                productImage.setProductImageId(rsImages.getInt("productImageId"));
+                                productImage.setImageUrl(rsImages.getString("imageUrl"));
+                                productImage.setCreatedAt(rsImages.getDate("CreatedAt").toLocalDate());
+
+                                images.add(productImage);  // Thêm hình ảnh vào danh sách
+                            }
+                            product.setImages(images);  // Cập nhật danh sách hình ảnh vào product
+                        }
+                    }
+
+                    return product;  // Trả về đối tượng Product đã được cập nhật
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;  // Nếu không tìm thấy sản phẩm, trả về null
+    }
+
+// . Cập nhật sản phẩm
+    public boolean updateProduct(Product product) {
+        String sql = "UPDATE Products SET name = ?, description = ?, price = ?, stockQuantity = ?,  categoryId = ?, shopId = ? WHERE productId = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, product.getName());
+            stmt.setString(2, product.getDescription());
+            stmt.setDouble(3, product.getPrice());
+            stmt.setInt(4, product.getStockQuantity());
+            stmt.setObject(5, product.getCategory() != null ? product.getCategory().getCategoryId() : null);
+            stmt.setObject(6, product.getCategory() != null ? product.getCategory().getCategoryId() : null);
+            stmt.setInt(7, product.getProductId());
+
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    
+    
 
     public static void main(String[] args) {
 

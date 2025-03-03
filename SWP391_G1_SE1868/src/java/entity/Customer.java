@@ -11,19 +11,21 @@ package entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
 public class Customer {
-   private int customerId;
+
+    private int customerId;
     private String fullName;
     private String email;
     private String password;
     private String phoneNumber;
     private String address;
-    private LocalDate  birthDate;
+    private LocalDate birthDate;
     private String gender;  // 'Male' or 'Female'
-    private LocalDate  createdAt;
-    private LocalDate  updatedAt;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
     private String profileImage;
-
+    private boolean isVerify;
     private List<Order> orders;
     private List<Favorite> favorites;
     private List<Cart> carts;
@@ -31,7 +33,14 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(int customerId, String fullName, String email, String password, String phoneNumber, String address, LocalDate birthDate, String gender, LocalDate createdAt, LocalDate updatedAt, String profileImage, List<Order> orders, List<Favorite> favorites, List<Cart> carts) {
+    @Override
+    public String toString() {
+        return "Customer{" + "customerId=" + customerId + ", fullName=" + fullName + ", email=" + email + ", password=" + password + ", phoneNumber=" + phoneNumber + ", address=" + address + ", birthDate=" + birthDate + ", gender=" + gender + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", profileImage=" + profileImage + ", isVerify=" + isVerify + '}';
+    }
+    
+    
+
+    public Customer(int customerId, String fullName, String email, String password, String phoneNumber, String address, LocalDate birthDate, String gender, LocalDate createdAt, LocalDate updatedAt, String profileImage, boolean isVerify) {
         this.customerId = customerId;
         this.fullName = fullName;
         this.email = email;
@@ -43,12 +52,27 @@ public class Customer {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.profileImage = profileImage;
+        this.isVerify = isVerify;
+    }
+
+    public Customer(int customerId, String fullName, String email, String password, String phoneNumber, String address, LocalDate birthDate, String gender, LocalDate createdAt, LocalDate updatedAt, String profileImage, boolean isVerify, List<Order> orders, List<Favorite> favorites, List<Cart> carts) {
+        this.customerId = customerId;
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.profileImage = profileImage;
+        this.isVerify = isVerify;
         this.orders = orders;
         this.favorites = favorites;
         this.carts = carts;
     }
 
-    
     public int getCustomerId() {
         return customerId;
     }
@@ -56,40 +80,6 @@ public class Customer {
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
-
-   
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getProfileImage() {
-        return profileImage;
-    }
-
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
-    }
-
-   
-
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "customerId=" + customerId +
-                ", fullName='" + fullName + '\'' +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", address='" + address + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
-    }
-
 
     public String getFullName() {
         return fullName;
@@ -139,6 +129,14 @@ public class Customer {
         this.birthDate = birthDate;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     public LocalDate getCreatedAt() {
         return createdAt;
     }
@@ -155,8 +153,21 @@ public class Customer {
         this.updatedAt = updatedAt;
     }
 
-  
+    public String getProfileImage() {
+        return profileImage;
+    }
 
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
+    }
+
+    public boolean isIsVerify() {
+        return isVerify;
+    }
+
+    public void setIsVerify(boolean isVerify) {
+        this.isVerify = isVerify;
+    }
 
     public List<Order> getOrders() {
         return orders;
@@ -181,5 +192,8 @@ public class Customer {
     public void setCarts(List<Cart> carts) {
         this.carts = carts;
     }
-    
+
+   
+
+
 }

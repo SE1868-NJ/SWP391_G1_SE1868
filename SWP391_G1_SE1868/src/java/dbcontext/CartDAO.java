@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  *
  * @author Admin
  */
-public class CartDAO extends GiangDBcontext{
+public class CartDAO extends NguyenDBContext{
     public void addToCart(int customerId, int productId) throws SQLException {
 
         try {

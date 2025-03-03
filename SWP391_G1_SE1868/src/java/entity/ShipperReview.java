@@ -21,14 +21,27 @@ public class ShipperReview {
     private LocalDate createdAt;
     private LocalDate UpdatedAt;
 
+    public LocalDate getUpdatedAt() {
+        return UpdatedAt;
+    }
+
+    public void setUpdatedAt(LocalDate UpdatedAt) {
+        this.UpdatedAt = UpdatedAt;
+    }
+
     @Override
     public String toString() {
+        // Lấy tên khách hàng nếu có trong Order
+        String customerFullName = (customer != null && customer.getFullName() != null) ? customer.getFullName() : "Unknown Customer";
+
         return "ShipperReview{"
                 + "reviewId=" + reviewId
+                + ", shipper=" + (shipper != null ? shipper.getFullName() : "null")
+                + ", customer=" + customerFullName
                 + ", rating=" + rating
                 + ", comment='" + comment + '\''
-                + ", shipper=" + (shipper != null ? shipper.getFullName() : "null")
-                + ", customer=" + (customer != null ? customer.getFullName() : "null")
+                + ", createdAt=" + createdAt
+                + ", updatedAt=" + UpdatedAt
                 + '}';
     }
 

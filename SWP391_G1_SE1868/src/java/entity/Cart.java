@@ -3,48 +3,46 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package entity;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
 /**
  *
  * @author Đạt
  */
 public class Cart {
+
     private int cartId;
     private Customer customer;
     private LocalDate createdAt;
-    private LocalDate updatedAt;
-
-    private List<CartItem> cartItems;
+    private Product product;
+    private int quantity;  
 
     @Override
     public String toString() {
-        return "Cart{" +
-                "cartId=" + cartId +
-                ", customer=" + (customer != null ? customer.getFullName() : "null") +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
-    }   
+        return "Cart{" + "cartId=" + cartId + ", customer=" + customer + ", createdAt=" + createdAt + ", product=" + product + ", quantity=" + quantity + '}';
+    }
+
+    
 
     public Cart() {
     }
 
-    public Cart(int cartId, Customer customer, LocalDate createdAt, LocalDate updatedAt, List<CartItem> cartItems) {
+    public Cart(int cartId, Customer customer, LocalDate createdAt, Product product, int quantity) {
         this.cartId = cartId;
         this.customer = customer;
         this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.cartItems = cartItems;
+        this.product = product;
+        this.quantity = quantity;
     }
-    
 
     public int getCartId() {
         return cartId;
     }
 
-    public void setCartId(Integer cartId) {
+    public void setCartId(int cartId) {
         this.cartId = cartId;
     }
 
@@ -64,20 +62,21 @@ public class Cart {
         this.createdAt = createdAt;
     }
 
-    public LocalDate getUpdatedAt() {
-        return updatedAt;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setUpdatedAt(LocalDate updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    public List<CartItem> getCartItems() {
-        return cartItems;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
-    
+
+   
 }

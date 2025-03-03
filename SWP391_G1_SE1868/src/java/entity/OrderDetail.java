@@ -8,9 +8,9 @@ package entity;
  *
  * @author Đạt
  */
-
 public class OrderDetail {
-     private int orderDetailId;
+
+    private int orderDetailId;
     private Order order;
     private Product product;
     private int quantity;
@@ -19,12 +19,21 @@ public class OrderDetail {
 
     @Override
     public String toString() {
-        return "OrderDetail{" +
-                "orderDetailId=" + orderDetailId +
-                ", quantity=" + quantity +
-                ", unitPrice=" + unitPrice +
-                ", subTotal=" + subTotal +
-                ", product=" + (product != null ? product.getName() : "null") +
+        // Lấy totalAmount của Order từ đối tượng order
+        double totalAmount = (order != null) ? order.getTotalAmount() : 0.0;
+
+        // Lấy tên sản phẩm từ đối tượng product
+        String productName = (product != null) ? product.getName() : "Unknown";
+
+        return "OrderDetail{"
+                + "orderDetailId=" + orderDetailId
+                + ", quantity=" + quantity
+                + ", unitPrice=" + unitPrice
+                + ", subTotal=" + subTotal
+                + ", totalAmount=" + totalAmount
+                + // Hiển thị totalAmount của đơn hàng
+                ", product=" + productName
+                + // Hiển thị tên sản phẩm
                 '}';
     }
 
@@ -87,5 +96,5 @@ public class OrderDetail {
     public void setSubTotal(double subTotal) {
         this.subTotal = subTotal;
     }
-    
+
 }
