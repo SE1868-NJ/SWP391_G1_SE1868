@@ -61,7 +61,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <!-- Nếu không có người dùng, chỉ hiển thị Login -->
-                                            <div class="fa fa-user"><a href="login.jsp">       Login</a></div>
+                                            <div class="fa fa-user"><a href="login.jsp">       đăng nhập</a></div>
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
@@ -120,7 +120,7 @@
                                 
                                 <form action="#">
                                     <input type="text" placeholder="What do yo u need?">
-                                    <button type="submit" class="site-btn">SEARCH</button>
+                                    <button type="submit" class="site-btn">Tìm Kiếm</button>
                                 </form>
 
 
@@ -149,9 +149,9 @@
                         <div class="breadcrumb__text">
                             <h2>Vegetable’s Package</h2>
                             <div class="breadcrumb__option">
-                                <a href="./index.html">Home</a>
-                                <a href="./index.html">Vegetables</a>
-                                <span>Vegetable’s Package</span>
+                                <a href="./index.html">Trang chủ</a>
+                                 <a href="products">Danh sách sản phẩm</a>
+                                
                             </div>
                         </div>
                     </div>
