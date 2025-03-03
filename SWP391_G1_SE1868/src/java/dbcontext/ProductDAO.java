@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ProductDAO extends NguyenDBContext {
+public class ProductDAO extends GiangDBcontext {
     private final int TOP_RATED_PAGE = 1;
     private final int TOP_RATED_SIZE_PER_PAGE = 12;
 

@@ -108,7 +108,7 @@ public class LoginServlet extends HttpServlet {
 //            
             HttpSession session = request.getSession();
             session.setAttribute("user", customer);  // Lưu đối tượng Customer vào session
-            response.sendRedirect("getReviews");  // Trang chính sau khi đăng nhập thành công
+            response.sendRedirect("/home");  // Trang chính sau khi đăng nhập thành công
 
         } else {
             // Nếu đăng nhập thất bại, chuyển hướng về trang login với thông báo lỗi

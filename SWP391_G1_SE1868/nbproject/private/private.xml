@@ -3,23 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/support/controller/UpdateSupportRequestController.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/wishlist.controller/ViewWishlistController.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/wishlist/MoveToCart.jsp</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/support/controller/ViewSupportRequestsController.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/support/viewSupportRequests.jsp</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/wishlist/wishlistView.jsp</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/wishlist.controller/RemoveFromWishlistController.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/wishlist.controller/MoveToCartController.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/chatbot.controller/ChatBotController.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/notification/controller/SendOrderStatusNotificationController.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/support/controller/SubmitSupportRequestController.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/wishlist.controller/AddToWishlistController.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/support/supportRequest.jsp</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/support/chatbot.jsp</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/ChatMessage.java</file>
-            <file>file:/C:/Users/Giang123/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/chatbot.controller/ViewChatHistoryController.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/dbcontext/CategoryDAO.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/dbcontext/ProductDAO.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/dbcontext/DBContext.java</file>
         </group>
     </open-files>
 </project-private>
