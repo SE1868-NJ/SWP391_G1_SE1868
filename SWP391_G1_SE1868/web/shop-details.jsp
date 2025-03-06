@@ -252,7 +252,11 @@
                             <p> ${product.category.name}<br>${product.description}</p>
 
 
-                            <div class="d-flex align-items-center">
+                            <!-- Form để gửi dữ liệu đến Servlet -->
+                            <form action="addCart" method="post" id="addToCartForm" class="d-flex align-items-center">
+                                <!-- Input ẩn để gửi productId -->
+                                <input type="hidden" name="productId" value="${product.productId}">
+
                                 <!-- Nút giảm số lượng -->
                                 <button type="button" class="btn btn-outline-primary btn-sm" onclick="decreaseQuantity()">
                                     -
@@ -260,23 +264,23 @@
 
                                 <!-- Ô nhập số lượng có min/max -->
                                 <input type="number" id="quantityInput" class="form-control text-center mx-2" 
-                                       value="1" min="1" max="${product.stockQuantity}" style="width: 100px;">
+                                       name="quantity" value="1" min="1" max="${product.stockQuantity}" style="width: 100px;">
 
                                 <!-- Nút tăng số lượng -->
                                 <button type="button" class="btn btn-outline-primary btn-sm" onclick="increaseQuantity()">
-                                    + 
+                                    +
                                 </button>
-                            </div>
+                            </form>
 
                             <br>
 
-
+                            <!-- Nút Thêm vào giỏ hàng -->
                             <c:if test="${product.stockQuantity > 0}">
-                                <a href="" class="primary-btn" id="addToCartBtn" >Thêm vào giỏ hàng</a>
+                                <button class="primary-btn border-0"  type="submit" form="addToCartForm" >Thêm vào giỏ hàng</button>
                             </c:if>
 
                             <c:if test="${product.stockQuantity <= 0}">
-                                <a href="" class="btn btn-secondary btn-sm mt-2 disabled" aria-disabled="true">
+                                <a href="" class="primary-btn disabled" aria-disabled="true">
                                     <i class="bi bi-cart-x"></i> Hết hàng
                                 </a>
                             </c:if>
@@ -296,7 +300,7 @@
                                     }
                                 }
 
-                                    // Tăng số lượng
+                                // Tăng số lượng
                                 function increaseQuantity() {
                                     let currentValue = parseInt(quantityInput.value);
                                     if (currentValue < maxStock) {
@@ -304,7 +308,7 @@
                                     }
                                 }
 
-                                    // Ngăn nhập giá trị không hợp lệ
+                                // Ngăn nhập giá trị không hợp lệ
                                 quantityInput.addEventListener("input", function () {
                                     let value = parseInt(this.value);
                                     if (isNaN(value) || value < 1) {
@@ -314,17 +318,38 @@
                                     }
                                 });
 
-                                    // Xử lý khi nhấn "Thêm vào giỏ hàng"
+                                // Xử lý khi nhấn "Thêm vào giỏ hàng"
                                 document.getElementById("addToCartBtn").addEventListener("click", function (event) {
-                                    
                                     event.preventDefault(); // Ngăn chặn chuyển trang ngay lập tức
 
-                                    let productId = "${product.productId}"; // Lấy ID sản phẩm
-                                    let quantity = quantityInput.value; // Lấy số lượng nhập vào
+                                    let productId = parseInt("${product.productId}"); // Lấy ID sản phẩm
+                                    let quantity = parseInt(document.getElementById("quantityInput").value) || 1; // Lấy số lượng nhập vào
 
-                                    // Điều hướng đến trang thêm vào giỏ hàng với số lượng nhập vào
-                                    window.location.href = `/addToCart?productId=${product.productId}&quantity=`+quantity;
+                                    // Gửi dữ liệu đến Servlet bằng JSON
+                                    fetch("/addCart", {
+                                        method: "POST",
+                                        headers: {
+                                            "Content-Type": "application/json"
+                                        },
+                                        body: JSON.stringify()({productId: productId, quantity: quantity}) // Chuyển dữ liệu thành JSON
+                                    })
+                                            .then(response => response.json()) // Chuyển kết quả về JSON
+                                            .then(data => {
+                                                if (data.success) {
+                                                    window.location.href = "/cart"; // Chuyển hướng đến trang giỏ hàng sau khi thêm
+                                                } else {
+                                                    alert("Lỗi khi thêm vào giỏ hàng: " + data.message);
+                                                }
+                                            })
+                                            .catch(error => {
+                                                console.error("Lỗi Fetch API:", error);
+                                                alert("Lỗi kết nối đến server!");
+                                            });
                                 });
+
+
+
+
 
                             </script>
 

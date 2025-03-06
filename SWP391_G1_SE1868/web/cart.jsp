@@ -27,7 +27,7 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th class="text-center py-3 px-4">Sản phẩm</th>
-                                      <th class="text-center py-3 px-4">Cửa hàng</th>
+                                    <th class="text-center py-3 px-4">Cửa hàng</th>
                                     <th class="text-center py-3 px-4">Giá</th>
                                     <th class="text-center py-3 px-4">Số lượng</th>
                                     <th class="text-center py-3 px-4">Tổng</th>
@@ -45,7 +45,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        
+
                                         <td class="text-center font-weight-semibold align-middle p-4">
                                             ${cart.product.shop.name}
                                         </td>
@@ -63,13 +63,13 @@
                                                     -
                                                 </button>
 
-                                                <form action="cartinput" method="post" class="cart-form mx-2">
 
-                                                    <input type="hidden" name="pId" value="${cart.product.productId}">
-                                                    <input class="form-control text-center mx-2 "
-                                                           style="width: 60px;" type="number" name="quantity" 
-                                                           value="${cart.quantity}" min="1" max="${cart.product.stockQuantity}" readonly>
-                                                </form>
+
+
+                                                <input class="form-control text-center mx-2 "
+                                                       style="width: 100px;" type="number" name="quantity" id="quantityInput" 
+                                                       value="${cart.quantity}" min="1" max="${cart.product.stockQuantity}" >
+
 
 
                                                 <button type="button" class="btn btn-outline-primary btn-sm"
@@ -98,12 +98,39 @@
 
                     </div>
                     <script>
-                        function incrementQuantity(productId, quantity) {
-                            window.location = "updatecart?check=1&pId=" + productId + "&quantity=" + quantity;
+                        // Lấy phần tử input
+                        const quantityInput = document.getElementById("quantityInput");
+
+                        // Lấy giá trị tối đa từ sản phẩm
+                        const maxStock = parseInt(quantityInput.max);
+
+                        // Giảm số lượng
+                        function decreaseQuantity() {
+                            let currentValue = parseInt(quantityInput.value);
+                            if (currentValue > 1) {
+                                quantityInput.value = currentValue - 1;
+                            }
                         }
-                        function decrementQuantity(productId, quantity) {
-                            window.location = "updatecart?check=0&pId=" + productId + "&quantity=" + quantity;
+
+                        // Tăng số lượng
+                        function increaseQuantity() {
+                            let currentValue = parseInt(quantityInput.value);
+                            if (currentValue < maxStock) {
+                                quantityInput.value = currentValue + 1;
+                            }
                         }
+
+                        // Ngăn nhập giá trị không hợp lệ
+                        quantityInput.addEventListener("input", function () {
+                            let value = parseInt(this.value);
+                            if (isNaN(value) || value < 1) {
+                                this.value = 1;
+                            } else if (value > maxStock) {
+                                this.value = maxStock;
+                            }
+                        });
+
+                        
                     </script>
 
                     <!-- / Shopping cart table -->
@@ -113,7 +140,7 @@
                                 <label class="text-muted font-weight-normal m-0">Total price</label>
                                 <div class="text-large"><strong>
                                         <fmt:formatNumber value="${totalCart}" currencySymbol="true"/> đ
-                                        </strong>
+                                    </strong>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +148,7 @@
                     <div class="float-right">
                         <a href="/home"><button type="button" class="btn btn-lg btn-default md-btn-flat mt-2 mr-3">Trở về trang chủ</button></a>
 
-                        <a href="checkout"  <button type="button" class="btn btn-lg btn-primary mt-2">Checkout</button></a>
+                        <a href="/checkout"  <button type="button" class="btn btn-lg btn-primary mt-2">Checkout</button></a>
                     </div>
                 </div>
             </div>
