@@ -27,6 +27,7 @@ public class Product {
     private List<OrderDetail> orderDetails;
     private List<FavoriteDetail> favoriteDetails;
    
+    private double avgRating;
 
     @Override
     public String toString() {
@@ -41,6 +42,20 @@ public class Product {
     }
 
     public Product() {
+    }
+
+    public Product(int productId, String name, String description, double price, int stockQuantity, LocalDate createdAt, LocalDate updatedAt, Shop shop, Category category, List<ProductImage> images, double avgRating) {
+        this.productId = productId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.shop = shop;
+        this.category = category;
+        this.images = images;
+        this.avgRating = avgRating;
     }
 
     
@@ -60,6 +75,14 @@ public class Product {
         this.orderDetails = orderDetails;
         this.favoriteDetails = favoriteDetails;
     
+    }
+
+    public double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(double avgRating) {
+        this.avgRating = avgRating;
     }
 
     public Shop getShop() {

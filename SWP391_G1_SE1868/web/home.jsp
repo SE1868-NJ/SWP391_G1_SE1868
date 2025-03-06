@@ -6,11 +6,12 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Home</title>
     </head>
     <%@include file="header.jsp" %>
     <body>
@@ -38,22 +39,51 @@
                         <c:forEach var="product" items="${products}">
                             <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
                                 <div class="featured__item">
-                                    <div class="featured__item__pic set-bg" data-setbg="${product.imageUrl}">
-                                        
+                                    <div class="featured__item__pic set-bg" data-setbg="${product.images[2].imageUrl}">
+
                                         <ul class="featured__item__pic__hover">
-                                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                                    <c:if test="${product.stockQuantity > 0}">
-                                                        <li><a href="/myCarts?action=addToCart&productId=${product.productId}"><i class="fa fa-shopping-cart"></i></a></li>
-                                                    </c:if>
-                                                    <c:if test="${product.stockQuantity <= 0}">
-                                                        <button disabled class="add-to-cart-button">Hết hàng</button>
-                                                    </c:if>
+                                            <!--                                            <li><a href="#"><i class="fa fa-heart"></i></a></li>-->
+
+
                                         </ul>
                                     </div>
-                                    <div class="featured__item__text">
-                                        <h6><a href="/getReviews?productId=${product.productId}">${product.name}</a></h6>
-                                        <h5>$${product.price}</h5>
+                                    <div class="featured__item__text text-center">
+                                        <!-- Tên sản phẩm có link -->
+                                        <h6>
+                                            <a href="/getReviews?productId=${product.productId}" class="text-dark text-decoration-none fw-bold">
+                                                ${product.name}
+                                            </a>
+                                        </h6>
+
+                                        <!-- Hiển thị số sao trung bình + số lượng đánh giá -->
+                                        <p class="mb-1">
+                                            <span class="text-warning fw-bold">
+                                                <fmt:formatNumber value="${product.avgRating}" maxFractionDigits="1"/> ⭐
+                                            </span>
+
+                                        </p>
+
+                                        <!-- Hiển thị giá tiền -->
+                                        <h5 class="text-danger fw-bold">
+                                            <fmt:formatNumber value="${product.price}" currencyCode="true"/>đ
+                                        </h5>
+
+                                        <c:if test="${product.stockQuantity > 0}">
+                                            <!-- Nút Thêm vào giỏ hàng -->
+                                            <a href="/addToCart?productId=${product.productId}" class="btn btn-primary btn-sm mt-2">
+                                                <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                                            </a>
+
+                                        </c:if>
+                                        <c:if test="${product.stockQuantity <= 0}">
+                                            <button disabled class="btn btn-primary btn-sm mt-2">
+                                                <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                                            </button>
+                                        </c:if>
+
+
                                     </div>
+
                                 </div>
                             </div>
                         </c:forEach>
@@ -62,26 +92,7 @@
         </section>
         <!-- Featured Section End -->
 
-        <!-- Banner Begin -->
-        <div class="banner">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        <div class="banner__pic">
-                            <img src="assets/img/banner/banner-1.jpg" alt="">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
-                        <div class="banner__pic">
-                            <img src="assets/img/banner/banner-2.jpg" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Banner End -->
-
- <style>
+        <style>
             /* CSS chung cho popup */
             .popupp {
                 position: fixed;
@@ -134,8 +145,8 @@
                 cursor: pointer;
             }
         </style>
-        
-         <!--        thông báo khi đã thanh toán thành công  -->
+
+        <!--        thông báo khi đã thanh toán thành công  -->
         <!-- Popup Success -->
         <div id="successPopuppPay" class="popupp success" >
             <span>Đã thanh toán đơn hàng ${paymentResponse.vnp_OrderInfo} thành công!!!!</span>
@@ -149,37 +160,37 @@
         </div>
 
 
-       
 
-       
-            <c:choose>
 
-                <c:when test="${ paymentResponse.vnp_ResponseCode == '00'}">
-                    <script>
-                        // Gọi hàm showPopup khi isSuccess = true
-                        $(document).ready(function () {
-                            showPopup('successPopuppPay');  // successPopup là ID của popup thành công
-                        });
-                    </script>
-                </c:when>
 
-                <c:when test="${ paymentResponse.vnp_ResponseCode == '24'}">
-                    <script>
-                        // Gọi hàm showPopup khi isSuccess = true
-                        $(document).ready(function () {
-                            showPopup('errorPopuppPay');  // successPopup là ID của popup thành công
-                        });
-                    </script>
-                </c:when>
+        <c:choose>
 
-            </c:choose>
-       
+            <c:when test="${ paymentResponse.vnp_ResponseCode == '00'}">
+                <script>
+                    // Gọi hàm showPopup khi isSuccess = true
+                    $(document).ready(function () {
+                        showPopup('successPopuppPay');  // successPopup là ID của popup thành công
+                    });
+                </script>
+            </c:when>
 
-                    
-                    
-                    
-                    
-                     <!--        thông báo khi đặt hàng thành công  -->
+            <c:when test="${ paymentResponse.vnp_ResponseCode == '24'}">
+                <script>
+                    // Gọi hàm showPopup khi isSuccess = true
+                    $(document).ready(function () {
+                        showPopup('errorPopuppPay');  // successPopup là ID của popup thành công
+                    });
+                </script>
+            </c:when>
+
+        </c:choose>
+
+
+
+
+
+
+        <!--        thông báo khi đặt hàng thành công  -->
         <!-- Popup Success -->
         <div id="successPopuppOrder" class="popupp success" >
             <span>Đã đặt thành công!!!!</span>
@@ -193,30 +204,30 @@
         </div>
 
 
-       
 
-       
-            <c:choose>
 
-                <c:when test="${ (param.statusOrder == 'true') || (statusOrder =='true') }">
-                    <script>
-                        // Gọi hàm showPopup khi isSuccess = true
-                        $(document).ready(function () {
-                            showPopup('successPopuppOrder');  // successPopup là ID của popup thành công
-                        });
-                    </script>
-                </c:when>
 
-                <c:when test="${ (param.statusOrder == 'false')  || (statusOrder =='false')}">
-                    <script>
-                        // Gọi hàm showPopup khi isSuccess = true
-                        $(document).ready(function () {
-                            showPopup('errorPopuppOrder');  // successPopup là ID của popup thành công
-                        });
-                    </script>
-                </c:when>
+        <c:choose>
 
-            </c:choose>
+            <c:when test="${ (param.statusOrder == 'true') || (statusOrder =='true') }">
+                <script>
+                    // Gọi hàm showPopup khi isSuccess = true
+                    $(document).ready(function () {
+                        showPopup('successPopuppOrder');  // successPopup là ID của popup thành công
+                    });
+                </script>
+            </c:when>
+
+            <c:when test="${ (param.statusOrder == 'false')  || (statusOrder =='false')}">
+                <script>
+                    // Gọi hàm showPopup khi isSuccess = true
+                    $(document).ready(function () {
+                        showPopup('errorPopuppOrder');  // successPopup là ID của popup thành công
+                    });
+                </script>
+            </c:when>
+
+        </c:choose>
         <script>
             // Hiển thị popup
             function showPopup(id) {

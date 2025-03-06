@@ -1,19 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
         <title>Danh sách sản phẩm</title>
-        <!-- Css Styles -->
-        <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/font-awesome.min.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/elegant-icons.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/nice-select.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/jquery-ui.min.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/owl.carousel.min.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/slicknav.min.css" type="text/css">
-        <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -235,6 +230,7 @@
         </style>
     </head>
     <body>
+        <%@include file="header.jsp" %>
         <div class="container">
             <div class="filter-box">
                 <h1>${title}</h1>

@@ -201,16 +201,88 @@ public class ProductDAO extends DBContext {
         }
     }
 
-    
-    
+    // lấy list product có đánh giá cao 
+    public List<Product> getTopRatedProducts(int limit) {
+        String sql = "SELECT p.*, AVG(r.rating) as avgRating, COUNT(r.reviewId) as reviewCount "
+                + "FROM Products p "
+                + "JOIN ProductReviews r ON p.productId = r.productId "
+                + "GROUP BY p.productId "
+                + "HAVING COUNT(r.reviewId) > 0 "
+                + // Chỉ lấy sản phẩm có ít nhất 1 đánh giá
+                "ORDER BY avgRating DESC, reviewCount DESC "
+                + // Ưu tiên điểm cao, nếu bằng nhau thì ưu tiên nhiều đánh giá hơn
+                "LIMIT ?";
+
+        String sqlImages = "SELECT * FROM ProductImages WHERE productId = ?";  // Truy vấn lấy danh sách hình ảnh
+
+        List<Product> products = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, limit);
+            try (ResultSet rs = stmt.executeQuery()) {
+                // Khởi tạo DAO một lần để tránh tốn tài nguyên
+                CategoryDAO categoryDAO = new CategoryDAO();
+                ShopDAO shopDAO = new ShopDAO();
+
+                while (rs.next()) {
+                    Product product = new Product();
+                    int productId = rs.getInt("productId"); // Lấy ID sản phẩm
+
+                    product.setProductId(productId);
+                    product.setName(rs.getString("name"));
+                    product.setDescription(rs.getString("description"));
+                    product.setPrice(rs.getDouble("price"));
+                    product.setStockQuantity(rs.getInt("stockQuantity"));
+                    product.setCreatedAt(rs.getDate("createdAt").toLocalDate());
+                    product.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
+
+                    // Lưu giá trị trung bình đánh giá
+                    product.setAvgRating(rs.getDouble("avgRating")); // Gán avgRating vào product
+
+                    // Lấy danh sách hình ảnh của sản phẩm
+                    List<ProductImage> images = new ArrayList<>();
+                    try (PreparedStatement stmtImages = connection.prepareStatement(sqlImages)) {
+                        stmtImages.setInt(1, productId);
+                        try (ResultSet rsImages = stmtImages.executeQuery()) {
+                            while (rsImages.next()) {
+                                ProductImage productImage = new ProductImage();
+                                productImage.setProductImageId(rsImages.getInt("productImageId"));
+                                productImage.setImageUrl(rsImages.getString("imageUrl"));
+                                productImage.setCreatedAt(rsImages.getDate("CreatedAt").toLocalDate());
+                                images.add(productImage);
+                            }
+                        }
+                    }
+                    product.setImages(images);
+
+                    // Lấy thông tin danh mục
+                    Category category = categoryDAO.getCategoryById(rs.getInt("categoryId"));
+                    product.setCategory(category);
+
+                    // Lấy thông tin shop
+                    Shop shop = shopDAO.getShopById(rs.getInt("shopId"));
+                    product.setShop(shop);
+
+                    // Thêm vào danh sách sản phẩm
+                    products.add(product);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
 
     public static void main(String[] args) {
 
         ProductDAO DAO = new ProductDAO();
 
-        Product product = DAO.getProductById(1);
+        List<Product> product = DAO.getTopRatedProducts(5);
 
-        System.out.println(product);
+        for (Product product1 : product) {
+            System.out.println(product1);
+        }
     }
 
 }

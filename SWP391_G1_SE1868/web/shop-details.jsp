@@ -140,15 +140,15 @@
                     <div class="col-lg-6 col-md-6">
                         <div class="product__details__pic">
                             <div class="product__details__pic__item">
-                                <img class="rounded-circle"
-                                     src="${product.images[1].imageUrl}"   alt=""
-                                     >
+                                <img 
+                                    src="${product.images[2].imageUrl}"   alt=""
+                                    >
                             </div>
 
 
                             <div class="thumbnail-images">
                                 <c:forEach var="img" items="${product.images}" varStatus="status">
-                                    <c:if test="${status.index < 5}"> <!-- Giới hạn số lượng ảnh hiển thị -->
+                                    <c:if test="${status.index < 2}"> <!-- Giới hạn số lượng ảnh hiển thị -->
                                         <img data-imgbigurl="${img.imageUrl}" 
                                              src="${img.imageUrl}"  alt="Product Image" 
                                              class="thumbnail" onclick="openPopup(this)">
@@ -237,11 +237,12 @@
                             <h3>${product.name}</h3>
                             <div class="product__details__rating">
 
-                                <span class="stars" id="average-rating" 
-                                      data-rating="<fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1" />"> 
+                                <fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="2"  />/5.0
+                                <span class="stars text-warning" id="average-rating" 
+                                      data-rating="${totalRating}"> 
                                 </span>
 
-                                <fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1"  />
+
                             </div>
                             <div class="product__details__price">
                                 <fmt:formatNumber value="${product.price}" type="number" groupingUsed="true"/> đ
@@ -251,15 +252,83 @@
                             <p> ${product.category.name}<br>${product.description}</p>
 
 
+                            <div class="d-flex align-items-center">
+                                <!-- Nút giảm số lượng -->
+                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="decreaseQuantity()">
+                                    -
+                                </button>
 
-                            <div class="product__details__quantity">
-                                <div class="quantity">
-                                    <div class="pro-qty">
-                                        <input type="text" value="1">
-                                    </div>
-                                </div>
+                                <!-- Ô nhập số lượng có min/max -->
+                                <input type="number" id="quantityInput" class="form-control text-center mx-2" 
+                                       value="1" min="1" max="${product.stockQuantity}" style="width: 100px;">
+
+                                <!-- Nút tăng số lượng -->
+                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="increaseQuantity()">
+                                    + 
+                                </button>
                             </div>
-                            <a href="#" class="primary-btn">ADD TO CARD</a>
+
+                            <br>
+
+
+                            <c:if test="${product.stockQuantity > 0}">
+                                <a href="" class="primary-btn" id="addToCartBtn" >Thêm vào giỏ hàng</a>
+                            </c:if>
+
+                            <c:if test="${product.stockQuantity <= 0}">
+                                <a href="" class="btn btn-secondary btn-sm mt-2 disabled" aria-disabled="true">
+                                    <i class="bi bi-cart-x"></i> Hết hàng
+                                </a>
+                            </c:if>
+
+                            <script>
+                                // Lấy phần tử input
+                                const quantityInput = document.getElementById("quantityInput");
+
+                                // Lấy giá trị tối đa từ sản phẩm
+                                const maxStock = parseInt(quantityInput.max);
+
+                                // Giảm số lượng
+                                function decreaseQuantity() {
+                                    let currentValue = parseInt(quantityInput.value);
+                                    if (currentValue > 1) {
+                                        quantityInput.value = currentValue - 1;
+                                    }
+                                }
+
+                                    // Tăng số lượng
+                                function increaseQuantity() {
+                                    let currentValue = parseInt(quantityInput.value);
+                                    if (currentValue < maxStock) {
+                                        quantityInput.value = currentValue + 1;
+                                    }
+                                }
+
+                                    // Ngăn nhập giá trị không hợp lệ
+                                quantityInput.addEventListener("input", function () {
+                                    let value = parseInt(this.value);
+                                    if (isNaN(value) || value < 1) {
+                                        this.value = 1;
+                                    } else if (value > maxStock) {
+                                        this.value = maxStock;
+                                    }
+                                });
+
+                                    // Xử lý khi nhấn "Thêm vào giỏ hàng"
+                                document.getElementById("addToCartBtn").addEventListener("click", function (event) {
+                                    
+                                    event.preventDefault(); // Ngăn chặn chuyển trang ngay lập tức
+
+                                    let productId = "${product.productId}"; // Lấy ID sản phẩm
+                                    let quantity = quantityInput.value; // Lấy số lượng nhập vào
+
+                                    // Điều hướng đến trang thêm vào giỏ hàng với số lượng nhập vào
+                                    window.location.href = `/addToCart?productId=${product.productId}&quantity=`+quantity;
+                                });
+
+                            </script>
+
+
 
 
                             <ul>
@@ -316,7 +385,7 @@
                                                 <!-- Tổng số sao và trung bình đánh giá -->
                                                 <div class="rating-summary">
                                                     <p><strong>Tổng số đánh giá:</strong> <span id="total-reviews">${totalReview}</span></p>
-                                                    <p><strong>Trung bình:</strong> <span class="stars" id="average-rating" 
+                                                    <p><strong>Trung bình:</strong> <span class="stars text-warning" id="average-rating" 
                                                                                           data-rating="<fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1" />"> </span>
                                                         <fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1"  /> /5.0</p>
                                                 </div>
@@ -350,7 +419,7 @@
                                                             <img src="${review.customer.profileImage}" class="rounded-circle" alt="Avatar"  
                                                                  style="width: 50px"
                                                                  onerror="this.onerror=null; this.src='./assets/img/login.png'">
-                                                                 <span class="fw-bold">${review.customer.fullName}</span>
+                                                            <span class="fw-bold">${review.customer.fullName}</span>
                                                         </div>
 
 

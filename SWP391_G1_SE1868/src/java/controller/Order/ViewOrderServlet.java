@@ -71,7 +71,7 @@ public class ViewOrderServlet extends HttpServlet {
         LocalDate endDate = (endDateParam != null && !endDateParam.isEmpty()) ? LocalDate.parse(endDateParam) : null;
 
         String page = request.getParameter("page") != null ? request.getParameter("page") : "1";
-        int pageSize = 3;
+        int pageSize = 5;
         String sortBy = request.getParameter("sortBy") != null ? request.getParameter("sortBy") : "orderDate";
         String sortOrder = request.getParameter("sortOrder") != null ? request.getParameter("sortOrder") : "DESC";
         // lấy sessiong customer

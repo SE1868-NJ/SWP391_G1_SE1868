@@ -5,6 +5,7 @@
 package controller.checkout;
 
 import Utils.UserUtils;
+import entity.Cart;
 import entity.Customer;
 import entity.Order;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
+import java.util.List;
 import models.CustomerDAO;
 import models.OrderDAO;
 import models.ShipperDAO;
@@ -66,7 +68,8 @@ public class CheckOutSubmitServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       // processRequest(request, response);
+    
     }
 
     /**
