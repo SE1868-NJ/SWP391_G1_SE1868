@@ -200,23 +200,7 @@ public class CustomerDAO extends DBContext {
         return customers;
     }
 
-    // Hàm đăng nhập
-    public Customer login(String email, String password) {
-        String sql = "SELECT * FROM Customers WHERE email = ? AND password = ? AND IsVerify = 1";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, email);
-            stmt.setString(2, password);
-
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return mapResultSetToCustomer(rs); // Trả về đối tượng Customer nếu tìm thấy
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null; // Nếu không tìm thấy, trả về null
-    }
-
+   
     // Hàm đăng nhập
     public Customer LoginSHA512(String email, String password) {
         String sql = "SELECT * FROM Customers WHERE email = ? AND password =? AND IsVerify = 1";
