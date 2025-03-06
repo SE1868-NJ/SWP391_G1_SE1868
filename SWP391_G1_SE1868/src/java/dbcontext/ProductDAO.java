@@ -2,6 +2,7 @@
 package dbcontext;
 
 import dto.ProductItemDTO;
+import entity.Product;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

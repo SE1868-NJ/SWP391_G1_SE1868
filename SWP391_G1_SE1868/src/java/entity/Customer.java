@@ -27,7 +27,6 @@ public class Customer {
     private String profileImage;
     private boolean isVerify;
     private List<Order> orders;
-    private List<Favorite> favorites;
     private List<Cart> carts;
 
     public Customer() {
@@ -55,7 +54,7 @@ public class Customer {
         this.isVerify = isVerify;
     }
 
-    public Customer(int customerId, String fullName, String email, String password, String phoneNumber, String address, LocalDate birthDate, String gender, LocalDate createdAt, LocalDate updatedAt, String profileImage, boolean isVerify, List<Order> orders, List<Favorite> favorites, List<Cart> carts) {
+    public Customer(int customerId, String fullName, String email, String password, String phoneNumber, String address, LocalDate birthDate, String gender, LocalDate createdAt, LocalDate updatedAt, String profileImage, boolean isVerify, List<Order> orders, List<Cart> carts) {
         this.customerId = customerId;
         this.fullName = fullName;
         this.email = email;
@@ -69,7 +68,6 @@ public class Customer {
         this.profileImage = profileImage;
         this.isVerify = isVerify;
         this.orders = orders;
-        this.favorites = favorites;
         this.carts = carts;
     }
 
@@ -177,13 +175,6 @@ public class Customer {
         this.orders = orders;
     }
 
-    public List<Favorite> getFavorites() {
-        return favorites;
-    }
-
-    public void setFavorites(List<Favorite> favorites) {
-        this.favorites = favorites;
-    }
 
     public List<Cart> getCarts() {
         return carts;

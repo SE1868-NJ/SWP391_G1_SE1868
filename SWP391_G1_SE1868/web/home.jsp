@@ -13,6 +13,8 @@
         <title>JSP Page</title>
     </head>
     <%@include file="header.jsp" %>
+        <%@include file="chat.jsp" %>
+
     <body>
         <!-- Categories Section Begin -->
         <section class="categories">

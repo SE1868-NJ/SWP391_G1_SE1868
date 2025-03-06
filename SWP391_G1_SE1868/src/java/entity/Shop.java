@@ -9,7 +9,6 @@ package entity;
  * @author Đạt
  */
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public class Shop {
@@ -26,6 +25,16 @@ public class Shop {
     // Constructor mặc định
     public Shop() {
     }
+
+    public Shop(int shopId, String name, String logo, String location, String owner) {
+        this.shopId = shopId;
+        this.name = name;
+        this.logo = logo;
+        this.location = location;
+        this.owner = owner;
+    }
+    
+    
 
     // Constructor có tham số
 
@@ -104,6 +113,10 @@ public class Shop {
 
     public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
+    }
+     // ✅ Thêm phương thức getShopID() để tránh lỗi
+    public int getShopID() { 
+        return this.shopId; 
     }
 
     // toString() method

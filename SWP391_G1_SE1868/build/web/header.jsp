@@ -52,7 +52,7 @@
                                             <div class="fa fa-user">    ${sessionScope.user.fullName}</div> <!-- Hiển thị tên người dùng -->
                                             <span class="arrow_carrot-down"></span>
                                             <ul>
-                                                <li><a href="#">a</a></li>
+                                                <li><a href="/viewOrder">View Order</a></li>
                                                 <li><a href="#">b</a></li>
                                                 <li><a href="#">c</a></li>
 

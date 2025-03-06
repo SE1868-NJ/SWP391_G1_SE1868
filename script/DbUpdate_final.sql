@@ -195,28 +195,60 @@ CREATE TABLE `FavoritesDetails` (
 		ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-INSERT INTO `Customers` (`FullName`, `Email`, `Password`, `PhoneNumber`, `Address`, `BirthDate`, `Gender`, `ProfileImage`) 
+CREATE TABLE `Messages` (
+  `MessageID` INT NOT NULL AUTO_INCREMENT,
+  `CustomerID` INT NOT NULL,  -- Người gửi (Khách hàng)
+  `ShopID` INT NULL,  -- Người nhận (Shop hoặc NULL nếu AI)
+  `ReceiverType` ENUM('AI', 'Shop') NOT NULL,  -- Người nhận có thể là AI hoặc Shop
+  `MessageText` TEXT NOT NULL,  -- Nội dung tin nhắn
+  `Status` ENUM('Sent', 'Delivered', 'Read') DEFAULT 'Sent',  -- Trạng thái tin nhắn
+  `CreatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP,  -- Thời gian gửi
+  `UpdatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,  -- Thời gian cập nhật gần nhất
+  PRIMARY KEY (`MessageID`),
+  INDEX (`CustomerID`),
+  INDEX (`ShopID`),
+  CONSTRAINT `messages_customer_fk` FOREIGN KEY (`CustomerID`) 
+      REFERENCES `Customers` (`CustomerID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `messages_shop_fk` FOREIGN KEY (`ShopID`) 
+      REFERENCES `Shop` (`ShopID`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+
+
+CREATE TABLE `notifications` (
+  `NotificationID` INT NOT NULL AUTO_INCREMENT,
+  `CustomerID` INT NOT NULL,  -- Người nhận thông báo
+  `Message` TEXT NOT NULL,  -- Nội dung thông báo
+  `Status` ENUM('Unread', 'Read') DEFAULT 'Unread',  -- Trạng thái thông báo
+  `CreatedAt` DATETIME DEFAULT CURRENT_TIMESTAMP,  -- Thời gian tạo thông báo
+  PRIMARY KEY (`NotificationID`),
+  INDEX (`CustomerID`),
+  CONSTRAINT `notifications_customer_fk` FOREIGN KEY (`CustomerID`) REFERENCES `customers` (`CustomerID`) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO `Messages` (`CustomerID`, `ShopID`, `ReceiverType`, `MessageText`, `Status`)
+VALUES
+(1, 2, 'Shop', 'Cửa hàng có bán sản phẩm này không?', 'Sent'),
+(2, 1, 'Shop', 'Chào bạn! Sản phẩm này vẫn còn hàng.', 'Delivered'),
+(3, NULL, 'AI', 'Tôi có thể tìm sản phẩm tốt nhất như thế nào?', 'Read'),
+(4, 5, 'Shop', 'Tôi muốn đặt hàng số lượng lớn, có giảm giá không?', 'Sent');
+
+
+-- Thêm cửa hàng nếu chưa có
+INSERT INTO `Shop` (`ShopID`, `Name`, `Location`, `Owner`) 
 VALUES 
-('John Doe', 'john.doe@example.com', 'password123', '1234567890', '123 Main St, Thành phố', '1990-01-01', 'Male', 'assets/img/profile/john_doe.png'),
-('Jane Smith', 'jane.smith@example.com', 'password123', '0987654321', '456 Oak St, Thành phố', '1992-05-15', 'Female', 'assets/img/profile/jane_smith.png'),
-('David Lee', 'david.lee@example.com', 'password123', '1122334455', '789 Pine St, Thành phố', '1985-02-20', 'Male', 'assets/img/profile/david_lee.png'),
-('Mary Johnson', 'mary.johnson@example.com', 'password123', '6677889900', '101 Maple St, Thành phố', '1993-07-30', 'Female', 'assets/img/profile/mary_johnson.png'),
-('Michael Brown', 'michael.brown@example.com', 'password123', '2233445566', '102 Birch St, Thành phố', '1987-11-11', 'Male', 'assets/img/profile/michael_brown.png'),
-('Emily Davis', 'emily.davis@example.com', 'password123', '3344556677', '103 Cedar St, Thành phố', '1995-09-25', 'Female', 'assets/img/profile/emily_davis.png'),
-('James White', 'james.white@example.com', 'password123', '4455667788', '104 Elm St, Thành phố', '1988-08-09', 'Male', 'assets/img/profile/james_white.png'),
-('Olivia Brown', 'olivia.brown@example.com', 'password123', '5566778899', '105 Fir St, Thành phố', '1996-12-17', 'Female', 'assets/img/profile/olivia_brown.png'),
-('Liam Green', 'liam.green@example.com', 'password123', '6677889900', '106 Pine St, Thành phố', '1994-04-23', 'Male', 'assets/img/profile/liam_green.png'),
-('Sophia Wilson', 'sophia.wilson@example.com', 'password123', '7788990011', '107 Oak St, Thành phố', '1992-02-13', 'Female', 'assets/img/profile/sophia_wilson.png'),
-('Ethan Scott', 'ethan.scott@example.com', 'password123', '8899001122', '108 Birch St, Thành phố', '1997-11-01', 'Male', 'assets/img/profile/ethan_scott.png'),
-('Ava Harris', 'ava.harris@example.com', 'password123', '9900112233', '109 Cedar St, Thành phố', '1999-05-25', 'Female', 'assets/img/profile/ava_harris.png'),
-('Noah Turner', 'noah.turner@example.com', 'password123', '1122334455', '110 Elm St, Thành phố', '1989-06-18', 'Male', 'assets/img/profile/noah_turner.png'),
-('Lily King', 'lily.king@example.com', 'password123', '2233445566', '111 Maple St, Thành phố', '1994-03-14', 'Female', 'assets/img/profile/lily_king.png'),
-('Mason Lee', 'mason.lee@example.com', 'password123', '3344556677', '112 Pine St, Thành phố', '1992-08-10', 'Male', 'assets/img/profile/mason_lee.png'),
-('Chloe Adams', 'chloe.adams@example.com', 'password123', '4455667788', '113 Birch St, Thành phố', '1998-01-21', 'Female', 'assets/img/profile/chloe_adams.png'),
-('William Brown', 'william.brown@example.com', 'password123', '5566778899', '114 Oak St, Thành phố', '1985-11-15', 'Male', 'assets/img/profile/william_brown.png'),
-('Isabella Carter', 'isabella.carter@example.com', 'password123', '6677889900', '115 Fir St, Thành phố', '1991-04-30', 'Female', 'assets/img/profile/isabella_carter.png'),
-('Lucas Harris', 'lucas.harris@example.com', 'password123', '7788990011', '116 Cedar St, Thành phố', '1995-07-17', 'Male', 'assets/img/profile/lucas_harris.png'),
-('Grace Mitchell', 'grace.mitchell@example.com', 'password123', '8899001122', '117 Elm St, Thành phố', '1999-02-05', 'Female', 'assets/img/profile/grace_mitchell.png');
+(2, 'Cửa hàng điện tử', '123 Chợ điện tử', 'John Doe'),
+(5, 'Mỹ phẩm đẹp', '101 Phố làm đẹp', 'Mary Johnson');
+
+INSERT INTO `notifications` (`CustomerID`, `Message`, `Status`)
+VALUES 
+(1, 'Đơn hàng của bạn đã được xác nhận.', 'Unread'),
+(2, 'Bạn có tin nhắn mới từ Shop.', 'Unread');
+
+
+INSERT INTO `customers` VALUES (1,'John Doe','john.doe@example.com','giang1234','1234567890','123 Main St, Thành phố','1990-01-01','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-12.jpg',1),(2,'Jane Smith','jane.smith@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','0987654321','456 Oak St, Thành phố','1992-05-15','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-11.jpg',1),(3,'David Lee','david.lee@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','1122334455','789 Pine St, Thành phố','1985-02-20','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-5.jpg',1),(4,'Mary Johnson','mary.johnson@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','6677889900','101 Maple St, Thành phố','1993-07-30','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-details-4.jpg',1),(5,'Michael Brown','michael.brown@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','2233445566','102 Birch St, Thành phố','1987-11-11','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/thumb-1.jpg',1),(6,'Emily Davis','emily.davis@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','3344556677','103 Cedar St, Thành phố','1995-09-25','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-6.jpg',1),(7,'James White','james.white@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','4455667788','104 Elm St, Thành phố','1988-08-09','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-10.jpg',1),(8,'Olivia Brown','olivia.brown@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','5566778899','105 Fir St, Thành phố','1996-12-17','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/thumb-3.jpg',1),(9,'Liam Green','liam.green@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','6677889900','106 Pine St, Thành phố','1994-04-23','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-details-1.jpg',1),(10,'Sophia Wilson','sophia.wilson@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','7788990011','107 Oak St, Thành phố','1992-02-13','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/sophia_wilson.png',1),(11,'Ethan Scott','ethan.scott@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','8899001122','108 Birch St, Thành phố','1997-11-01','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-7.jpg',1),(12,'Ava Harris','ava.harris@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','9900112233','109 Cedar St, Thành phố','1999-05-25','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-3.jpg',1),(13,'Noah Turner','noah.turner@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','1122334455','110 Elm St, Thành phố','1989-06-18','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/thumb-2.jpg',1),(14,'Lily King','lily.king@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','2233445566','111 Maple St, Thành phố','1994-03-14','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-details-2.jpg',1),(15,'Mason Lee','mason.lee@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','3344556677','112 Pine St, Thành phố','1992-08-10','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-details-5.jpg',1),(16,'Chloe Adams','chloe.adams@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','4455667788','113 Birch St, Thành phố','1998-01-21','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-4.jpg',1),(17,'William Brown','william.brown@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','5566778899','114 Oak St, Thành phố','1985-11-15','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/william_brown.png',1),(18,'Isabella Carter','isabella.carter@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','6677889900','115 Fir St, Thành phố','1991-04-30','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-9.jpg',1),(19,'Lucas Harris','lucas.harris@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','7788990011','116 Cedar St, Thành phố','1995-07-17','Male','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-details-3.jpg',1),(20,'Grace Mitchell','grace.mitchell@example.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','8899001122','117 Elm St, Thành phố','1999-02-05','Female','2025-02-18 23:22:03','2025-02-21 00:17:57','assets/img/profile/product-8.jpg',1),(29,'Nguyễn Hữu Đạt','huudat285@gmail.com','acb5247f837fa3b652f43ddae7b521423b07e22afa3b8eab956eaa225f76b2738abe302744d53471e190fce3f43d96ae1aee9b747987a6a36b8aa7ce2a49bcd3','0975111111','Hà Nội','1122-01-01','Female','2025-02-21 02:20:42','2025-02-21 23:50:45',NULL,1);
+
 
 
 INSERT INTO `Categories` (`Name`, `Description`) 

@@ -15,6 +15,8 @@
     </head>
     <body>
         <%@include file="header.jsp" %>
+                <%@include file="chat.jsp" %>
+
         <div class="container py-5">
             <div class="row mb-4">
                 <div class="col-md-8">
