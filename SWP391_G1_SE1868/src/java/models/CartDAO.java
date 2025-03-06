@@ -19,54 +19,56 @@ import java.util.List;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.sql.Date;
+
 /**
  *
  * @author Đạt
  */
-public class CartDAO extends DBContext{
-    
-    
-       // Thêm sản phẩm vào giỏ hàng
+public class CartDAO extends DBContext {
+
+    // Thêm sản phẩm vào giỏ hàng (Kiểm tra trước khi thêm)
     public boolean addToCart(int customerId, int productId, int quantity) {
-        String sql = "INSERT INTO Carts (customerId, productId, quantity, createdAt) " +
-                     "VALUES (?, ?, ?, ?) " +
-                     "ON DUPLICATE KEY UPDATE quantity = quantity + ?";  // Nếu đã tồn tại thì cập nhật số lượng
+        // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng hay chưa
+        String checkExistQuery = "SELECT quantity FROM Carts WHERE customerId = ? AND productId = ?";
+        String insertQuery = "INSERT INTO Carts (customerId, productId, quantity, createdAt) VALUES (?, ?, ?, ?)";
+        String updateQuery = "UPDATE Carts SET quantity = quantity + ? WHERE customerId = ? AND productId = ?";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, customerId);
-            stmt.setInt(2, productId);
-            stmt.setInt(3, quantity);
-            stmt.setDate(4, Date.valueOf(LocalDate.now()));
-            stmt.setInt(5, quantity); // Dùng để cập nhật số lượng nếu đã tồn tại
+        try (PreparedStatement checkStmt = connection.prepareStatement(checkExistQuery)) {
+            checkStmt.setInt(1, customerId);
+            checkStmt.setInt(2, productId);
+            ResultSet rs = checkStmt.executeQuery();
 
-            int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0; // Trả về true nếu thêm thành công
+            if (rs.next()) {
+                // Nếu sản phẩm đã tồn tại, cập nhật số lượng
+                try (PreparedStatement updateStmt = connection.prepareStatement(updateQuery)) {
+                    updateStmt.setInt(1, quantity);
+                    updateStmt.setInt(2, customerId);
+                    updateStmt.setInt(3, productId);
+                    int rowsAffected = updateStmt.executeUpdate();
+                    return rowsAffected > 0;
+                }
+            } else {
+                // Nếu chưa tồn tại, thêm mới vào giỏ hàng
+                try (PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
+                    insertStmt.setInt(1, customerId);
+                    insertStmt.setInt(2, productId);
+                    insertStmt.setInt(3, quantity);
+                    insertStmt.setDate(4, Date.valueOf(LocalDate.now()));
+                    int rowsAffected = insertStmt.executeUpdate();
+                    return rowsAffected > 0;
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    // Cập nhật số lượng sản phẩm trong giỏ hàng
-    public boolean updateCart(int customerId, int productId, int newQuantity) {
-        String sql = "UPDATE Carts SET quantity = ? WHERE customerId = ? AND productId = ?";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, newQuantity);
-            stmt.setInt(2, customerId);
-            stmt.setInt(3, productId);
-
-            int rowsAffected = stmt.executeUpdate();
-            return rowsAffected > 0; // Trả về true nếu cập nhật thành công
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+    
 
     // Xóa sản phẩm khỏi giỏ hàng
     public boolean removeFromCart(int customerId, int productId) {
-        String sql = "DELETE FROM Cart WHERE customerId = ? AND productId = ?";
+        String sql = "DELETE FROM Carts WHERE customerId = ? AND productId = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, customerId);
@@ -88,11 +90,9 @@ public class CartDAO extends DBContext{
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, customerId);
             ResultSet rs = stmt.executeQuery();
-            
+
             // khai váo DAO customer and Prodcuct
-            
-            Customer customer =  new CustomerDAO().getCustomerById(customerId);
-            
+            Customer customer = new CustomerDAO().getCustomerById(customerId);
 
             while (rs.next()) {
                 Cart cart = new Cart();
@@ -109,11 +109,32 @@ public class CartDAO extends DBContext{
         }
         return cartList;
     }
-    public static void main(String[] args) {
-        List<Cart> carts =  new CartDAO().getCartByCustomerId(1);
-        
-        for (Cart cart : carts) {
-            System.out.println(cart);
+
+    // Xóa tất cả CartItems có cartId tương ứng
+    public boolean deleteCartBycustomerID(int customerId) {
+        String sql = "DELETE FROM Carts WHERE customerId = ?"; // Xóa tất cả CartItems có cartId tương ứng
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, customerId);  // Thiết lập cartId cho câu lệnh truy vấn
+
+            // Thực thi câu lệnh DELETE
+            int rowsDeleted = stmt.executeUpdate();
+
+            // Nếu có ít nhất một dòng bị xóa, trả về true
+            return rowsDeleted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Nếu có lỗi xảy ra, trả về false
         }
+    }
+
+    public static void main(String[] args) {
+        List<Cart> carts = new CartDAO().getCartByCustomerId(1);
+
+//        for (Cart cart : carts) {
+//            System.out.println(cart);
+//        }
+        boolean check = new CartDAO().addToCart(1, 3,1);
+        System.out.println(check);
     }
 }
