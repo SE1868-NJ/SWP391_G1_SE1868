@@ -64,8 +64,6 @@ public class CartDAO extends DBContext {
         return false;
     }
 
-    
-
     // Xóa sản phẩm khỏi giỏ hàng
     public boolean removeFromCart(int customerId, int productId) {
         String sql = "DELETE FROM Carts WHERE customerId = ? AND productId = ?";
@@ -80,6 +78,24 @@ public class CartDAO extends DBContext {
             e.printStackTrace();
         }
         return false;
+    }
+
+    // Lấy tổng số sản phẩm trong giỏ hàng của một khách hàng
+    public int getTotalCartQuantity(int customerId) {
+        String sql = "SELECT Count(quantity) FROM Carts WHERE customerId = ?";
+        int totalQuantity = 0;
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, customerId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                totalQuantity = rs.getInt(1); // Lấy tổng số lượng sản phẩm
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalQuantity > 0 ? totalQuantity : 0; // Tránh trả về giá trị null
     }
 
     // Lấy danh sách sản phẩm trong giỏ hàng của một khách hàng
@@ -127,6 +143,17 @@ public class CartDAO extends DBContext {
             return false; // Nếu có lỗi xảy ra, trả về false
         }
     }
+    
+     public double getTotalAmount(int customerId) {
+        List<Cart> carts = getCartByCustomerId(customerId);
+        double totalAmount = 0;
+
+        for (Cart cart : carts) {
+            totalAmount += cart.getProduct().getPrice() * cart.getQuantity();
+        }
+
+        return totalAmount;
+    }
 
     public static void main(String[] args) {
         List<Cart> carts = new CartDAO().getCartByCustomerId(1);
@@ -134,7 +161,7 @@ public class CartDAO extends DBContext {
 //        for (Cart cart : carts) {
 //            System.out.println(cart);
 //        }
-        boolean check = new CartDAO().addToCart(1, 3,1);
+        int check = new CartDAO().getTotalCartQuantity(1);
         System.out.println(check);
     }
 }

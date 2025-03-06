@@ -83,10 +83,10 @@ public class ShipperReviewServlet extends HttpServlet {
         //lấy đố tương cusomret ở session
         Customer customer = (Customer) session.getAttribute("user");
         // check custoemer
-//        if (customer == null) {
-//            response.sendRedirect("login.jsp");
-//            return;
-//        }
+        if (customer == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
 
         // khai bao Dao ShipperReview
         ShipperReviewDAO shipperReviewDAO = new ShipperReviewDAO();

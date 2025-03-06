@@ -4,6 +4,7 @@
  */
 package controller.Order;
 
+import entity.Customer;
 import entity.Order;
 import entity.OrderDetail;
 import java.io.IOException;
@@ -73,24 +74,24 @@ public class ViewOrderDetailServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         // lấy đố tương cusomret ở session
-        //       Customer customer = (Customer) session.getAttribute("user");
-//        // check custoemer
-//        if (customer == null) {
-//            response.sendRedirect("login.jsp");W
-//            return;
-//        }
+               Customer customer = (Customer) session.getAttribute("user");
+        // check custoemer
+        if (customer == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
         // khai báo orderDetailDAO
         OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
 
         // lấy list OrderDetail theo orderId
-        List<OrderDetail> details = orderDetailDAO.getOrderDetailsByOrderIdSorted(1, sortOrderDetailBy, sortOrderDetail);
+        List<OrderDetail> details = orderDetailDAO.getOrderDetailsByOrderIdSorted(orderId, sortOrderDetailBy, sortOrderDetail);
 
         request.setAttribute("details", details);
         // Gửi giá trị đến JSP
         request.setAttribute("sortOrderDetailBy", sortOrderDetailBy);
         request.setAttribute("sortOrderDetail", sortOrderDetail);
         
-        request.setAttribute("totalOrderDetail", orderDetailDAO.calculateTotalAmountByOrderId(1));
+        request.setAttribute("totalOrderDetail", orderDetailDAO.calculateTotalAmountByOrderId(orderId));
         
         request.getRequestDispatcher("view-orderdetail.jsp").forward(request, response);
 

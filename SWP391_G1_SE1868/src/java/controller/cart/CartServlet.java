@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.Order;
+package controller.cart;
 
+import entity.Cart;
 import entity.Customer;
-import entity.Order;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,16 +14,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.time.LocalDate;
 import java.util.List;
-import models.OrderDAO;
+import models.CartDAO;
 
 /**
  *
  * @author Đạt
  */
-@WebServlet(name = "ViewOrderServlet", urlPatterns = {"/viewOrder"})
-public class ViewOrderServlet extends HttpServlet {
+@WebServlet(name = "CartServlet", urlPatterns = {"/cart"})
+public class CartServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +41,10 @@ public class ViewOrderServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewOrderServlet</title>");
+            out.println("<title>Servlet CartServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewOrderServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CartServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,49 +62,34 @@ public class ViewOrderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        processRequest(request, response);
-        String startDateParam = request.getParameter("startDate");
-        String endDateParam = request.getParameter("endDate");
+        // processRequest(request, response);
 
-        LocalDate startDate = (startDateParam != null && !startDateParam.isEmpty()) ? LocalDate.parse(startDateParam) : null;
-        LocalDate endDate = (endDateParam != null && !endDateParam.isEmpty()) ? LocalDate.parse(endDateParam) : null;
-
-        String page = request.getParameter("page") != null ? request.getParameter("page") : "1";
-        int pageSize = 5;
-        String sortBy = request.getParameter("sortBy") != null ? request.getParameter("sortBy") : "orderDate";
-        String sortOrder = request.getParameter("sortOrder") != null ? request.getParameter("sortOrder") : "DESC";
         // lấy sessiong customer
         HttpSession session = request.getSession();
 
-        // lấy đố tương cusomret ở session
-               Customer customer = (Customer) session.getAttribute("user");
-//        // check custoemer
-        if (customer == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
+//        // lấy đố tương cusomret ở session
+//        Customer customer = (Customer) session.getAttribute("user");
+//       // check custoemer
+//        if (customer == null) {
+//            response.sendRedirect("login.jsp");
+//            return;
+//        }
 
-        // khai báo OrderDAO
-        OrderDAO orderDAO = new OrderDAO();
-
-        // lấy list odder theo customerID
-        List<Order> orders = orderDAO.getOrdersByCustomerId(1, startDate, endDate, Integer.parseInt(page), pageSize, sortBy, sortOrder);
-
-        // get totalPage
-        int totalPage = orderDAO.getTotalOrderPages(1, startDate, endDate, pageSize);
-
-        request.setAttribute("orders", orders);
-        request.setAttribute("totalPage", totalPage);
-        request.setAttribute("currentPage", page);
-
+    // khai báo CartDAo
+        CartDAO cartDAO = new CartDAO();
         
-        // Gửi giá trị đến JSP
-        request.setAttribute("sortBy", sortBy);
-        request.setAttribute("sortOrder", sortOrder);
+        // lấy ra list Cart của customer đấu
+        
+        List<Cart> carts = cartDAO.getCartByCustomerId(1);
+        
+        request.setAttribute("carts", carts);
+          // truyền tổng giá tiền
+            request.setAttribute("totalCart", cartDAO.getTotalAmount(1));
+        
+        request.getRequestDispatcher("cart.jsp").forward(request, response);
         
         
-        request.getRequestDispatcher("view-order.jsp").forward(request, response);
-
+    
     }
 
     /**
