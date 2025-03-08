@@ -4,6 +4,7 @@
  */
 package controller.review;
 
+import entity.Customer;
 import entity.ProductReview;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import models.ProductReviewDAO;
 
 /**
@@ -61,6 +63,17 @@ public class UpdateProductReviewServlet extends HttpServlet {
             throws ServletException, IOException {
         int reviewId = Integer.parseInt(request.getParameter("reviewId"));
 
+        // truyền carts của customer
+        HttpSession session = request.getSession();
+
+        // lấy đố tương cusomret ở session
+        Customer customer = (Customer) session.getAttribute("user");
+        // check custoemer
+        if (customer == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
         ProductReviewDAO productReviewDAO = new ProductReviewDAO();
 
         ProductReview review = productReviewDAO.getProductReviewById(reviewId);
@@ -85,6 +98,17 @@ public class UpdateProductReviewServlet extends HttpServlet {
         int rating = Integer.parseInt(request.getParameter("rating"));
         String comment = request.getParameter("comment");
 
+        // truyền carts của customer
+        HttpSession session = request.getSession();
+
+        // lấy đố tương cusomret ở session
+        Customer customer = (Customer) session.getAttribute("user");
+        // check custoemer
+        if (customer == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
         ProductReviewDAO productReviewDAO = new ProductReviewDAO();
 
         ProductReview review = productReviewDAO.getProductReviewById(reviewId);
@@ -98,7 +122,7 @@ public class UpdateProductReviewServlet extends HttpServlet {
 
         // Truyền giá trị thành công qua query parameter
         String successParam = success ? "true" : "false";
-        response.sendRedirect("getReviews?productId="+review.getProduct().getProductId()+"&success=" + successParam);
+        response.sendRedirect("getReviews?productId=" + review.getProduct().getProductId() + "&success=" + successParam);
 
     }
 

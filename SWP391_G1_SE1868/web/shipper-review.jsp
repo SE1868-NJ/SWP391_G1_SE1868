@@ -129,7 +129,7 @@
                             <span class="ms-2">${review.comment}</span>
                         </div>
                         <!--${review.customer.customerId == sessionScope.user.customerId}-->
-                        <c:if test="true">
+                        <c:if test="${review.customer.customerId == sessionScope.user.customerId}">
                             <div class="d-flex justify-content-end mt-auto">
                                 <a href="updateShipperReview?reviewId=${review.reviewId}" class="btn btn-warning btn-sm">Sửa</a>
                             </div>

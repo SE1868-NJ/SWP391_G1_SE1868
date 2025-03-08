@@ -4,6 +4,7 @@
  */
 package controller.review;
 
+import entity.Customer;
 import entity.ProductReview;
 import entity.ShipperReview;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import models.ProductReviewDAO;
 import models.ShipperReviewDAO;
 
@@ -62,6 +64,17 @@ public class UpdateShipperReviewServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int reviewId = Integer.parseInt(request.getParameter("reviewId"));
+        
+          // truyền carts của customer
+        HttpSession session = request.getSession();
+
+        // lấy đố tương cusomret ở session
+        Customer customer = (Customer) session.getAttribute("user");
+        // check custoemer
+        if (customer == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
 
         // khai báo ShipperReviewDAO
         ShipperReviewDAO shipperReviewDAO = new ShipperReviewDAO();
@@ -91,6 +104,17 @@ public class UpdateShipperReviewServlet extends HttpServlet {
         int reviewId = Integer.parseInt(request.getParameter("reviewId"));
         int rating = Integer.parseInt(request.getParameter("rating"));
         String comment = request.getParameter("comment");
+        
+          // truyền carts của customer
+        HttpSession session = request.getSession();
+
+        // lấy đố tương cusomret ở session
+        Customer customer = (Customer) session.getAttribute("user");
+        // check custoemer
+        if (customer == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
 
         // khai báo ShipperReviewDAO
         ShipperReviewDAO shipperReviewDAO = new ShipperReviewDAO();
