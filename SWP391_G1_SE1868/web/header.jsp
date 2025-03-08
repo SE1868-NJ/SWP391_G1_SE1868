@@ -47,7 +47,7 @@
                             <div class="header__top__right">
 
                                 <div class="header__top__right__language">
-                                    <!-- Kiểm tra xem người dùng đã đăng nhập hay chưa -->
+                                    <!-- Kiểm tra xem người dùng đã đăng nhập hay chưa --> 
                                     <c:choose>
                                         <c:when test="${not empty sessionScope.user}">
                                             <!-- Nếu có người dùng, hiển thị tên người dùng và dropdown -->

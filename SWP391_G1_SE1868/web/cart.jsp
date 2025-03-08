@@ -55,82 +55,126 @@
                                         </td>
 
 
+                                <form action="cart" method="post" id="addToCartForm${cart.product.productId}" >
 
-                                        <td class="align-middle text-center">
-                                            <div class="d-flex justify-content-center align-items-center">
-                                                <button type="button" class="btn btn-outline-primary btn-sm"
-                                                        onclick="decrementQuantity(${cart.product.productId}, ${cart.quantity})">
-                                                    -
-                                                </button>
-
-
-
-
-                                                <input class="form-control text-center mx-2 "
-                                                       style="width: 100px;" type="number" name="quantity" id="quantityInput" 
-                                                       value="${cart.quantity}" min="1" max="${cart.product.stockQuantity}" >
+                                    <td class="align-middle text-center">
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <button type="button" class="btn btn-outline-primary btn-sm decreaseQuantity" id="decreaseQuantity" onclick="updateQuantity(${cart.product.productId}, -1)"" 
+                                                    data-id="${cart.product.productId}">
+                                                -
+                                            </button>
 
 
 
-                                                <button type="button" class="btn btn-outline-primary btn-sm"
-                                                        onclick="incrementQuantity(${cart.product.productId}, ${cart.quantity})">
-                                                    +
-                                                </button>
-                                            </div>
-                                        </td>
+
+                                            <input class="form-control text-center mx-2 "
+                                                   style="width: 100px;" type="number" name="quantity"   id="quantityInput${cart.product.productId}" 
+                                                   value="${cart.quantity}" min="1" max="${cart.product.stockQuantity}"   onchange="updateInputQuantity(${cart.product.productId})" >
 
 
-                                        <td class="text-center font-weight-semibold align-middle p-4">
-                                            <fmt:formatNumber value="${cart.product.price * cart.quantity}" currencySymbol="true"/> đ
-                                        </td>
 
-                                        <td class="text-center align-middle px-0">
-                                            <a href="removeproductfromcart?pId=${cart.product.productId}" class="btn btn-danger btn-sm">
-                                                <i class="bi bi-trash"></i> Xóa
-                                            </a>
-                                        </td>
-                                    </tr>
+                                            <button type="button" class="btn btn-outline-primary btn-sm increaseQuantity" id="increaseQuantity"  onclick="updateQuantity(${cart.product.productId}, 1)"
+                                                    data-id="${cart.product.productId}" >
+                                                +
+                                            </button>
+                                        </div>
+                                    </td>
 
-                                </c:forEach>
+                                    <input type="hidden" name="productId" value="${cart.product.productId}">
+                                    <input type="hidden" name="action"  id="actionQuantity${cart.product.productId}" >
+
+
+                                </form>
+
+
+
+                                <td class="text-center font-weight-semibold align-middle p-4">
+                                    <fmt:formatNumber value="${cart.product.price * cart.quantity}" currencySymbol="true"/> đ
+                                </td>
+
+                                <td class="text-center align-middle px-0">
+                                    <a id="addToCartBtn${cart.product.productId}" onclick="removeProduct(${cart.product.productId})" class="btn btn-danger btn-sm">
+                                        <i class="bi bi-trash"></i> Xóa
+                                    </a>
+                                </td>
+                                </tr>
+
+                            </c:forEach>
 
                             </tbody>
                         </table>
 
                     </div>
+
                     <script>
-                        // Lấy phần tử input
-                        const quantityInput = document.getElementById("quantityInput");
 
-                        // Lấy giá trị tối đa từ sản phẩm
-                        const maxStock = parseInt(quantityInput.max);
+                        function removeProduct(productId) {
+                            let action = document.getElementById("actionQuantity" + productId);
+                            action.value = 'remove';
 
-                        // Giảm số lượng
-                        function decreaseQuantity() {
-                            let currentValue = parseInt(quantityInput.value);
-                            if (currentValue > 1) {
-                                quantityInput.value = currentValue - 1;
-                            }
+                            submitUpdate(productId);
+
                         }
 
-                        // Tăng số lượng
-                        function increaseQuantity() {
-                            let currentValue = parseInt(quantityInput.value);
-                            if (currentValue < maxStock) {
-                                quantityInput.value = currentValue + 1;
-                            }
-                        }
+                        function updateInputQuantity(productId) {
+                            let input = document.getElementById("quantityInput" + productId);
+                            let action = document.getElementById("actionQuantity" + productId);
+                            let maxStock = parseInt(input.max);
 
-                        // Ngăn nhập giá trị không hợp lệ
-                        quantityInput.addEventListener("input", function () {
-                            let value = parseInt(this.value);
+                            // Lấy giá trị người dùng nhập vào
+                            let value = parseInt(input.value);
+
+                            // Kiểm tra nếu không phải số hoặc nhỏ hơn 1 -> Đặt về 1
                             if (isNaN(value) || value < 1) {
-                                this.value = 1;
-                            } else if (value > maxStock) {
-                                this.value = maxStock;
+                                input.value = 1;
+                                action.value = 'update';
                             }
-                        });
+                            // Kiểm tra nếu lớn hơn số lượng tối đa -> Đặt về maxStock
+                            else if (value > maxStock) {
+                                input.value = maxStock;
+                                action.value = 'update';
+                            }
+                            // Nếu hợp lệ, giữ nguyên giá trị
+                            else {
+                                input.value = value;
+                                action.value = 'update';
+                            }
 
-                        
+                            // Gọi hàm submit để cập nhật số lượng
+                            submitUpdate(productId);
+                        }
+
+
+
+
+
+
+
+                        function updateQuantity(productId, change) {
+                            let action = document.getElementById("actionQuantity" + productId);
+                            let input = document.getElementById("quantityInput" + productId);
+                            let maxStock = parseInt(input.max);
+                            let minStock = 1;
+                            let newValue = parseInt(input.value) + change;
+
+
+
+                            if (newValue <= 0 && newValue <= maxStock) {
+                                action.value = 'remove';
+                                input.value = newValue;
+                                submitUpdate(productId);
+                            } else if (newValue >= minStock && newValue <= maxStock) {
+                                input.value = newValue;
+                                action.value = 'update';
+                                submitUpdate(productId);
+                            }
+                        }
+
+
+                        function submitUpdate(productId) {
+                            document.getElementById("addToCartForm" + productId).submit();
+                        }
+
                     </script>
 
                     <!-- / Shopping cart table -->

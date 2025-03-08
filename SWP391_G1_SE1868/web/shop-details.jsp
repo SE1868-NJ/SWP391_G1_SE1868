@@ -252,35 +252,42 @@
                             <p> ${product.category.name}<br>${product.description}</p>
 
 
-                            <!-- Form để gửi dữ liệu đến Servlet -->
-                            <form action="addCart" method="post" id="addToCartForm" class="d-flex align-items-center">
-                                <!-- Input ẩn để gửi productId -->
+
+
+                            <form action="cart" method="post" id="addToCartForm">
+                                <div class="d-flex align-items-center">
+                                    <!-- Nút giảm số lượng -->
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="decreaseQuantity()">
+                                        -
+                                    </button>
+
+                                    <!-- Ô nhập số lượng có min/max -->
+                                    <input type="number" id="quantityInput" class="form-control text-center mx-2" 
+                                           value="1" min="1" max="${product.stockQuantity}" style="width: 100px;" name="quantity">
+
+                                    <!-- Nút tăng số lượng -->
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="increaseQuantity()">
+                                        +
+                                    </button>
+                                </div>
+
+                                <!-- Thêm thông tin sản phẩm -->
                                 <input type="hidden" name="productId" value="${product.productId}">
-
-                                <!-- Nút giảm số lượng -->
-                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="decreaseQuantity()">
-                                    -
-                                </button>
-
-                                <!-- Ô nhập số lượng có min/max -->
-                                <input type="number" id="quantityInput" class="form-control text-center mx-2" 
-                                       name="quantity" value="1" min="1" max="${product.stockQuantity}" style="width: 100px;">
-
-                                <!-- Nút tăng số lượng -->
-                                <button type="button" class="btn btn-outline-primary btn-sm" onclick="increaseQuantity()">
-                                    +
-                                </button>
+                                 <input type="hidden" name="action" value="add">
+                                 
                             </form>
+
+                                 
 
                             <br>
 
-                            <!-- Nút Thêm vào giỏ hàng -->
+
                             <c:if test="${product.stockQuantity > 0}">
-                                <button class="primary-btn border-0"  type="submit" form="addToCartForm" >Thêm vào giỏ hàng</button>
+                                <a href="" class="primary-btn" id="addToCartBtn" >Thêm vào giỏ hàng</a>
                             </c:if>
 
                             <c:if test="${product.stockQuantity <= 0}">
-                                <a href="" class="primary-btn disabled" aria-disabled="true">
+                                <a href="" class="btn btn-secondary btn-sm mt-2 disabled" aria-disabled="true">
                                     <i class="bi bi-cart-x"></i> Hết hàng
                                 </a>
                             </c:if>
@@ -320,36 +327,18 @@
 
                                 // Xử lý khi nhấn "Thêm vào giỏ hàng"
                                 document.getElementById("addToCartBtn").addEventListener("click", function (event) {
+
                                     event.preventDefault(); // Ngăn chặn chuyển trang ngay lập tức
 
-                                    let productId = parseInt("${product.productId}"); // Lấy ID sản phẩm
-                                    let quantity = parseInt(document.getElementById("quantityInput").value) || 1; // Lấy số lượng nhập vào
+                                    let productId = "${product.productId}"; // Lấy ID sản phẩm
+                                    let quantity = quantityInput.value; // Lấy số lượng nhập vào
 
-                                    // Gửi dữ liệu đến Servlet bằng JSON
-                                    fetch("/addCart", {
-                                        method: "POST",
-                                        headers: {
-                                            "Content-Type": "application/json"
-                                        },
-                                        body: JSON.stringify()({productId: productId, quantity: quantity}) // Chuyển dữ liệu thành JSON
-                                    })
-                                            .then(response => response.json()) // Chuyển kết quả về JSON
-                                            .then(data => {
-                                                if (data.success) {
-                                                    window.location.href = "/cart"; // Chuyển hướng đến trang giỏ hàng sau khi thêm
-                                                } else {
-                                                    alert("Lỗi khi thêm vào giỏ hàng: " + data.message);
-                                                }
-                                            })
-                                            .catch(error => {
-                                                console.error("Lỗi Fetch API:", error);
-                                                alert("Lỗi kết nối đến server!");
-                                            });
+//                                    // Điều hướng đến trang thêm vào giỏ hàng với số lượng nhập vào
+//                                    window.location.href = `/cart?action=add&productId=`+productId+`&quantity=`+ quantity;
+
+                                    let form = document.getElementById("addToCartForm");
+                                    form.submit(); // Gửi form đi
                                 });
-
-
-
-
 
                             </script>
 

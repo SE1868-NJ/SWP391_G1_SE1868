@@ -16,7 +16,6 @@ import models.CustomerDAO;
 import entity.Customer;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpSession;
-import com.google.gson.Gson;
 
 /**
  *

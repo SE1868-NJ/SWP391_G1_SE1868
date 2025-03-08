@@ -74,22 +74,17 @@ public class CartServlet extends HttpServlet {
 //            response.sendRedirect("login.jsp");
 //            return;
 //        }
-
-    // khai báo CartDAo
+        // khai báo CartDAo
         CartDAO cartDAO = new CartDAO();
-        
+
         // lấy ra list Cart của customer đấu
-        
         List<Cart> carts = cartDAO.getCartByCustomerId(1);
-        
+
         request.setAttribute("carts", carts);
-          // truyền tổng giá tiền
-            request.setAttribute("totalCart", cartDAO.getTotalAmount(1));
-        
+        // truyền tổng giá tiền
+        request.setAttribute("totalCart", cartDAO.getTotalAmount(1));
         request.getRequestDispatcher("cart.jsp").forward(request, response);
-        
-        
-    
+
     }
 
     /**
@@ -103,7 +98,60 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        // processRequest(request, response);
+
+        String productId = request.getParameter("productId");
+        String quantity = request.getParameter("quantity");
+        String action = request.getParameter("action");
+
+        // lấy sessiong customer
+        HttpSession session = request.getSession();
+
+//        // lấy đố tương cusomret ở session
+//        Customer customer = (Customer) session.getAttribute("user");
+//       // check custoemer
+//        if (customer == null) {
+//            response.sendRedirect("login.jsp");
+//            return;
+//        }
+        // khai báo CartDAo
+        CartDAO cartDAO = new CartDAO();
+
+        // check action
+        if (action == null) {
+            action = "";
+        }
+
+        if (action.equals("add") && !productId.trim().isEmpty() && productId != null) {
+            boolean check = cartDAO.addToCart(1, Integer.parseInt(productId), Integer.parseInt(quantity));
+            if (check) {
+                // thêm thành công
+                request.setAttribute("add", true);
+            }
+        } else if (action.equals("update") && !productId.trim().isEmpty() && productId != null) {
+            // update giỏ hàng
+            boolean check = cartDAO.updateQuantity(1, Integer.parseInt(productId), Integer.parseInt(quantity));
+            if (check) {
+                // thêm thành công
+                request.setAttribute("update", true);
+            }
+
+        } else if (action.equals("remove") && !productId.trim().isEmpty() && productId != null) {
+            // xoas  khỏi giỏ hàng
+            boolean check = cartDAO.removeFromCart(1, Integer.parseInt(productId));
+            if (check) {
+                // thêm thành công
+                request.setAttribute("remove", true);
+            }
+        }
+
+        // lấy ra list Cart của customer đấu
+        List<Cart> carts = cartDAO.getCartByCustomerId(1);
+
+        request.setAttribute("carts", carts);
+        // truyền tổng giá tiền
+        request.setAttribute("totalCart", cartDAO.getTotalAmount(1));
+        request.getRequestDispatcher("cart.jsp").forward(request, response);
     }
 
     /**

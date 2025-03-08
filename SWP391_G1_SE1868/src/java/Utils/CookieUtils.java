@@ -55,7 +55,7 @@ public class CookieUtils {
 
     }
 
-    public static Customer getCustomerFromCookie(HttpServletRequest request) {
+    public static Customer getCustomerFromCookie(HttpServletRequest request, String name) {
         try {
             // Lấy tất cả các cookie
             Cookie[] cookies = request.getCookies();
@@ -64,7 +64,7 @@ public class CookieUtils {
                 // Duyệt qua tất cả cookie
                 for (Cookie cookie : cookies) {
                     // Kiểm tra xem cookie có tên "user" không
-                    if (cookie.getName().equals("user")) {
+                    if (cookie.getName().equals(name)) {
                         // Giải mã giá trị cookie
                         String json = URLDecoder.decode(cookie.getValue(), "UTF-8");
 

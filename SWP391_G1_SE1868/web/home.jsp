@@ -67,14 +67,19 @@
                                         <h5 class="text-danger fw-bold">
                                             <fmt:formatNumber value="${product.price}" currencyCode="true"/>đ
                                         </h5>
+                                        
 
                                         <c:if test="${product.stockQuantity > 0}">
                                             <!-- Nút Thêm vào giỏ hàng -->
-                                            <a href="/addToCart?productId=${product.productId}" class="btn btn-primary btn-sm mt-2">
-                                                <i class="bi bi-cart-plus"></i> Thêm vào giỏ
-                                            </a>
+                                            <form action="cart" method="post" >
 
+                                                <input type="hidden" name="productId" value="${product.productId}">
+                                                <input type="hidden" name="action" value="add">
+                                                <input type="hidden" name="quantity" value="1">
+                                                <button type="submit" class="btn btn-primary btn-sm mt-2">Thêm vào giỏ</button>
+                                            </form>
                                         </c:if>
+                                            
                                         <c:if test="${product.stockQuantity <= 0}">
                                             <button disabled class="btn btn-primary btn-sm mt-2">
                                                 <i class="bi bi-cart-plus"></i> Thêm vào giỏ
