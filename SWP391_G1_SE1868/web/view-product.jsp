@@ -54,10 +54,10 @@
                     <div class="col-lg-3">
                         <!-- Danh mục sản phẩm -->
                         <div class="list-group shadow-sm bg-white rounded mb-2 ">
-                            <h5 class="btn btn-success text-dark"><a href="products?minPrice=${param.minPrice}&maxPrice=${param.maxPrice}&sortBy=${param.sortBy}&order=${param.order}&categoryId=" class=" btn btn-success"> Danh mục sản phẩm</a></h5>
+                            <h5 class="btn btn-success text-dark"><a href="products?categoryId=" class=" btn btn-success"> Danh mục sản phẩm</a></h5>
 
                             <c:forEach var="category" items="${categorys}"  begin="0" end="6">
-                                <a href="products?minPrice=${param.minPrice}&maxPrice=${param.maxPrice}&sortBy=${param.sortBy}&order=${param.order}&categoryId=${category.categoryId}" class="list-group-item list-group-item-action">
+                                <a href="products?categoryId=${category.categoryId}" class="list-group-item list-group-item-action">
                                     ${category.name}
                                 </a>
                             </c:forEach>
@@ -68,56 +68,63 @@
                         </div>
 
                         <!-- Bộ lọc giá -->
-                        <div class="list-group mb-3 shadow-sm bg-white rounded ">
+                        <div class="list-group mb-3 shadow-sm bg-white rounded">
                             <h5 class="fw-bold text-success">Lọc theo giá</h5>
-                            <form action="products" method="GET">
+                            <form id="filterForm" action="products" method="GET">
 
-
-
+                                <!-- Giá tối thiểu -->
                                 <div class="mb-2">
                                     <label for="minPrice" class="form-label">Giá tối thiểu</label>
                                     <input type="number" class="form-control" id="minPrice" name="minPrice" placeholder="0" value="${param.minPrice}">
                                 </div>
+
+                                <!-- Giá tối đa -->
                                 <div class="mb-2">
                                     <label for="maxPrice" class="form-label">Giá tối đa</label>
                                     <input type="number" class="form-control" id="maxPrice" name="maxPrice" placeholder="1000000" value="${param.maxPrice}">
                                 </div>
-                                <button type="submit" class="btn btn-success w-100">Áp dụng</button>
-                            </form>
 
-                            <br>
-                            <br>
+                                <!-- Nút áp dụng -->
+                                <button type="button" id="btnfilterForm" class="btn btn-success w-100">Áp dụng</button>
+                                
+                                <br>
+                                 <br>
 
-                            <div class="mb-3">
-                                <label class="fw-bold text-success">Sắp xếp theo</label>
-                                <div class="form-check">
-                                    <input type="radio" class="form-check-input" name="sortBy" value="price" id="sortByPrice"
-                                           ${param.sortBy == 'price'|| empty param.sortBy  ?  'checked' : ''}>
-                                    <label class="form-check-label" for="sortByPrice">Giá</label>
+                                <!-- Sắp xếp theo -->
+                                <div class="mb-3">
+                                    <label class="fw-bold text-success">Sắp xếp theo</label>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" name="sortBy" value="price" id="sortByPrice"
+                                               ${param.sortBy == 'price' || empty param.sortBy ? 'checked' : ''} onchange="updateSort()">
+                                        <label class="form-check-label" for="sortByPrice">Giá</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" name="sortBy" value="rating" id="sortByRating"
+                                               ${param.sortBy == 'rating' ? 'checked' : ''} onchange="updateSort()">
+                                        <label class="form-check-label" for="sortByRating">Đánh giá</label>
+                                    </div>
                                 </div>
-                                <div class="form-check">
-                                    <input type="radio" class="form-check-input" name="sortBy" value="rating" id="sortByRating"
-                                           ${param.sortBy == 'rating' ? 'checked' : ''}>
-                                    <label class="form-check-label" for="sortByRating">Đánh giá</label>
-                                </div>
-                            </div>
 
-
-                            <div class="mb-3">
-                                <label class="fw-bold text-success">Thứ tự</label>
-                                <div class="form-check">
-                                    <input type="radio" class="form-check-input" name="order" value="asc" id="orderAsc"
-                                           ${param.order == 'asc' || empty param.order ? 'checked' : ''}>
-                                    <label class="form-check-label" for="orderAsc">Tăng dần</label>
+                                <!-- Thứ tự -->
+                                <div class="mb-3">
+                                    <label class="fw-bold text-success">Thứ tự</label>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" name="order" value="asc" id="orderAsc"
+                                               ${param.order == 'asc' || empty param.order ? 'checked' : ''} onchange="updateSort()">
+                                        <label class="form-check-label" for="orderAsc">Tăng dần</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" name="order" value="desc" id="orderDesc"
+                                               ${param.order == 'desc' ? 'checked' : ''} onchange="updateSort()">
+                                        <label class="form-check-label" for="orderDesc">Giảm dần</label>
+                                    </div>
                                 </div>
-                                <div class="form-check">
-                                    <input type="radio" class="form-check-input" name="order" value="desc" id="orderDesc"
-                                           ${param.order == 'desc' ? 'checked' : ''}>
-                                    <label class="form-check-label" for="orderDesc">Giảm dần</label>
-                                </div>
-                            </div>
-
                         </div>
+                        </form>
+
+                        <br>
+
+
 
 
                     </div>
@@ -173,7 +180,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <li class="page-item "><a class="page-link" href="products?keyword=${param.keyword}&minPrice=${param.minPrice}&maxPrice=${param.maxPrice}&sortBy=${param.sortBy}&order=${param.order}&page=${pageNum}&categoryId=${param.categoryId}">${pageNum}</a></li>
-                                             </c:otherwise>
+                                                </c:otherwise>
                                             </c:choose>
                                         </c:forEach>
                                     </c:if>
@@ -184,6 +191,75 @@
                 </div>
             </div>
         </section>
+
+        <!-- JavaScript để cập nhật URL -->
+        <script>
+            function updateSort() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const keyword = urlParams.get("keyword") || ""; // Lấy keyword từ URL
+
+                const sortBy = document.querySelector('input[name="sortBy"]:checked')?.value || "";
+                const order = document.querySelector('input[name="order"]:checked')?.value || "";
+
+                const minPrice = document.getElementById("minPrice")?.value || "";
+                const maxPrice = document.getElementById("maxPrice")?.value || "";
+
+                // Kiểm tra nếu minPrice > maxPrice
+                if (minPrice && maxPrice && parseFloat(minPrice) > parseFloat(maxPrice)) {
+                    alert("Lỗi: Giá tối thiểu không thể lớn hơn giá tối đa!");
+                    return; // Dừng lại nếu giá không hợp lệ
+                }
+
+                let url = "products?";
+                let params = [];
+
+                // Giữ nguyên keyword từ URL nếu có
+                if (keyword)
+                    params.push("keyword=" + encodeURIComponent(keyword));
+
+                // Chỉ thêm minPrice & maxPrice nếu có nhập
+                if (minPrice)
+                    params.push("minPrice=" + encodeURIComponent(minPrice));
+                if (maxPrice)
+                    params.push("maxPrice=" + encodeURIComponent(maxPrice));
+
+                // Thêm tham số sắp xếp
+                if (sortBy)
+                    params.push("sortBy=" + encodeURIComponent(sortBy));
+                if (order)
+                    params.push("order=" + encodeURIComponent(order));
+
+                url += params.join("&");
+
+                console.log("Redirecting to:", url);
+                window.location.href = url;
+            }
+
+
+            document.addEventListener("DOMContentLoaded", function () {
+                document.getElementById("btnfilterForm").addEventListener("click", function () {
+                    const minPrice = document.getElementById("minPrice").value;
+                    const maxPrice = document.getElementById("maxPrice").value;
+
+                    const sortBy = document.querySelector('input[name="sortBy"]:checked')?.value || "";
+                    const order = document.querySelector('input[name="order"]:checked')?.value || "";
+
+                    // Kiểm tra nếu giá tối thiểu lớn hơn giá tối đa
+                    if (minPrice && maxPrice && parseFloat(minPrice) > parseFloat(maxPrice)) {
+                        alert("Lỗi: Giá tối thiểu không thể lớn hơn giá tối đa!");
+                        return; // Dừng lại nếu giá không hợp lệ
+                    }
+
+                    // Lấy form và cập nhật action URL với tham số sortBy và order
+                    let form = document.getElementById("filterForm");
+                    form.submit();
+                });
+            });
+
+
+
+
+        </script>
 
 
 

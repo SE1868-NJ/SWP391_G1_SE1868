@@ -89,10 +89,10 @@ public class ViewOrderServlet extends HttpServlet {
         OrderDAO orderDAO = new OrderDAO();
 
         // lấy list odder theo customerID
-        List<Order> orders = orderDAO.getOrdersByCustomerId(1, startDate, endDate, Integer.parseInt(page), pageSize, sortBy, sortOrder);
+        List<Order> orders = orderDAO.getOrdersByCustomerId(customer.getCustomerId(), startDate, endDate, Integer.parseInt(page), pageSize, sortBy, sortOrder);
 
         // get totalPage
-        int totalPage = orderDAO.getTotalOrderPages(1, startDate, endDate, pageSize);
+        int totalPage = orderDAO.getTotalOrderPages(customer.getCustomerId(), startDate, endDate, pageSize);
 
         request.setAttribute("orders", orders);
         request.setAttribute("totalPage", totalPage);

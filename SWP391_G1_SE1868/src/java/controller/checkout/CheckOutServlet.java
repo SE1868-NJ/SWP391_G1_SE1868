@@ -71,8 +71,13 @@ public class CheckOutServlet extends HttpServlet {
         // truyền carts của customer
         HttpSession session = request.getSession();
 
-        // lấy customer từ session
+        // lấy đố tương cusomret ở session
         Customer customer = (Customer) session.getAttribute("user");
+        // check custoemer
+        if (customer == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
 
         // khai báo DAO customer
         CustomerDAO customerDAO = new CustomerDAO();
@@ -90,7 +95,7 @@ public class CheckOutServlet extends HttpServlet {
             request.setAttribute("customer", customerDAO.getCustomerByIdNoJoin(customer.getCustomerId()));
 
             request.getRequestDispatcher("checkout.jsp").forward(request, response);
-        }else{
+        } else {
             response.sendRedirect("login.jsp");
         }
     }
@@ -106,7 +111,7 @@ public class CheckOutServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       
+
     }
 
     /**

@@ -105,9 +105,6 @@ public class ProductServlet extends HttpServlet {
         request.setAttribute("keyword", keyword);
         request.setAttribute("minPrice", minPrice);
         request.setAttribute("maxPrice", maxPrice);
-        request.setAttribute("categoryId", categoryId);
-        request.setAttribute("sortBy", sortBy);
-        request.setAttribute("order", order);
 
         // Chuyển hướng đến trang JSP để hiển thị dữ liệu
         request.getRequestDispatcher("view-product.jsp").forward(request, response);

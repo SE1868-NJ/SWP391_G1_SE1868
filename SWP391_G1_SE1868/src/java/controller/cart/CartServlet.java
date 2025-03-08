@@ -67,22 +67,22 @@ public class CartServlet extends HttpServlet {
         // lấy sessiong customer
         HttpSession session = request.getSession();
 
-//        // lấy đố tương cusomret ở session
-//        Customer customer = (Customer) session.getAttribute("user");
-//       // check custoemer
-//        if (customer == null) {
-//            response.sendRedirect("login.jsp");
-//            return;
-//        }
+        // lấy đố tương cusomret ở session
+        Customer customer = (Customer) session.getAttribute("user");
+       // check custoemer
+        if (customer == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
         // khai báo CartDAo
         CartDAO cartDAO = new CartDAO();
 
         // lấy ra list Cart của customer đấu
-        List<Cart> carts = cartDAO.getCartByCustomerId(1);
+        List<Cart> carts = cartDAO.getCartByCustomerId(customer.getCustomerId());
 
         request.setAttribute("carts", carts);
         // truyền tổng giá tiền
-        request.setAttribute("totalCart", cartDAO.getTotalAmount(1));
+        request.setAttribute("totalCart", cartDAO.getTotalAmount(customer.getCustomerId()));
         request.getRequestDispatcher("cart.jsp").forward(request, response);
 
     }
@@ -107,13 +107,13 @@ public class CartServlet extends HttpServlet {
         // lấy sessiong customer
         HttpSession session = request.getSession();
 
-//        // lấy đố tương cusomret ở session
-//        Customer customer = (Customer) session.getAttribute("user");
-//       // check custoemer
-//        if (customer == null) {
-//            response.sendRedirect("login.jsp");
-//            return;
-//        }
+        // lấy đố tương cusomret ở session
+        Customer customer = (Customer) session.getAttribute("user");
+       // check custoemer
+        if (customer == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
         // khai báo CartDAo
         CartDAO cartDAO = new CartDAO();
 
@@ -130,7 +130,7 @@ public class CartServlet extends HttpServlet {
             }
         } else if (action.equals("update") && !productId.trim().isEmpty() && productId != null) {
             // update giỏ hàng
-            boolean check = cartDAO.updateQuantity(1, Integer.parseInt(productId), Integer.parseInt(quantity));
+            boolean check = cartDAO.updateQuantity(customer.getCustomerId(), Integer.parseInt(productId), Integer.parseInt(quantity));
             if (check) {
                 // thêm thành công
                 request.setAttribute("update", true);
@@ -138,7 +138,7 @@ public class CartServlet extends HttpServlet {
 
         } else if (action.equals("remove") && !productId.trim().isEmpty() && productId != null) {
             // xoas  khỏi giỏ hàng
-            boolean check = cartDAO.removeFromCart(1, Integer.parseInt(productId));
+            boolean check = cartDAO.removeFromCart(customer.getCustomerId(), Integer.parseInt(productId));
             if (check) {
                 // thêm thành công
                 request.setAttribute("remove", true);
@@ -146,11 +146,11 @@ public class CartServlet extends HttpServlet {
         }
 
         // lấy ra list Cart của customer đấu
-        List<Cart> carts = cartDAO.getCartByCustomerId(1);
+        List<Cart> carts = cartDAO.getCartByCustomerId(customer.getCustomerId());
 
         request.setAttribute("carts", carts);
         // truyền tổng giá tiền
-        request.setAttribute("totalCart", cartDAO.getTotalAmount(1));
+        request.setAttribute("totalCart", cartDAO.getTotalAmount(customer.getCustomerId()));
         request.getRequestDispatcher("cart.jsp").forward(request, response);
     }
 
