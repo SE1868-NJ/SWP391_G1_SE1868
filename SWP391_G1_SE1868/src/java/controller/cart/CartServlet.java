@@ -69,7 +69,7 @@ public class CartServlet extends HttpServlet {
 
         // lấy đố tương cusomret ở session
         Customer customer = (Customer) session.getAttribute("user");
-       // check custoemer
+        // check custoemer
         if (customer == null) {
             response.sendRedirect("login.jsp");
             return;
@@ -80,6 +80,9 @@ public class CartServlet extends HttpServlet {
         // lấy ra list Cart của customer đấu
         List<Cart> carts = cartDAO.getCartByCustomerId(customer.getCustomerId());
 
+        // Lưu số lượng sản phẩm vào session
+        session.setAttribute("cart", cartDAO.getTotalCartQuantity(customer.getCustomerId()));
+        
         request.setAttribute("carts", carts);
         // truyền tổng giá tiền
         request.setAttribute("totalCart", cartDAO.getTotalAmount(customer.getCustomerId()));
@@ -109,7 +112,7 @@ public class CartServlet extends HttpServlet {
 
         // lấy đố tương cusomret ở session
         Customer customer = (Customer) session.getAttribute("user");
-       // check custoemer
+        // check custoemer
         if (customer == null) {
             response.sendRedirect("login.jsp");
             return;
@@ -147,6 +150,13 @@ public class CartServlet extends HttpServlet {
 
         // lấy ra list Cart của customer đấu
         List<Cart> carts = cartDAO.getCartByCustomerId(customer.getCustomerId());
+        
+        
+
+        // Lưu số lượng sản phẩm vào session
+        session.setAttribute("cart", cartDAO.getTotalCartQuantity(customer.getCustomerId()));
+
+
 
         request.setAttribute("carts", carts);
         // truyền tổng giá tiền

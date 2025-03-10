@@ -26,7 +26,7 @@ public class Product {
     private List<ProductReview> reviews;
     private List<ProductImage> images;
     private List<OrderDetail> orderDetails;
-    private List<FavoriteDetail> favoriteDetails;
+    // private List<FavoriteDetail> favoriteDetails;
    
     private double avgRating;
 
@@ -61,7 +61,7 @@ public class Product {
 
     
 
-    public Product(int productId, String name, String description, double price, int stockQuantity, LocalDate createdAt, LocalDate updatedAt, Shop shop, Category category, List<ProductReview> reviews, List<ProductImage> images, List<OrderDetail> orderDetails, List<FavoriteDetail> favoriteDetails) {
+    public Product(int productId, String name, String description, double price, int stockQuantity, LocalDate createdAt, LocalDate updatedAt, Shop shop, Category category) {
         this.productId = productId;
         this.name = name;
         this.description = description;
@@ -74,7 +74,6 @@ public class Product {
         this.reviews = reviews;
         this.images = images;
         this.orderDetails = orderDetails;
-        this.favoriteDetails = favoriteDetails;
     
     }
 
@@ -182,13 +181,7 @@ public class Product {
         this.orderDetails = orderDetails;
     }
 
-    public List<FavoriteDetail> getFavoriteDetails() {
-        return favoriteDetails;
-    }
-
-    public void setFavoriteDetails(List<FavoriteDetail> favoriteDetails) {
-        this.favoriteDetails = favoriteDetails;
-    }
+   
 
 
 }

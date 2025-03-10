@@ -16,6 +16,7 @@ import models.CustomerDAO;
 import entity.Customer;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpSession;
+import models.CartDAO;
 
 /**
  *
@@ -99,15 +100,22 @@ public class LoginServlet extends HttpServlet {
             request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
         } else {
-            
-            CustomerDAO customerDAO = new CustomerDAO();
 
+            CustomerDAO customerDAO = new CustomerDAO();
+            // khai báo CartDAo
+            CartDAO cartDAO = new CartDAO();
+            
             Customer customer = customerDAO.LoginSHA512(email, password);
             if (customer != null) {
                 // Tạo session và lưu thông tin người dùng nếu đăng nhập thành công
-          
+
                 HttpSession session = request.getSession();
+
+                // Lưu số lượng sản phẩm vào session
+                session.setAttribute("cart", cartDAO.getTotalCartQuantity(customer.getCustomerId()));
+                
                 session.setAttribute("user", customer);  // Lưu đối tượng Customer vào session
+                
                 response.sendRedirect("home");  // Trang chính sau khi đăng nhập thành công
 
             } else {
