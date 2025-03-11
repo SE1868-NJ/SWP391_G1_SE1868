@@ -18,7 +18,7 @@
     </head>
     <body>
         <%@include file="header.jsp" %>
-        <div class="container py-5">
+        <div class="container-lg">
             <div class="row mb-4">
                 <div class="col-md-12">
                     <h2 class="mb-3 text-center">Order History</h2>
@@ -173,7 +173,7 @@
 
 
 
-            <div>
+            <div >
                 <table class="table  table-striped table-bordered">
                     <thead class="table-light">
                         <tr>
@@ -197,7 +197,7 @@
                                 <td>${order.status}</td>
                                 <td>${order.shippingAddress}</td>
                                 <td>${order.shipper.fullName}</td>
-                                <td>${order.payment.paymentMethod !=null ?"ATM" :"Thanh toán khi nhận hàng"}</td>
+                                <td>${order.payment.paymentMethod }</td>
                                 <td>
                                     <div class="d-flex gap-2">
                                         <a href="/viewOrderDetail?orderId=${order.orderId}" class="btn btn-sm btn-outline-primary">Xem</a> &nbsp;

@@ -89,7 +89,20 @@
                         <div class="header__cart">
                             <ul>
                                 <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                                <li><a href="/cart"><i class="fa fa-shopping-bag"></i> <span>${sessionScope.cart}</span></a></li>
+                                <li>
+                                    <a href="/cart"><i class="fa fa-shopping-bag"></i> 
+                                        <span>
+                                            <c:choose>
+                                                <c:when test="${not empty sessionScope.cart}">
+                                                    ${sessionScope.cart}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    0
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </span>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -101,7 +114,7 @@
         </header>
         <!-- Header Section End -->
 
-       
+
         <!-- Breadcrumb Section Begin -->
         <section class="breadcrumb-section set-bg" data-setbg="assets/img/breadcrumb.jpg">
             <div class="container">
@@ -112,7 +125,7 @@
                             <div class="d-flex align-content-center justify-content-around" >
                                 <a href="/home">Home</a>
                                 <a href="/products">Product</a>
-                               
+
                             </div>
                         </div>
                     </div>  

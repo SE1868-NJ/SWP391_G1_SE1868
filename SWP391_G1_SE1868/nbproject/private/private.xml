@@ -11,6 +11,7 @@
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/shipper-review.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Customer.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Favorite.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/OrderDAO.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/nbproject/build-impl.xml</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Product/HomeServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/response/VNPayResponse.java</file>
@@ -31,6 +32,7 @@
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/services/VNPayService.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/WEB-INF/web.xml</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/header.jsp</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Order.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/shop-details.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/response/Province.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/review/UpdateShipperReviewServlet.java</file>
