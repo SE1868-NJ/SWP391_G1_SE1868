@@ -1,18 +1,23 @@
 package entity;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 public class Blog {
     private int id;
     private String name;
     private String description;
     private int customerId;
     private String imageUrl;
+     private Timestamp  createdDate;
 
-    public Blog(int id, String name, String description, int customerId, String imageUrl) {
+    public Blog(int id, String name, String description, int customerId, String imageUrl, Timestamp createdDate) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.customerId = customerId;
         this.imageUrl = imageUrl;
+        this.createdDate = createdDate;
     }
 
     public int getId() { return id; }
@@ -29,4 +34,14 @@ public class Blog {
 
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    public Timestamp getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Timestamp createdDate) {
+        this.createdDate = createdDate;
+    }
+    
+    
 }
