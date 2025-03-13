@@ -174,16 +174,16 @@
 
 
             <div >
-                <table class="table  table-striped table-bordered">
+                <table class="table  table-striped table-bordered text-nowrap">
                     <thead class="table-light">
                         <tr>
-                            <th >OrderID</th>
-                            <th >Date</th>
-                            <th >Total</th>
-                            <th >Status</th>
-                            <th >Address</th>
-                            <th >Shipper</th>
-                            <th >PaymentMethod</th>
+                            <th class="text-center" >OrderID</th>
+                            <th  class="text-center">Date</th>
+                            <th  class="text-center">Total</th>
+                            <th  class="text-center">Status</th>
+                            <th  class="text-center">Address</th>
+                            <th  class="text-center">Shipper</th>
+                            <th class="text-center">PaymentMethod</th>
 
                             <th >Actions</th>
                         </tr>
