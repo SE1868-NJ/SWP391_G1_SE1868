@@ -5,7 +5,7 @@
 <head>
     <title>Danh Sách Blog</title>
     <style>
-        /* CSS chung */
+        /* Giữ nguyên CSS của bạn */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
@@ -16,11 +16,10 @@
             min-height: 100vh;
         }
         
-        /* Nội dung chính */
         .main-content {
             flex: 1;
-            padding: 0; /* Xóa padding để dính sát với header và footer */
-            margin: 0; /* Xóa margin để dính sát */
+            padding: 0;
+            margin: 0;
             text-align: center;
         }
         
@@ -136,12 +135,11 @@
             background: #ddd;
         }
         
-        /* Footer */
         .footer {
             background: #f8f8f8;
             padding: 20px 0;
             text-align: center;
-            margin: 0; /* Xóa margin để dính sát */
+            margin: 0;
         }
         
         .footer__about ul {
@@ -156,10 +154,8 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
     <jsp:include page="header.jsp" />
 
-    <!-- Nội dung chính -->
     <div class="main-content">
         <div class="container">
             <h2>Danh Sách Blog</h2>
@@ -180,6 +176,9 @@
                                     <p><strong>Ngày tạo:</strong> 
                                         <fmt:formatDate value="${blog.createdDate}" pattern="dd/MM/yyyy HH:mm:ss" />
                                     </p>
+                                    <!-- Thêm nút Xem chi tiết -->
+                                    <a href="${pageContext.request.contextPath}/BlogDetailServlet?id=${blog.id}" 
+                                       class="add-blog" style="background: #007bff; margin-top: 10px;">Xem chi tiết</a>
                                 </div>
                             </div>
                         </c:forEach>
@@ -200,7 +199,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <jsp:include page="footer.jsp" />
 </body>
 </html>

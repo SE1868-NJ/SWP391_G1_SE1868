@@ -25,7 +25,7 @@ public class BlogServlet extends HttpServlet {
         // Lấy số trang từ tham số URL, nếu không có thì mặc định là trang 1
         String pageParam = request.getParameter("page");
         int page = (pageParam != null) ? Integer.parseInt(pageParam) : 1;
-        int pageSize = 8; // Số blog mỗi trang
+        int pageSize = 9; // Số blog mỗi trang
 
         // Lấy danh sách blog theo trang
         List<Blog> blogs = blogDAO.getBlogsByPage(page, pageSize);
