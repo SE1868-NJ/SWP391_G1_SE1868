@@ -11,9 +11,9 @@ import java.util.logging.Logger;
 
 public class DBContext {
 
-    protected Connection connection;
+    public Connection connection;
     private static final String DB_USER  = "root"; // change this to your MySQL username
-    private static final String DB_PASSWORD  = "123456"; // change this to your MySQL password
+    private static final String DB_PASSWORD  = "1111"; // change this to your MySQL password
     private static final String DB_URL = "jdbc:mysql://localhost:3306/swp391_g1"; // change mydb to your database name
 
     public DBContext() {

@@ -1,6 +1,6 @@
 package entity;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Blog {
@@ -9,9 +9,9 @@ public class Blog {
     private String description;
     private int customerId;
     private String imageUrl;
-     private Timestamp  createdDate;
+    private LocalDate createdDate;
 
-    public Blog(int id, String name, String description, int customerId, String imageUrl, Timestamp createdDate) {
+    public Blog(int id, String name, String description, int customerId, String imageUrl, LocalDate createdDate) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -35,13 +35,16 @@ public class Blog {
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
-    public Timestamp getCreatedDate() {
+    public LocalDate getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Timestamp createdDate) {
+    public void setCreatedDate(LocalDate createdDate) {
         this.createdDate = createdDate;
     }
-    
-    
+
+    // Getter phụ để dùng trong JSP
+    public Date getCreatedDateAsUtilDate() {
+        return createdDate != null ? java.sql.Date.valueOf(createdDate) : null;
+    }
 }

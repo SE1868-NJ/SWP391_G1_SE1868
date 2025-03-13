@@ -10,8 +10,10 @@ package entity;
  */
 import java.time.LocalDate;
 import java.util.List;
+
 public class Shipper {
-     private int shipperId;
+
+    private int shipperId;
     private String fullName;
     private String email;
     private String phoneNumber;
@@ -23,11 +25,42 @@ public class Shipper {
 
     @Override
     public String toString() {
-        return "Shipper{" +
-                "shipperId=" + shipperId +
-                ", fullName='" + fullName + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        StringBuilder ordersInfo = new StringBuilder();
+
+        // Kiểm tra xem danh sách đơn hàng có rỗng hay không
+        if (orders != null && !orders.isEmpty()) {
+            for (Order order : orders) {
+                ordersInfo.append("\n    Order ID: ").append(order.getOrderId())
+                        .append(", Order Date: ").append(order.getOrderDate())
+                        .append(", Total Amount: ").append(order.getTotalAmount());
+
+                // Thêm thông tin chi tiết đơn hàng nếu có
+                if (order.getOrderDetails() != null && !order.getOrderDetails().isEmpty()) {
+                    ordersInfo.append("\n     Order Details:");
+                    for (OrderDetail detail : order.getOrderDetails()) {
+                        ordersInfo.append("\n  - Product: ").append(detail.getProduct().getName())
+                                .append(", Quantity: ").append(detail.getQuantity())
+                                .append(", Unit Price: ").append(detail.getUnitPrice());
+                    }
+                } else {
+                    ordersInfo.append("\n     No Order Details.");
+                }
+            }
+        } else {
+            ordersInfo.append("\n    No Orders.");
+        }
+
+        // Trả về chuỗi thông tin của Shipper
+        return "Shipper{"
+                + "shipperId=" + shipperId
+                + ", fullName='" + fullName + '\''
+                + ", email='" + email + '\''
+                + ", phoneNumber='" + phoneNumber + '\''
+                + ", status='" + status + '\''
+                + ", createdAt=" + createdAt
+                + ", updatedAt=" + updatedAt
+                + ", orders=" + ordersInfo.toString()
+                + "\n}";
     }
 
     public Shipper(int shipperId, String fullName, String email, String phoneNumber, String status, LocalDate createdAt, LocalDate updatedAt, List<Order> orders) {
@@ -107,5 +140,5 @@ public class Shipper {
     public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
-    
+
 }

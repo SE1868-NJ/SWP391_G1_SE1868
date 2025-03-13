@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -25,8 +26,9 @@ public class Product {
     private List<ProductReview> reviews;
     private List<ProductImage> images;
     private List<OrderDetail> orderDetails;
-    private List<FavoriteDetail> favoriteDetails;
-    private List<CartItem> cartItems;
+    // private List<FavoriteDetail> favoriteDetails;
+   
+    private double avgRating;
 
     @Override
     public String toString() {
@@ -34,6 +36,7 @@ public class Product {
                 + "productId=" + productId
                 + ", name='" + name + '\''
                 + ", price=" + price
+                 + ", createdAt=" + createdAt
                 + ", stockQuantity=" + stockQuantity
                 + ", category=" + (category != null ? category.getName() : "null")
                 + '}';
@@ -42,9 +45,23 @@ public class Product {
     public Product() {
     }
 
+    public Product(int productId, String name, String description, double price, int stockQuantity, LocalDate createdAt, LocalDate updatedAt, Shop shop, Category category, List<ProductImage> images, double avgRating) {
+        this.productId = productId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.shop = shop;
+        this.category = category;
+        this.images = images;
+        this.avgRating = avgRating;
+    }
+
     
 
-    public Product(int productId, String name, String description, double price, int stockQuantity, LocalDate createdAt, LocalDate updatedAt, Shop shop, Category category, List<ProductReview> reviews, List<ProductImage> images, List<OrderDetail> orderDetails, List<FavoriteDetail> favoriteDetails, List<CartItem> cartItems) {
+    public Product(int productId, String name, String description, double price, int stockQuantity, LocalDate createdAt, LocalDate updatedAt, Shop shop, Category category) {
         this.productId = productId;
         this.name = name;
         this.description = description;
@@ -57,8 +74,15 @@ public class Product {
         this.reviews = reviews;
         this.images = images;
         this.orderDetails = orderDetails;
-        this.favoriteDetails = favoriteDetails;
-        this.cartItems = cartItems;
+    
+    }
+
+    public double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(double avgRating) {
+        this.avgRating = avgRating;
     }
 
     public Shop getShop() {
@@ -157,20 +181,7 @@ public class Product {
         this.orderDetails = orderDetails;
     }
 
-    public List<FavoriteDetail> getFavoriteDetails() {
-        return favoriteDetails;
-    }
+   
 
-    public void setFavoriteDetails(List<FavoriteDetail> favoriteDetails) {
-        this.favoriteDetails = favoriteDetails;
-    }
-
-    public List<CartItem> getCartItems() {
-        return cartItems;
-    }
-
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
-    }
 
 }

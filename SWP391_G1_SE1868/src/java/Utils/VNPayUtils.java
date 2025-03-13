@@ -64,13 +64,9 @@ public class VNPayUtils {
     }
     public static void main(String[] args) {
       
-        String a = hmacSHA512("12NXS1K58IEOZIMXHJBZ90AC2MM91N1G", "vnp_Amount=10000000&vnp_BankCode=NCB&vnp_BankTranNo=VNP14802533&vnp_CardType=ATM&vnp_OrderInfo=Nguyen+Huu+Dat&vnp_PayDate=20250203233600&vnp_ResponseCode=00&vnp_TmnCode=X7K47OSS&vnp_TransactionNo=14802533&vnp_TransactionStatus=00&vnp_TxnRef=1738600574936");
+        String a = hmacSHA512(config.ConfigVNPay.vnp_HashSecret, "#Kh20!uI");
     
-        if(a.equalsIgnoreCase("c8ac9073b001e8b3b8d81c646e3be292e2f49e6e8777927629abd3a3314e56bd697619344ae8678f8a20127339e433065dfed67a84f0f2db7ad33ba6b2832609")){
-            System.out.println("true");
-        }else{
-            System.out.println("False");
-        }
+        System.out.println(a);
     }
             
 }

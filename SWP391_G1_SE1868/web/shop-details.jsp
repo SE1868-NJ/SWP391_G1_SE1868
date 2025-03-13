@@ -33,7 +33,7 @@
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                min-width: 280px;
+                min-width: 350px;
                 max-width: 400px;
                 box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
                 opacity: 0;
@@ -73,39 +73,54 @@
             }
         </style>
         <!-- Popup Success -->
-        <div id="successPopupp" class="popupp success">
-            Success! Your action was completed.
+        <div id="successPopupp" class="popupp success" >
+            <span>Cập nhập đánh giá thành công !!!!</span>
             <button class="close-btn" onclick="closePopupp('successPopupp')">×</button>
         </div>
 
         <!-- Popup Error -->
-        <div id="errorPopupp" class="popupp error">
-            Error! Something went wrong.
-            <button class="close-btn" onclick="closePopupp('errorPopupp')">×</button>
+        <div id="errorPopupp" class="popupp error ">
+            <span > Cập nhập đánh giá thất bại !!!!</span>
+            <button class="close-btn " onclick="closePopupp('errorPopupp')">×</button>
         </div>
 
-        <c:if test="${true}">
-            <script>
-                // Gọi hàm showPopup khi isSuccess = true
-                $(document).ready(function () {
-                    showPopup('successPopupp');  // successPopup là ID của popup thành công
-                });
-            </script>
+        <!--            // check UpdateProdcutreview succes or false-->
+        <c:if test="${ not empty param.success}">
+            <c:choose>
+
+                <c:when test="${ param.success == 'true'}">
+                    <script>
+                        // Gọi hàm showPopup khi isSuccess = true
+                        $(document).ready(function () {
+                            showPopup('successPopupp');  // successPopup là ID của popup thành công
+                        });
+                    </script>
+                </c:when>
+
+                <c:when test="${ param.success == 'false'}">
+                    <script>
+                        // Gọi hàm showPopup khi isSuccess = true
+                        $(document).ready(function () {
+                            showPopup('errorPopupp');  // successPopup là ID của popup thành công
+                        });
+                    </script>
+                </c:when>
+
+            </c:choose>
         </c:if>
+
+
+
+
 
         <script>
             // Hiển thị popup
             function showPopup(id) {
                 let popup = document.getElementById(id);
                 popup.classList.add("show");
-
-                // Đặt timer để tự động đóng popup sau 4 giây (chỉ khi popup chưa bị tắt thủ công)
-                setTimeout(() => {
-                    if (popup.classList.contains("show")) {
-                        closePopup(id);
-                    }
-                }, 2000);
             }
+
+
 
             // Đóng popup khi bấm nút close
             function closePopupp(id) {
@@ -125,17 +140,17 @@
                     <div class="col-lg-6 col-md-6">
                         <div class="product__details__pic">
                             <div class="product__details__pic__item">
-                                <img class="product__details__pic__item--large"
-                                     src="${product.images[1].imageUrl}"  alt=""
-                                     >
+                                <img 
+                                    src="${product.images[2].imageUrl}"   alt=""
+                                    >
                             </div>
 
 
                             <div class="thumbnail-images">
                                 <c:forEach var="img" items="${product.images}" varStatus="status">
-                                    <c:if test="${status.index < 5}"> <!-- Giới hạn số lượng ảnh hiển thị -->
+                                    <c:if test="${status.index < 2}"> <!-- Giới hạn số lượng ảnh hiển thị -->
                                         <img data-imgbigurl="${img.imageUrl}" 
-                                             src="${img.imageUrl}" alt="Product Image" 
+                                             src="${img.imageUrl}"  alt="Product Image" 
                                              class="thumbnail" onclick="openPopup(this)">
                                     </c:if>
                                 </c:forEach>
@@ -222,11 +237,12 @@
                             <h3>${product.name}</h3>
                             <div class="product__details__rating">
 
-                                <span class="stars" id="average-rating" 
-                                      data-rating="<fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1" />"> 
+                                <fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="2"  />/5.0
+                                <span class="stars text-warning" id="average-rating" 
+                                      data-rating="${totalRating}"> 
                                 </span>
 
-                                <fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1"  />
+
                             </div>
                             <div class="product__details__price">
                                 <fmt:formatNumber value="${product.price}" type="number" groupingUsed="true"/> đ
@@ -237,26 +253,133 @@
 
 
 
-                            <div class="product__details__quantity">
-                                <div class="quantity">
-                                    <div class="pro-qty">
-                                        <input type="text" value="1">
-                                    </div>
+
+                            <form action="cart" method="post" id="addToCartForm">
+                                <div class="d-flex align-items-center">
+                                    <!-- Nút giảm số lượng -->
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="decreaseQuantity()">
+                                        -
+                                    </button>
+
+                                    <!-- Ô nhập số lượng có min/max -->
+                                    <input type="number" id="quantityInput" class="form-control text-center mx-2" 
+                                           value="1" min="1" max="${product.stockQuantity}" style="width: 100px;" name="quantity">
+
+                                    <!-- Nút tăng số lượng -->
+                                    <button type="button" class="btn btn-outline-primary btn-sm" onclick="increaseQuantity()">
+                                        +
+                                    </button>
                                 </div>
-                            </div>
-                            <a href="#" class="primary-btn">ADD TO CARD</a>
+
+                                <!-- Thêm thông tin sản phẩm -->
+                                <input type="hidden" name="productId" value="${product.productId}">
+                                 <input type="hidden" name="action" value="add">
+                                 
+                            </form>
+
+                                 
+
+                            <br>
+
+
+                            <c:if test="${product.stockQuantity > 0}">
+                                <a href="" class="primary-btn" id="addToCartBtn" >Thêm vào giỏ hàng</a>
+                            </c:if>
+
+                            <c:if test="${product.stockQuantity <= 0}">
+                                <a href="" class="btn btn-secondary btn-sm mt-2 disabled" aria-disabled="true">
+                                    <i class="bi bi-cart-x"></i> Hết hàng
+                                </a>
+                            </c:if>
+
+                            <script>
+                                // Lấy phần tử input
+                                const quantityInput = document.getElementById("quantityInput");
+
+                                // Lấy giá trị tối đa từ sản phẩm
+                                const maxStock = parseInt(quantityInput.max);
+
+                                // Giảm số lượng
+                                function decreaseQuantity() {
+                                    let currentValue = parseInt(quantityInput.value);
+                                    if (currentValue > 1) {
+                                        quantityInput.value = currentValue - 1;
+                                    }
+                                }
+
+                                // Tăng số lượng
+                                function increaseQuantity() {
+                                    let currentValue = parseInt(quantityInput.value);
+                                    if (currentValue < maxStock) {
+                                        quantityInput.value = currentValue + 1;
+                                    }
+                                }
+
+                                // Ngăn nhập giá trị không hợp lệ
+                                quantityInput.addEventListener("input", function () {
+                                    let value = parseInt(this.value);
+                                    if (isNaN(value) || value < 1) {
+                                        this.value = 1;
+                                    } else if (value > maxStock) {
+                                        this.value = maxStock;
+                                    }
+                                });
+
+                                // Xử lý khi nhấn "Thêm vào giỏ hàng"
+                                document.getElementById("addToCartBtn").addEventListener("click", function (event) {
+
+                                    event.preventDefault(); // Ngăn chặn chuyển trang ngay lập tức
+
+                                    let productId = "${product.productId}"; // Lấy ID sản phẩm
+                                    let quantity = quantityInput.value; // Lấy số lượng nhập vào
+
+//                                    // Điều hướng đến trang thêm vào giỏ hàng với số lượng nhập vào
+//                                    window.location.href = `/cart?action=add&productId=`+productId+`&quantity=`+ quantity;
+
+                                    let form = document.getElementById("addToCartForm");
+                                    form.submit(); // Gửi form đi
+                                });
+
+                            </script>
+
+
 
 
                             <ul>
-                                <li><b>Availability</b> <span>${product.stockQuantity}</span></li>
+                                <li><strong>Số lượng:</strong> &nbsp ${product.stockQuantity}  </li>
 
-                                <li><b>Weight</b> <span>0.5 kg</span></li>
-
+                                <li><strong>Ngày tạo:</strong> &nbsp ${product.getCreatedAt()} </li>
                             </ul>
+
                         </div>
+
                     </div>
+
+
+
+
                     <div class="col-lg-12">
+
                         <div class="product__details__tab">
+
+                            <div class="col-lg-6 col-md-6 mb-4"> 
+                                <a href="/home" class="primary-btn">Back to shop</a>
+                                <br>
+                                <br>
+                                <div class="d-flex align-items-center p-3 border-0 shadow-sm">
+                                    <!-- Icon shop -->
+
+                                    <div class="icon-shop me-3">
+                                        <img src="${product.shop.logo} " class="rounded-circle" style="width: 50px" alt="Avatar"
+                                             onerror="this.onerror=null; this.src='./assets/img/login.png'" >
+                                    </div>
+                                    <!-- Thông tin shop -->
+                                    <div>
+                                        <h5 class="mb-1 fw-bold"><strong>${product.shop.name}</strong></h5> <!-- Tên shop -->
+                                        <p class="mb-0  fw-normal"><strong>${product.shop.location}</strong></p> <!-- Địa chỉ shop -->
+                                    </div>
+                                </div>
+                            </div>
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
                                     Reviews
@@ -268,93 +391,32 @@
                                     <div class="product__details__tab__desc">
                                         <h4>Danh sách đánh giá của người dùng</h4>
 
-                                        <!-- Tổng số sao và trung bình đánh giá -->
-                                        <div class="rating-summary">
-                                            <p><strong>Tổng số đánh giá:</strong> <span id="total-reviews">${totalReview}</span></p>
-                                            <p><strong>Trung bình:</strong> <span class="stars" id="average-rating" 
-                                                                                  data-rating="<fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1" />"> </span>
-                                                <fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1"  /> /5.0</p>
-                                        </div>
 
-                                        <!-- Bộ lọc số sao -->
-                                        <div class="filter-rating">
-                                            <strong>Lọc theo số sao:</strong>
-                                            <ul>
-                                                <li><button data-star="0" class="filter-active"  onclick="filterReviews(0, 1)">Tất cả</button></li>
-                                                <li><button data-star="5" onclick="filterReviews(5, 1)">5 Sao</button></li>
-                                                <li><button data-star="4" onclick="filterReviews(4, 1)">4 Sao</button></li>
-                                                <li><button data-star="3" onclick="filterReviews(3, 1)">3 Sao</button></li>
-                                                <li><button data-star="2" onclick="filterReviews(2, 1)">2 Sao</button></li>
-                                                <li><button data-star="1" onclick="filterReviews(1, 1)">1 Sao</button></li>
 
-                                            </ul>
 
+                                        <div class="container">
+                                            <div class="filter-rating d-flex align-items-center justify-content-between flex-wrap">
+                                                <!-- Tổng số sao và trung bình đánh giá -->
+                                                <div class="rating-summary">
+                                                    <p><strong>Tổng số đánh giá:</strong> <span id="total-reviews">${totalReview}</span></p>
+                                                    <p><strong>Trung bình:</strong> <span class="stars text-warning" id="average-rating" 
+                                                                                          data-rating="<fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1" />"> </span>
+                                                        <fmt:formatNumber value="${totalRating}" type="number"  maxFractionDigits="1"  /> /5.0</p>
+                                                </div>
+                                                <!-- Các nút lọc căn giữa -->
+                                                <div class="d-flex justify-content-center flex-wrap gap-2 filter-rating">
+                                                    <button class="btn btn-outline-primary active" data-star="0" onclick="filterReviews(0, ${product.productId})">Tất cả</button>
+                                                    <button class="btn btn-outline-primary" data-star="5" onclick="filterReviews(5, ${product.productId})">5 Sao</button>
+                                                    <button class="btn btn-outline-primary" data-star="4" onclick="filterReviews(4, ${product.productId})">4 Sao</button>
+                                                    <button class="btn btn-outline-primary" data-star="3" onclick="filterReviews(3, ${product.productId})">3 Sao</button>
+                                                    <button class="btn btn-outline-primary" data-star="2" onclick="filterReviews(2, ${product.productId})">2 Sao</button>
+                                                    <button class="btn btn-outline-primary" data-star="1" onclick="filterReviews(1, ${product.productId})">1 Sao</button>
+                                                </div>
+
+                                            </div>
                                         </div>
                                         <br>
-                                        <style>
-                                            /* Bộ lọc số sao */
-                                            .filter-rating ul {
-                                                display: flex;
-                                                gap: 10px;
-                                                list-style: none;
-                                                padding: 0;
-                                            }
 
-
-
-                                            .filter-rating button:hover  {
-                                                background-color: #007bff;
-                                                color: white;
-                                            }
-
-
-                                            /* Khi nút được chọn (active), nó đổi màu xanh */
-                                            .filter-rating button.filter-active {
-                                                background-color: #007bff;
-                                                color: white;
-                                            }
-
-
-                                            /* Định dạng danh sách đánh giá */
-                                            .review-list {
-                                                list-style: none;
-                                                padding: 0;
-                                            }
-
-                                            .review-list li {
-                                                padding: 10px;
-                                                border-bottom: 1px solid #ddd;
-                                                display: flex;
-                                                align-items: center;
-                                                gap: 10px;
-                                            }
-
-
-
-
-                                            .pagination-controls {
-                                                display: flex;
-                                                justify-content: center;
-                                                margin: 20px 0;
-                                                gap: 10px;
-                                            }
-
-                                            .pagination-controls button {
-                                                padding: 5px 10px;
-                                                border: 1px solid #007bff;
-                                                background-color: white;
-                                                color: #007bff;
-                                                cursor: pointer;
-                                                border-radius: 3px;
-                                            }
-
-                                            .pagination-controls button:disabled {
-                                                background-color: #ccc;
-                                                color: #666;
-                                                cursor: not-allowed;
-                                            }
-
-                                        </style>
 
 
                                         <!-- Danh sách đánh giá -->
@@ -368,13 +430,15 @@
 
                                                         <!-- Phần chứa ảnh và tên người dùng trên cùng một hàng -->
                                                         <div class="d-flex align-items-center">
-                                                            <img src="assets/img/star-icon.png" alt="Avatar" class="avatar me-2">
+                                                            <img src="${review.customer.profileImage}" class="rounded-circle" alt="Avatar"  
+                                                                 style="width: 50px"
+                                                                 onerror="this.onerror=null; this.src='./assets/img/login.png'">
                                                             <span class="fw-bold">${review.customer.fullName}</span>
                                                         </div>
 
 
                                                         <!-- Đánh giá sao -->
-                                                        <span class="stars">${review.rating} </span>
+                                                        <span class="stars text-warning">${review.rating} </span>
                                                     </div>
 
                                                     <!-- Bình luận nằm dưới tên người dùng -->
@@ -407,143 +471,103 @@
                                     </div>
                                 </div>
                                 <!-- Phân trang -->
-                                <div class="pagination">
-                                    <c:if test="${totalPages > 1}">
-                                        <c:forEach var="pageNum" begin="1" end="${totalPages}">
-                                            <c:choose>
-                                                <c:when test="${pageNum == currentPage}">
-                                                    <span class="page-link active">${pageNum}</span>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <a class="page-link" href="getReviews?productId=1&page=${pageNum}&starFilter=${param.starFilter}">${pageNum}</a>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:forEach>
-                                    </c:if>
-                                </div>
-                                <style>
-                                    .pagination {
-                                        text-align: center;
-                                        margin-top: 20px;
+
+                                <nav aria-label="Order history pagination">
+                                    <ul class="pagination justify-content-center">
+
+                                        <c:if test="${totalPages > 1}">
+                                            <c:forEach var="pageNum" begin="1" end="${totalPages}">
+                                                <c:choose>
+                                                    <c:when test="${pageNum == currentPage}">
+                                                        <span class="page-link active">${pageNum}</span>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <a class="page-link" href="getReviews?productId=${param.productId}&page=${pageNum}&starFilter=${param.starFilter}">${pageNum}</a>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
+                                        </c:if>
+
+                                    </ul>
+                                </nav>
+
+
+
+                                <script>
+
+
+                                    // Hiển thị popup và phóng to ảnh
+                                    function openPopup(imgElement) {
+                                        let popup = document.getElementById("imagePopup");
+                                        let popupImage = document.getElementById("popupImage");
+
+                                        popupImage.src = imgElement.src;  // Lấy ảnh từ thumbnail
+                                        popup.classList.add("show");  // Hiển thị popup
+                                        popup.style.display = "flex";
                                     }
 
-                                    .page-link {
-                                        display: inline-block;
-                                        padding: 8px 15px;
-                                        margin: 0 5px;
-                                        text-decoration: none;
-                                        font-size: 16px;
-                                        color: #007bff;
-                                        border: 1px solid #007bff;
-                                        border-radius: 5px;
-                                        transition: background 0.3s, color 0.3s;
-                                    }
-
-                                    .page-link:hover {
-                                        background: #007bff;
-                                        color: white;
-                                    }
-
-                                    .page-link.active {
-                                        background: #007bff;
-                                        color: white;
-                                        font-weight: bold;
-                                        border: 1px solid #0056b3;
-                                        cursor: default;
-                                    }
-
-
-
-
-                                    .avatar {
-                                        width: 40px; /* Kích thước ảnh */
-                                        height: 40px;
-                                        border-radius: 50%; /* Làm tròn ảnh */
-                                        object-fit: cover; /* Giữ tỷ lệ ảnh không bị méo */
-                                        margin-right: 10px;
-                                        vertical-align: middle; /* Căn giữa với text */
-                                    }
-                                </style>
-
-                            </div>
-
-
-
-                            <script>
-
-
-                                // Hiển thị popup và phóng to ảnh
-                                function openPopup(imgElement) {
-                                    let popup = document.getElementById("imagePopup");
-                                    let popupImage = document.getElementById("popupImage");
-
-                                    popupImage.src = imgElement.src;  // Lấy ảnh từ thumbnail
-                                    popup.classList.add("show");  // Hiển thị popup
-                                    popup.style.display = "flex";
-                                }
-
-                                // Đóng popup khi bấm vào X hoặc bên ngoài ảnh
-                                function closePopup(event) {
-                                    let popup = document.getElementById("imagePopup");
-                                    if (event.target === popup || event.target.classList.contains("close-btn")) {
-                                        popup.classList.remove("show");
-                                        setTimeout(() => {
-                                            popup.style.display = "none"; // Delay để giữ hiệu ứng
-                                        }, 300);
-                                    }
-                                }
-
-                                // Hàm hiển thị sao tự động
-                                function updateStars() {
-                                    document.querySelectorAll(".stars").forEach(star => {
-                                        const rating = parseInt(star.closest("li")?.getAttribute("data-rating") || star.getAttribute("data-rating"));
-                                        if (rating === 5)
-                                            star.innerHTML = "★★★★★";
-                                        else if (rating === 4)
-                                            star.innerHTML = "★★★★☆";
-                                        else if (rating === 3)
-                                            star.innerHTML = "★★★☆☆";
-                                        else if (rating === 2)
-                                            star.innerHTML = "★★☆☆☆";
-                                        else if (rating === 1)
-                                            star.innerHTML = "★☆☆☆☆";
-                                        else
-                                            star.innerHTML = "☆☆☆☆☆";
-                                    });
-                                }
-
-
-
-                                function filterReviews(star, productId) {
-                                    // Lưu trạng thái của nút đã chọn vào localStorage
-                                    localStorage.setItem("selectedStar", star);
-                                    const url = "getReviews?productId=" + productId + "&starFilter=" + star;
-                                    console.log("Chuyển hướng đến URL:", url);
-                                    window.location.href = url;
-                                }
-
-                                window.addEventListener("load", () => {
-                                    const selectedStar = localStorage.getItem("selectedStar");
-                                    // Xóa class "filter-active" khỏi tất cả các nút trước khi thêm vào nút mới
-                                    document.querySelectorAll(".filter-rating button").forEach(btn => btn.classList.remove("filter-active"));
-
-                                    if (selectedStar) {
-                                        const allButtons = document.querySelectorAll(".filter-rating button");
-                                        const activeButton = Array.from(allButtons).find(btn => btn.getAttribute("data-star") === selectedStar);
-                                        if (activeButton) {
-                                            activeButton.classList.add("filter-active");
+                                    // Đóng popup khi bấm vào X hoặc bên ngoài ảnh
+                                    function closePopup(event) {
+                                        let popup = document.getElementById("imagePopup");
+                                        if (event.target === popup || event.target.classList.contains("close-btn")) {
+                                            popup.classList.remove("show");
+                                            setTimeout(() => {
+                                                popup.style.display = "none"; // Delay để giữ hiệu ứng
+                                            }, 300);
                                         }
                                     }
-                                });
 
-                                updateStars();
-                            </script>
+                                    // Hàm hiển thị sao tự động
+                                    function updateStars() {
+                                        document.querySelectorAll(".stars").forEach(star => {
+                                            const rating = parseInt(star.closest("li")?.getAttribute("data-rating") || star.getAttribute("data-rating"));
+                                            if (rating === 5)
+                                                star.innerHTML = "★★★★★";
+                                            else if (rating === 4)
+                                                star.innerHTML = "★★★★☆";
+                                            else if (rating === 3)
+                                                star.innerHTML = "★★★☆☆";
+                                            else if (rating === 2)
+                                                star.innerHTML = "★★☆☆☆";
+                                            else if (rating === 1)
+                                                star.innerHTML = "★☆☆☆☆";
+                                            else
+                                                star.innerHTML = "☆☆☆☆☆";
+                                        });
+                                    }
 
 
+
+                                    function filterReviews(star, productId) {
+                                        // Lưu trạng thái của nút đã chọn vào localStorage
+                                        localStorage.setItem("selectedStar", star);
+                                        const url = "getReviews?productId=" + productId + "&starFilter=" + star;
+                                        console.log("Chuyển hướng đến URL:", url);
+                                        window.location.href = url;
+                                    }
+
+                                    window.addEventListener("load", () => {
+                                        const selectedStar = localStorage.getItem("selectedStar");
+                                        // Xóa class "filter-active" khỏi tất cả các nút trước khi thêm vào nút mới
+                                        document.querySelectorAll(".filter-rating button").forEach(btn => btn.classList.remove("active"));
+
+                                        if (selectedStar) {
+                                            const allButtons = document.querySelectorAll(".filter-rating button");
+                                            const activeButton = Array.from(allButtons).find(btn => btn.getAttribute("data-star") === selectedStar);
+                                            if (activeButton) {
+                                                activeButton.classList.add("active");
+                                            }
+                                        }
+                                    });
+
+                                    updateStars();
+                                </script>
+
+
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </section>
         <!-- Product Details Section End -->
 

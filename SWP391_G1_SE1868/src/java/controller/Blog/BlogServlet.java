@@ -3,14 +3,21 @@ package controller.Blog;
 import models.BlogDAO;
 import entity.Blog;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @WebServlet(name = "BlogServlet", urlPatterns = {"/blog"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+                 maxFileSize = 1024 * 1024 * 10,      // 10MB
+                 maxRequestSize = 1024 * 1024 * 50)    // 50MB
 public class BlogServlet extends HttpServlet {
 
     private BlogDAO blogDAO;
@@ -32,7 +39,7 @@ public class BlogServlet extends HttpServlet {
 
         // Lấy tổng số blog để tính số trang
         int totalBlogs = blogDAO.getTotalBlogs();
-        int totalPages = (int) Math.ceil((double) totalBlogs / pageSize); // Tính tổng số trang
+        int totalPages = (int) Math.ceil((double) totalBlogs / pageSize);
 
         // Set các attribute để truyền dữ liệu vào JSP
         request.setAttribute("blogs", blogs);
@@ -45,13 +52,29 @@ public class BlogServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Lấy dữ liệu từ form
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         int customerId = Integer.parseInt(request.getParameter("customerId"));
-        String imageUrl = request.getParameter("imageUrl");
 
-        // Tạo blog mới và bỏ qua CreatedDate vì nó sẽ được xử lý trong DB
-        Blog newBlog = new Blog(0, name, description, customerId, imageUrl, null); // null vì database sẽ tự động set CreatedDate
+        // Xử lý file ảnh
+        Part filePart = request.getPart("image");
+        String fileName = filePart.getSubmittedFileName();
+        String uploadPath = request.getServletContext().getRealPath("") + "assets/img/blog/";
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+
+        // Tạo đường dẫn lưu file
+        String filePath = uploadPath + fileName;
+        filePart.write(filePath);
+
+        // Lưu đường dẫn tương đối vào cơ sở dữ liệu (từ webapp/assets/img/blog/)
+        String relativePath = "assets/img/blog/" + fileName;
+
+        // Tạo blog mới với CreatedDate là LocalDate.now()
+        Blog newBlog = new Blog(0, name, description, customerId, relativePath, LocalDate.now());
 
         // Gọi phương thức thêm blog vào cơ sở dữ liệu
         blogDAO.addBlog(newBlog);
@@ -59,5 +82,4 @@ public class BlogServlet extends HttpServlet {
         // Chuyển hướng về trang blog
         response.sendRedirect("blog");
     }
-
 }

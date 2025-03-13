@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -17,6 +18,7 @@ public class ProductReview {
     private Product product;
     private Customer customer;
     private int rating;
+    private OrderDetail orderDetailId;
     private String comment;
     private String ProductReviewsImage;
     private LocalDate createdAt;
@@ -36,16 +38,19 @@ public class ProductReview {
     public ProductReview() {
     }
 
-    public ProductReview(int reviewId, Product product, Customer customer, int rating, String comment, String ProductReviewsImage, LocalDate createdAt, LocalDate updatedAt) {
+    public ProductReview(int reviewId, Product product, Customer customer, int rating, OrderDetail orderDetailId, String comment, String ProductReviewsImage, LocalDate createdAt, LocalDate updatedAt) {
         this.reviewId = reviewId;
         this.product = product;
         this.customer = customer;
         this.rating = rating;
+        this.orderDetailId = orderDetailId;
         this.comment = comment;
         this.ProductReviewsImage = ProductReviewsImage;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
+   
 
     public String getProductReviewsImage() {
         return ProductReviewsImage;
@@ -60,6 +65,22 @@ public class ProductReview {
     }
 
     public void setupdatedAt(LocalDate updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public OrderDetail getOrderDetailId() {
+        return orderDetailId;
+    }
+
+    public void setOrderDetailId(OrderDetail orderDetailId) {
+        this.orderDetailId = orderDetailId;
+    }
+
+    public LocalDate getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -114,3 +135,4 @@ public class ProductReview {
     }
 
 }
+

@@ -4,50 +4,67 @@
  */
 package entity;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 /**
  *
- * @author Đạt
+ * @author Giang123
  */
+
+import java.sql.Timestamp;
+
 public class FavoriteDetail {
-    private Favorite favorite; // Many-to-One
-    private Product product; // Many-to-One
-    private LocalDate createdAt;
-
-    public FavoriteDetail(Favorite favorite, Product product, LocalDate createdAt) {
-        this.favorite = favorite;
-        this.product = product;
+    private int favoriteID;
+    private int productID;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
+    private Product product;
+    
+    
+    
+    public FavoriteDetail(int favoriteID, int productID, Timestamp createdAt, Timestamp updatedAt) {
+        this.favoriteID = favoriteID;
+        this.productID = productID;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
-    public FavoriteDetail() {
+    // Getters and Setters
+    public int getFavoriteID() {
+        return favoriteID;
     }
 
-    public Favorite getFavorite() {
-        return favorite;
+    public void setFavoriteID(int favoriteID) {
+        this.favoriteID = favoriteID;
     }
 
-    public void setFavorite(Favorite favorite) {
-        this.favorite = favorite;
+    public int getProductID() {
+        return productID;
     }
 
-    public Product getProduct() {
-        return product;
+    public void setProductID(int productID) {
+        this.productID = productID;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public LocalDate getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+    }
     
+    public Product getProduct() {
+        return product;
+    }
     
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }

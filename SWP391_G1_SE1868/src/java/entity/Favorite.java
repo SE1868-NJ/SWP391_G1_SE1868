@@ -6,53 +6,56 @@ package entity;
 
 /**
  *
- * @author Đạt
+ * @author Giang123
  */
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 public class Favorite {
-   private int favoriteId;
-    private Customer customer;
+    
+    private int productId;
     private String name;
-    private LocalDate createdAt;
+    private String imageURL;
+    private double price;  // Kiểu dữ liệu phải là double hoặc BigDecimal
+    private int stockQuantity;
+    private String shopName; // Thêm tên cửa hàng
+    private String formattedPrice; // Thêm biến để chứa giá đã format
+   
+    
+    
 
-    private List<FavoriteDetail> favoriteDetails;
 
-    @Override
-    public String toString() {
-        return "Favorite{" +
-                "favoriteId=" + favoriteId +
-                ", name='" + name + '\'' +
-                ", customer=" + (customer != null ? customer.getFullName() : "null") +
-                '}';
-    }
-
-    public Favorite() {
-    }
-
-    public Favorite(int favoriteId, Customer customer, String name, LocalDate createdAt, List<FavoriteDetail> favoriteDetails) {
-        this.favoriteId = favoriteId;
-        this.customer = customer;
+    public Favorite(int productId, String name, String imageURL, double price, int stockQuantity, String shopName) {
+        this.productId = productId;
         this.name = name;
-        this.createdAt = createdAt;
-        this.favoriteDetails = favoriteDetails;
+        this.imageURL = imageURL;
+        this.price = price;
+        
+        this.stockQuantity = stockQuantity;
+        this.shopName = shopName;
     }
 
-    public int getFavoriteId() {
-        return favoriteId;
+    public double getPrice() {
+        return price;
     }
 
-    public void setFavoriteId(int favoriteId) {
-        this.favoriteId = favoriteId;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public String getFormattedPrice() {
+        return formattedPrice;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setFormattedPrice(String formattedPrice) {
+        this.formattedPrice = formattedPrice;
+    }
+    
+
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getName() {
@@ -63,20 +66,45 @@ public class Favorite {
         this.name = name;
     }
 
-    public LocalDate getCreatedAt() {
-        return createdAt;
+    public String getImageURL() {
+        return imageURL;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
-    public List<FavoriteDetail> getFavoriteDetails() {
-        return favoriteDetails;
+   
+    public int getStockQuantity() {
+        return stockQuantity;
     }
 
-    public void setFavoriteDetails(List<FavoriteDetail> favoriteDetails) {
-        this.favoriteDetails = favoriteDetails;
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
     }
-    
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+
+
+    // 🔹 Ghi đè phương thức toString() để dễ debug
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", name='" + name + '\'' +
+                ", imageURL='" + imageURL + '\'' +
+                ", price=" + price +
+                
+                ", stockQuantity=" + stockQuantity +
+                ", shopName=" + shopName +    
+                '}';
+    }
 }
+

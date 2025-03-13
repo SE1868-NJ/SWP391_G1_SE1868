@@ -1,35 +1,32 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package entity;
 
-/**
- *
- * @author nguyen
- */
-
+import java.time.LocalDate;
+import java.util.Date;
 
 public class BlogDetail {
+
     private int idBlogDetail;
     private int idBlog;
     private String title;
     private String contentFilePath;
-    private String createdDate;
+    private LocalDate createdDate; // Đổi từ String sang LocalDate
+    private String imageUrl;
 
-    // Constructor
+    // Constructor mặc định
     public BlogDetail() {
     }
 
-    public BlogDetail(int idBlogDetail, int idBlog, String title, String contentFilePath, String createdDate) {
+    // Constructor đầy đủ
+    public BlogDetail(int idBlogDetail, int idBlog, String title, String contentFilePath, LocalDate createdDate, String imageUrl) {
         this.idBlogDetail = idBlogDetail;
         this.idBlog = idBlog;
         this.title = title;
         this.contentFilePath = contentFilePath;
         this.createdDate = createdDate;
+        this.imageUrl = imageUrl;
     }
 
-    // Getters and Setters
+    // Getters và Setters
     public int getIdBlogDetail() {
         return idBlogDetail;
     }
@@ -62,22 +59,36 @@ public class BlogDetail {
         this.contentFilePath = contentFilePath;
     }
 
-    public String getCreatedDate() {
+    public LocalDate getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(String createdDate) {
+    public void setCreatedDate(LocalDate createdDate) {
         this.createdDate = createdDate;
+    }
+
+    // Getter phụ để dùng trong JSP
+    public Date getCreatedDateAsUtilDate() {
+        return createdDate != null ? java.sql.Date.valueOf(createdDate) : null;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override
     public String toString() {
-        return "BlogDetail{" +
-                "idBlogDetail=" + idBlogDetail +
-                ", idBlog=" + idBlog +
-                ", title='" + title + '\'' +
-                ", contentFilePath='" + contentFilePath + '\'' +
-                ", createdDate='" + createdDate + '\'' +
-                '}';
+        return "BlogDetail{"
+                + "idBlogDetail=" + idBlogDetail
+                + ", idBlog=" + idBlog
+                + ", title='" + title + '\''
+                + ", contentFilePath='" + contentFilePath + '\''
+                + ", createdDate=" + createdDate
+                + ", imageUrl='" + imageUrl + '\''
+                + '}';
     }
 }

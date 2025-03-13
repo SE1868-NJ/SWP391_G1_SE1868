@@ -87,7 +87,7 @@ public class CategoryDAO extends DBContext {
     // ✅ 5. Lấy tất cả danh mục
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<>();
-        String sql = "SELECT * FROM Categories ORDER BY name ASC";
+        String sql = "SELECT * FROM Categories ORDER BY CategoryId";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {

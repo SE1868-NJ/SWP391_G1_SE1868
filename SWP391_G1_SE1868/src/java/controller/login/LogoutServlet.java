@@ -36,7 +36,7 @@ public class LogoutServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             session.removeAttribute("user");
-            response.sendRedirect("getReviews");
+            response.sendRedirect("home");
         }
     }
 

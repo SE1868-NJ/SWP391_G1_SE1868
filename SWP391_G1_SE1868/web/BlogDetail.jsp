@@ -1,62 +1,91 @@
-<%-- 
-    Document   : BlogDetail
-    Created on : Mar 13, 2025, 4:02:07 PM
-    Author     : nguyen
---%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Blog Detail</title>
+    <title>Blog Detail - Chợ Làng</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css" type="text/css">
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center; /* Căn giữa theo chiều ngang */
-            align-items: center; /* Căn giữa theo chiều dọc */
-            min-height: 100vh; /* Đảm bảo chiều cao tối thiểu bằng màn hình */
-            background-color: #f4f4f4; /* Màu nền nhẹ */
-        }
-        .blog-container {
-            max-width: 800px; /* Giới hạn chiều rộng tối đa */
-            width: 90%; /* Đảm bảo responsive trên màn hình nhỏ */
-            background-color: #fff; /* Nền trắng cho nội dung */
-            padding: 30px; /* Khoảng cách bên trong */
-            border-radius: 10px; /* Bo góc nhẹ */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng đổ */
-            margin: 20px 0; /* Khoảng cách trên dưới */
+        .blog-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 20px;
         }
         .blog-title {
-            font-size: 28px; /* Tăng kích thước chữ tiêu đề */
-            font-weight: bold;
-            color: #333; /* Màu chữ tối hơn */
-            text-align: center; /* Căn giữa tiêu đề */
-            margin-bottom: 10px; /* Khoảng cách dưới */
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #333;
         }
         .blog-date {
-            color: #666; /* Màu chữ nhạt hơn */
-            font-size: 14px;
-            text-align: center; /* Căn giữa ngày */
-            margin-bottom: 20px; /* Khoảng cách dưới */
+            font-size: 1rem;
+            color: #6c757d;
+            margin-bottom: 20px;
         }
         .blog-content {
-            font-size: 16px; /* Kích thước chữ nội dung */
-            line-height: 1.6; /* Khoảng cách dòng dễ đọc */
-            color: #444; /* Màu chữ nhạt tối */
-            white-space: pre-wrap; /* Giữ định dạng dòng từ file */
-            text-align: justify; /* Căn đều nội dung */
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            white-space: pre-wrap; /* Giữ xuống dòng và wrap text */
+        }
+        .main-content {
+            padding: 40px 0;
         }
     </style>
 </head>
 <body>
-    <div class="blog-container">
-        <div class="blog-title">${blogDetail.title}</div>
-        <div class="blog-date">Created on: ${blogDetail.createdDate}</div>
-        <div class="blog-content">${content}</div>
+    <!-- Header -->
+    <jsp:include page="header.jsp" />
+
+    <!-- Nội dung chính -->
+    <div class="main-content">
+        <div class="container">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h1 class="blog-title">${blogDetail.title}</h1>
+                    <p class="blog-date">
+                        Created on: 
+                        <fmt:formatDate value="${blogDetail.createdDateAsUtilDate}" pattern="dd/MM/yyyy" />
+                    </p>
+                    <!-- Hiển thị ảnh từ bloglist -->
+                    <c:if test="${not empty blogDetail.imageUrl}">
+                        <img src="${blogDetail.imageUrl}" class="blog-image" alt="Blog Image">
+                    </c:if>
+                    <div class="blog-content">${content}</div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Footer -->
+    <jsp:include page="footer.jsp" />
+
+    <!-- Scripts -->
+    <script src="${pageContext.request.contextPath}/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/jquery.nice-select.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/jquery-ui.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/jquery.slicknav.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/mixitup.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/owl.carousel.min.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/js/main.js"></script>
 </body>
 </html>

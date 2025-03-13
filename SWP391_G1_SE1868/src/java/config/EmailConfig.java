@@ -22,10 +22,10 @@ public class EmailConfig {
       
       
       public static String getEmailUsername() {
-        return "datnhhe172337@fpt.edu.vn"; // Thay bằng email người gửi
+        return "datspam285@gmail.com"; // Thay bằng email người gửi
     }
 
     public static String getEmailPassword() {
-        return "brzc pusz tupb rvli  11"; // Thay bằng mật khẩu email 
+        return "lybs yjmr bteo ssfm"; // Thay bằng mật khẩu email 
     }
 }

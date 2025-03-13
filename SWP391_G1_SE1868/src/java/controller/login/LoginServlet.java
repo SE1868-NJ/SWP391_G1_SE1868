@@ -16,7 +16,7 @@ import models.CustomerDAO;
 import entity.Customer;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpSession;
-import com.google.gson.Gson;
+import models.CartDAO;
 
 /**
  *
@@ -98,23 +98,33 @@ public class LoginServlet extends HttpServlet {
         // Nếu có lỗi, chuyển hướng lại trang đăng nhập và hiển thị lỗi
         if (hasError) {
             request.getRequestDispatcher("login.jsp").forward(request, response);
-        }
-
-        CustomerDAO customerDAO = new CustomerDAO();
-
-        Customer customer = customerDAO.login(email, password);
-        if (customer != null) {
-//            // Tạo session và lưu thông tin người dùng nếu đăng nhập thành công
-//            
-            HttpSession session = request.getSession();
-            session.setAttribute("user", customer);  // Lưu đối tượng Customer vào session
-            response.sendRedirect("getReviews");  // Trang chính sau khi đăng nhập thành công
-
+            return;
         } else {
-            // Nếu đăng nhập thất bại, chuyển hướng về trang login với thông báo lỗi
-            request.setAttribute("error", "Incorrect email or password ");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+
+            CustomerDAO customerDAO = new CustomerDAO();
+            // khai báo CartDAo
+            CartDAO cartDAO = new CartDAO();
+            
+            Customer customer = customerDAO.LoginSHA512(email, password);
+            if (customer != null) {
+                // Tạo session và lưu thông tin người dùng nếu đăng nhập thành công
+
+                HttpSession session = request.getSession();
+
+                // Lưu số lượng sản phẩm vào session
+                session.setAttribute("cart", cartDAO.getTotalCartQuantity(customer.getCustomerId()));
+                
+                session.setAttribute("user", customer);  // Lưu đối tượng Customer vào session
+                
+                response.sendRedirect("home");  // Trang chính sau khi đăng nhập thành công
+
+            } else {
+                // Nếu đăng nhập thất bại, chuyển hướng về trang login với thông báo lỗi
+                request.setAttribute("error", "Incorrect email or password ");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            }
         }
+
     }
 
     /**

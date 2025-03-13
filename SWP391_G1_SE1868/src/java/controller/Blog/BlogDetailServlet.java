@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-
 @WebServlet(name = "BlogDetailServlet", urlPatterns = {"/BlogDetailServlet"})
 public class BlogDetailServlet extends HttpServlet {
 
@@ -40,18 +39,21 @@ public class BlogDetailServlet extends HttpServlet {
             }
 
             BlogDetail blogDetail = blogDetailDAO.getBlogDetailByBlogId(idBlog);
-            if (blogDetail != null) {
-                // Truyền request để lấy đường dẫn thực tế
-                String content = blogDetailDAO.getContentFromFile(blogDetail.getContentFilePath(), request);
-                request.setAttribute("blogDetail", blogDetail);
-                request.setAttribute("content", content);
-                request.getRequestDispatcher("BlogDetail.jsp").forward(request, response);
-            } else {
+            if (blogDetail == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Blog detail not found");
+                return;
             }
+
+            // Lấy nội dung từ file
+            String content = blogDetailDAO.getContentFromFile(blogDetail.getContentFilePath(), request);
+            request.setAttribute("blogDetail", blogDetail);
+            request.setAttribute("content", content);
+
+            // Forward đến JSP
+            request.getRequestDispatcher("/BlogDetail.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error");
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error: " + e.getMessage());
         }
     }
 }
