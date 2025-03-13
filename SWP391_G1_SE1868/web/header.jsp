@@ -27,7 +27,9 @@
         <link rel="stylesheet" href="assets/css/owl.carousel.min.css" type="text/css">
         <link rel="stylesheet" href="assets/css/slicknav.min.css" type="text/css">
         <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+
     </head>
+
     <body>
 
         <!-- Header Section Begin -->
@@ -63,7 +65,7 @@
                                         </c:when>
                                         <c:otherwise>
                                             <!-- Nếu không có người dùng, chỉ hiển thị Login -->
-                                            <div class="fa fa-user"><a href="login.jsp">       Login</a></div>
+                                            <div class="fa fa-user"><a class="text-black fw-bold" href="login.jsp">       Login</a></div>
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
@@ -121,13 +123,14 @@
                 <div class="row">
                     <div class="col-lg-12 text-center">
                         <div class="breadcrumb__text">
-                            <h2>Chợ Làng</h2>
-                            <div class="d-flex align-content-center justify-content-around" >
-                                <a href="/home">Home</a>
-                                <a href="/products">Product</a>
-
+                            <h2 class="text-white fw-bold">Chợ Làng</h2>
+                            <div class="breadcrumb__links d-flex align-content-center justify-content-around">
+                                <a href="/home" class="text-white fw-bold">Home</a>
+                                <a href="/products" class="text-white fw-bold">Product</a>
+                                <a href="/blog" class="text-white fw-bold">Blog</a>
                             </div>
                         </div>
+
                     </div>  
                 </div>
             </div>
