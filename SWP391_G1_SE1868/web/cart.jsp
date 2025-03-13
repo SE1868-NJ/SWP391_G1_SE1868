@@ -38,7 +38,7 @@
                                 <c:forEach var="cart" items="${carts}">
                                     <tr>
                                         <td class="p-4">
-                                            <div class="d-flex align-items-center justify-content-center">
+                                            <div class="d-flex align-items-center justify-content-start">
                                                 <img src="${cart.product.images[2].imageUrl}" class="img-fluid rounded" style="width: 80px; height: auto;" alt="${cart.product.name}">
                                                 <div class="ms-3">
                                                     <a href="#" class="d-block text-dark fw-bold">${cart.product.name}</a>

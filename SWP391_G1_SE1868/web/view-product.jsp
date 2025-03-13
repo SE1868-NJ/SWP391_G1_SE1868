@@ -66,10 +66,14 @@
                                                         <a href="?category=3" class="list-group-item list-group-item-action"> Máy tính bảng</a>
                                                         <a href="?category=4" class="list-group-item list-group-item-action"> Phụ kiện</a>-->
                         </div>
+                        
+                        <br>
 
                         <!-- Bộ lọc giá -->
-                        <div class="list-group mb-3 shadow-sm bg-white rounded">
+                        <div class="list-group mb-2 shadow-none bg-white rounded">
                             <h5 class="fw-bold text-success">Lọc theo giá</h5>
+                            <br>
+
                             <form id="filterForm" action="products" method="GET">
 
                                 <!-- Giá tối thiểu -->
@@ -120,6 +124,7 @@
                                     </div>
                                 </div>
                         </div>
+                                        
                         </form>
 
                         <br>
