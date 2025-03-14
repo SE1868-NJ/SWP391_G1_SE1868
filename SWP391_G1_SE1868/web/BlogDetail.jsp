@@ -23,10 +23,13 @@
 
     <style>
         .blog-image {
-            max-width: 100%;
-            height: auto;
+            max-width: 70%; /* Giảm kích thước ảnh xuống còn 70% chiều rộng container */
+            height: auto; /* Giữ tỷ lệ ảnh */
             border-radius: 8px;
             margin-bottom: 20px;
+            display: block; /* Đảm bảo ảnh là block element */
+            margin-left: auto; /* Căn giữa ảnh */
+            margin-right: auto; /* Căn giữa ảnh */
         }
         .blog-title {
             font-size: 2.5rem;

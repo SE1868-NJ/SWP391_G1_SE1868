@@ -15,19 +15,36 @@ public class BlogDAO {
         conn = new DBContext().connection;
     }
 
-    // Lấy blog với phân trang
+    // Lấy blog với phân trang, sắp xếp theo CreatedDate giảm dần
     public List<Blog> getBlogsByPage(int page, int pageSize) {
+        return searchBlogsByPage(page, pageSize, null);
+    }
+
+    // Tìm kiếm blog với phân trang
+    public List<Blog> searchBlogsByPage(int page, int pageSize, String keyword) {
         List<Blog> blogs = new ArrayList<>();
-        String sql = "SELECT * FROM bloglist LIMIT ?, ?";
+        String sql;
+        if (keyword == null || keyword.trim().isEmpty()) {
+            sql = "SELECT * FROM bloglist ORDER BY CreatedDate DESC LIMIT ?, ?";
+        } else {
+            sql = "SELECT * FROM bloglist WHERE NameBlog LIKE ? OR DescriptionBlog LIKE ? " +
+                  "ORDER BY CreatedDate DESC LIMIT ?, ?";
+        }
         
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             int offset = (page - 1) * pageSize;
-            ps.setInt(1, offset);
-            ps.setInt(2, pageSize);
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                ps.setString(1, "%" + keyword + "%");
+                ps.setString(2, "%" + keyword + "%");
+                ps.setInt(3, offset);
+                ps.setInt(4, pageSize);
+            } else {
+                ps.setInt(1, offset);
+                ps.setInt(2, pageSize);
+            }
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                // Lấy Date từ database và chuyển sang LocalDate
                 Date sqlDate = rs.getDate("CreatedDate");
                 LocalDate createdDate = sqlDate != null ? sqlDate.toLocalDate() : null;
                 
@@ -46,12 +63,21 @@ public class BlogDAO {
         return blogs;
     }
 
-    // Lấy tổng số blog trong cơ sở dữ liệu
-    public int getTotalBlogs() {
+    // Lấy tổng số blog (có lọc theo từ khóa nếu có)
+    public int getTotalBlogs(String keyword) {
         int totalBlogs = 0;
-        String sql = "SELECT COUNT(*) FROM bloglist";
+        String sql;
+        if (keyword == null || keyword.trim().isEmpty()) {
+            sql = "SELECT COUNT(*) FROM bloglist";
+        } else {
+            sql = "SELECT COUNT(*) FROM bloglist WHERE NameBlog LIKE ? OR DescriptionBlog LIKE ?";
+        }
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                ps.setString(1, "%" + keyword + "%");
+                ps.setString(2, "%" + keyword + "%");
+            }
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 totalBlogs = rs.getInt(1);
@@ -71,7 +97,6 @@ public class BlogDAO {
             ps.setString(2, blog.getDescription());
             ps.setInt(3, blog.getCustomerId());
             ps.setString(4, blog.getImageUrl());
-            // Chuyển LocalDate sang java.sql.Date
             LocalDate createdDate = blog.getCreatedDate() != null ? blog.getCreatedDate() : LocalDate.now();
             ps.setDate(5, java.sql.Date.valueOf(createdDate));
             ps.executeUpdate();
