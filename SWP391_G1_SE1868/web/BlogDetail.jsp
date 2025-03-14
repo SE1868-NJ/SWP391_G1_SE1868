@@ -23,7 +23,7 @@
 
     <style>
         .blog-image {
-            max-width: 70%; /* Giảm kích thước ảnh xuống còn 70% chiều rộng container */
+            max-width: 65%; /* Giảm kích thước ảnh xuống còn 70% chiều rộng container */
             height: auto; /* Giữ tỷ lệ ảnh */
             border-radius: 8px;
             margin-bottom: 20px;
@@ -32,7 +32,7 @@
             margin-right: auto; /* Căn giữa ảnh */
         }
         .blog-title {
-            font-size: 2.5rem;
+            font-size: 2.0rem;
             font-weight: 700;
             margin-bottom: 15px;
             color: #333;
@@ -63,14 +63,15 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h1 class="blog-title">${blogDetail.title}</h1>
-                    <p class="blog-date">
-                        Created on: 
-                        <fmt:formatDate value="${blogDetail.createdDateAsUtilDate}" pattern="dd/MM/yyyy" />
-                    </p>
                     <!-- Hiển thị ảnh từ bloglist -->
                     <c:if test="${not empty blogDetail.imageUrl}">
                         <img src="${blogDetail.imageUrl}" class="blog-image" alt="Blog Image">
                     </c:if>
+                    <!-- Ngày tạo đặt dưới ảnh -->
+                    <p class="blog-date">
+                        Ngày tạo: 
+                        <fmt:formatDate value="${blogDetail.createdDateAsUtilDate}" pattern="dd/MM/yyyy" />
+                    </p>
                     <div class="blog-content">${content}</div>
                 </div>
             </div>

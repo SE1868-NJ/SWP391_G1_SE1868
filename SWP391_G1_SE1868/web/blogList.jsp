@@ -42,6 +42,7 @@
         }
         .card-title {
             margin: 0;
+            font-weight: 700; /* In đậm hơn */
         }
         .blog-card:hover .card-title {
             display: block !important;
