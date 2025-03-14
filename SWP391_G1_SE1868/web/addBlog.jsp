@@ -98,6 +98,9 @@
             <label for="image">Chọn Ảnh:</label>
             <input type="file" id="image" name="image" accept="image/*" required>
 
+            <label for="content">Nội dung chi tiết:</label>
+            <textarea id="content" name="content" required></textarea>
+
             <button type="submit" class="btn-submit">Thêm Blog</button>
         </form>
     </div>
