@@ -8,8 +8,8 @@ public class BlogDetail {
     private int idBlogDetail;
     private int idBlog;
     private String title;
-    private String contentFilePath;
-    private LocalDate createdDate; // Đổi từ String sang LocalDate
+    private String content; // Thay contentFilePath thành content
+    private LocalDate createdDate;
     private String imageUrl;
 
     // Constructor mặc định
@@ -17,11 +17,11 @@ public class BlogDetail {
     }
 
     // Constructor đầy đủ
-    public BlogDetail(int idBlogDetail, int idBlog, String title, String contentFilePath, LocalDate createdDate, String imageUrl) {
+    public BlogDetail(int idBlogDetail, int idBlog, String title, String content, LocalDate createdDate, String imageUrl) {
         this.idBlogDetail = idBlogDetail;
         this.idBlog = idBlog;
         this.title = title;
-        this.contentFilePath = contentFilePath;
+        this.content = content; // Thay contentFilePath thành content
         this.createdDate = createdDate;
         this.imageUrl = imageUrl;
     }
@@ -51,12 +51,12 @@ public class BlogDetail {
         this.title = title;
     }
 
-    public String getContentFilePath() {
-        return contentFilePath;
+    public String getContent() { // Thay getContentFilePath thành getContent
+        return content;
     }
 
-    public void setContentFilePath(String contentFilePath) {
-        this.contentFilePath = contentFilePath;
+    public void setContent(String content) { // Thay setContentFilePath thành setContent
+        this.content = content;
     }
 
     public LocalDate getCreatedDate() {
@@ -86,7 +86,7 @@ public class BlogDetail {
                 + "idBlogDetail=" + idBlogDetail
                 + ", idBlog=" + idBlog
                 + ", title='" + title + '\''
-                + ", contentFilePath='" + contentFilePath + '\''
+                + ", content='" + content + '\'' // Thay contentFilePath thành content
                 + ", createdDate=" + createdDate
                 + ", imageUrl='" + imageUrl + '\''
                 + '}';

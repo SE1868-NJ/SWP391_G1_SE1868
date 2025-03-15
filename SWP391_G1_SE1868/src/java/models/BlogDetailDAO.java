@@ -1,91 +1,59 @@
 package models;
 
-import dbcontext.DBContext;
+import dbcontext.NguyenDBContext; // Import NguyenDBContext thay vì DBContext cũ
 import entity.BlogDetail;
-import jakarta.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.sql.Date;
+import java.sql.*;
+
 
 public class BlogDetailDAO {
-    private DBContext db;
+
+    private NguyenDBContext dbContext; // Thay DBContext thành NguyenDBContext
 
     public BlogDetailDAO() {
-        db = new DBContext();
+        dbContext = new NguyenDBContext(); // Khởi tạo NguyenDBContext
     }
 
-    public BlogDetail getBlogDetailById(int idBlogDetail) throws SQLException {
-        String sql = "SELECT bd.*, bl.ImageURL " +
-                     "FROM blogdetail bd " +
-                     "JOIN bloglist bl ON bd.IdBlog = bl.IdBlog " +
-                     "WHERE bd.IdBlogDetail = ?";
-        PreparedStatement stmt = db.connection.prepareStatement(sql);
-        stmt.setInt(1, idBlogDetail);
-        ResultSet rs = stmt.executeQuery();
-
-        if (rs.next()) {
-            // Chuyển đổi Date từ database sang LocalDate
-            Date sqlDate = rs.getDate("CreatedDate");
-            LocalDate createdDate = sqlDate != null ? sqlDate.toLocalDate() : null;
-
-            BlogDetail blogDetail = new BlogDetail();
-            blogDetail.setIdBlogDetail(rs.getInt("IdBlogDetail"));
-            blogDetail.setIdBlog(rs.getInt("IdBlog"));
-            blogDetail.setTitle(rs.getString("Title"));
-            blogDetail.setContentFilePath(rs.getString("ContentFilePath"));
-            blogDetail.setCreatedDate(createdDate); // Sử dụng LocalDate
-            blogDetail.setImageUrl(rs.getString("ImageURL")); // Lấy ImageURL từ bloglist
-            return blogDetail;
-        }
-        return null;
+    private Connection getConnection() throws SQLException {
+        return dbContext.getConnection(); // Lấy kết nối từ NguyenDBContext
     }
 
     public BlogDetail getBlogDetailByBlogId(int idBlog) throws SQLException {
-        String sql = "SELECT bd.*, bl.ImageURL " +
-                     "FROM blogdetail bd " +
-                     "JOIN bloglist bl ON bd.IdBlog = bl.IdBlog " +
-                     "WHERE bd.IdBlog = ?";
-        PreparedStatement stmt = db.connection.prepareStatement(sql);
-        stmt.setInt(1, idBlog);
-        ResultSet rs = stmt.executeQuery();
+        String query = "SELECT bd.IdBlogDetail, bd.IdBlog, bd.Title, bd.Content, bd.CreatedDate, bl.ImageURL " +
+                       "FROM blogdetail bd " +
+                       "LEFT JOIN bloglist bl ON bd.IdBlog = bl.IdBlog " +
+                       "WHERE bd.IdBlog = ?";
+        try (Connection conn = getConnection(); // Tạo kết nối mới và tự động đóng
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, idBlog);
+            ResultSet rs = stmt.executeQuery();
 
-        if (rs.next()) {
-            // Chuyển đổi Date từ database sang LocalDate
-            Date sqlDate = rs.getDate("CreatedDate");
-            LocalDate createdDate = sqlDate != null ? sqlDate.toLocalDate() : null;
-
-            BlogDetail blogDetail = new BlogDetail();
-            blogDetail.setIdBlogDetail(rs.getInt("IdBlogDetail"));
-            blogDetail.setIdBlog(rs.getInt("IdBlog"));
-            blogDetail.setTitle(rs.getString("Title"));
-            blogDetail.setContentFilePath(rs.getString("ContentFilePath"));
-            blogDetail.setCreatedDate(createdDate); // Sử dụng LocalDate
-            blogDetail.setImageUrl(rs.getString("ImageURL")); // Lấy ImageURL từ bloglist
-            return blogDetail;
-        }
-        return null;
-    }
-
-    public String getContentFromFile(String filePath, HttpServletRequest request) {
-        String realPath = request.getServletContext().getRealPath("/") + filePath;
-        StringBuilder content = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(
-                new InputStreamReader(
-                        new java.io.FileInputStream(realPath), StandardCharsets.UTF_8))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                content.append(line).append("\n");
+            if (rs.next()) {
+                return new BlogDetail(
+                    rs.getInt("IdBlogDetail"),
+                    rs.getInt("IdBlog"),
+                    rs.getString("Title"),
+                    rs.getString("Content"),
+                    rs.getTimestamp("CreatedDate").toLocalDateTime().toLocalDate(),
+                    rs.getString("ImageURL")
+                );
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Error reading file: " + realPath;
+            return null;
         }
-        return content.toString();
     }
+    public void insertBlogDetail(BlogDetail blogDetail) throws SQLException {
+    String query = "INSERT INTO blogdetail (IdBlog, Title, Content, CreatedDate) VALUES (?, ?, ?, ?)";
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+        System.out.println("Đang chèn blog: " + blogDetail); // Log dữ liệu đầu vào
+        stmt.setInt(1, blogDetail.getIdBlog());
+        stmt.setString(2, blogDetail.getTitle());
+        stmt.setString(3, blogDetail.getContent());
+        stmt.setTimestamp(4, Timestamp.valueOf(blogDetail.getCreatedDate().atStartOfDay()));
+        int rowsAffected = stmt.executeUpdate();
+        System.out.println("Số hàng được chèn: " + rowsAffected); // Log số hàng bị ảnh hưởng
+    } catch (SQLException e) {
+        System.err.println("Lỗi khi chèn blog: " + e.getMessage()); // Log lỗi nếu có
+        throw e; // Ném lại ngoại lệ để xử lý ở lớp trên nếu cần
+    }
+}
 }
