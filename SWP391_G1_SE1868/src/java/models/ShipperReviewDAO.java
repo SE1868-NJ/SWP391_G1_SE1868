@@ -208,6 +208,24 @@ public class ShipperReviewDAO extends DBContext {
         return totalPages; // Trả về tổng số trang
     }
 
+    // kiểm tra người dùng đã đánh giá đơn hàng chưa 
+    public boolean isReviewExist(int customerId, int orderId) {
+        String sql = "SELECT 1 FROM ShipperReviews WHERE customerId = ? AND orderId = ?"; // Truy vấn kiểm tra sự tồn tại của bản ghi
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, customerId);  // Thiết lập customerId cho câu lệnh truy vấn
+            stmt.setInt(2, orderId);  // Thiết lập orderId cho câu lệnh truy vấn
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next(); // Nếu có bản ghi trả về, trả về true
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false; // Trả về false nếu không tìm thấy bản ghi
+    }
+
     //  Lấy khách hàng theo ID 
     private Customer getCustomerByIdForShipperReviews(int customerId) {
         String sql = "SELECT * FROM Customers WHERE customerId = ?";

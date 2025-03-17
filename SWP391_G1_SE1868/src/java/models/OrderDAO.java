@@ -51,6 +51,26 @@ public class OrderDAO extends DBContext {
             return false; // Nếu có lỗi xảy ra, trả về false
         }
     }
+    // kiểm tra trạng tháy giao hàng 
+    public boolean isOrderDelivered(int orderId) {
+    String sql = "SELECT status FROM Orders WHERE orderId = ?"; // Truy vấn trạng thái của đơn hàng
+
+    try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        stmt.setInt(1, orderId);  // Thiết lập orderId cho câu lệnh truy vấn
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                String status = rs.getString("status");
+                return "Đã giao".equalsIgnoreCase(status); // Kiểm tra trạng thái có phải "Đã giao" không
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return false; // Trả về false nếu không tìm thấy đơn hàng hoặc trạng thái không phải "Đã giao"
+}
+
 
     // get byId
     public Order getOrderById(int orderId) {

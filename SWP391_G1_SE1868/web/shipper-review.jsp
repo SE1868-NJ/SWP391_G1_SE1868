@@ -68,7 +68,7 @@
                     <p><strong>Trạng thái:</strong> <span id="shipper-status" class="text-info ">${shipper.status}</span></p>
                     <p><strong>Ngày tạo:</strong> <span id="shipper-createdAt">${shipper.createdAt}</span></p>
                     <p><strong>Cập nhật lần cuối:</strong> <span id="shipper-updatedAt">${shipper.updatedAt}</span></p>
-                    <p><strong>Trung bình số đánh giá:</strong> <span data-rating="${totalRating}" class="stars text-warning"></span><fmt:formatNumber maxFractionDigits="3" value="${totalRating}"/></p>
+                    <p><strong>Trung bình số đánh giá:</strong> <span data-rating="${totalRating}" class="stars text-warning"></span><fmt:formatNumber maxFractionDigits="1" value="${totalRating}"/></p>
                     <p><strong>Tổng số đánh giá:</strong> <span class="text-info ">${totalReview}</span></p>
                 </div>
             </div>
@@ -80,8 +80,12 @@
         <div class="container">
             <div class="filter-rating d-flex align-items-center justify-content-between flex-wrap">
                 <!-- Nút Back to Order căn trái -->
-                <a href="/viewOrder" class="btn btn-outline-secondary">Back to Order</a>
-
+                <div >
+                    <a href="/viewOrder" class="btn btn-outline-secondary w-100">Trở về đơn hàng </a>
+                    <br>
+                    <br>
+                    <a href="/" class="btn btn-outline-secondary w-100">Thêm Đánh giá</a>
+                </div>
 
 
                 <!-- Các nút lọc căn giữa -->
@@ -125,8 +129,10 @@
                             </div>
                             <span class="stars text-warning"></span>
                         </div>
-                        <div class="mt-2">
+                        <div class="mt-2 d-flex justify-content-between">
                             <span class="ms-2">${review.comment}</span>
+                            
+                            <span class="ms-2">${review.createdAt}</span>
                         </div>
                         <!--${review.customer.customerId == sessionScope.user.customerId}-->
                         <c:if test="${review.customer.customerId == sessionScope.user.customerId}">
@@ -134,6 +140,8 @@
                                 <a href="updateShipperReview?reviewId=${review.reviewId}" class="btn btn-warning btn-sm">Sửa</a>
                             </div>
                         </c:if>
+                       
+                        
                     </li>
                 </c:forEach>
 
