@@ -19,7 +19,7 @@
             <div class="card p-4" style="max-width: 500px; width: 100%;">
                 <h4 class="text-center">Đánh giá sản phẩm </h4>
                 <form action="addProductReview" method="post" >
-     
+                     <input type="hidden" name="orderDetailId" value="${orderDetail.orderDetailId}"">
                     <!-- Sản phẩm -->
                     <div class="mb-3">
                         <label for="productName" class="form-label">Sản phẩm:</label>

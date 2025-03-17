@@ -111,6 +111,7 @@ public class OrderDetailDAO extends DBContext {
 
         return false; // Trả về false nếu không tìm thấy bản ghi
     }
+    
 
     // hàm lấy orderById private
     private Order getOrderById(int orderId) {

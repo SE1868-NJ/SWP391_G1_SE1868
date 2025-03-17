@@ -51,6 +51,7 @@ public class OrderDAO extends DBContext {
             return false; // Nếu có lỗi xảy ra, trả về false
         }
     }
+    
     // kiểm tra trạng tháy giao hàng 
     public boolean isOrderDelivered(int orderId) {
     String sql = "SELECT status FROM Orders WHERE orderId = ?"; // Truy vấn trạng thái của đơn hàng

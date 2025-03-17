@@ -7,6 +7,7 @@ package controller.review;
 
 import entity.Customer;
 import entity.OrderDetail;
+import entity.ProductReview;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,6 +16,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.time.LocalDate;
 import models.OrderDetailDAO;
 import models.ProductReviewDAO;
 
@@ -99,7 +101,34 @@ public class AddProductReviewServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
+        int orderDetailId = Integer.parseInt(request.getParameter("orderDetailId"));
+        int rating = Integer.parseInt(request.getParameter("rating"));
+        String comment = request.getParameter("comment");
+
+        // truyền carts của customer
+        HttpSession session = request.getSession();
+
+        // lấy đố tương cusomret ở session
+        Customer customer = (Customer) session.getAttribute("user");
+        // check custoemer
+        if (customer == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+        // lấy OdderDetail
+        
+        OrderDetail orderDetail  = detailDAO.getOrderDetailById(orderDetailId);
+         ProductReview productReview =  new ProductReview(0, orderDetail.getProduct(),customer , rating, orderDetail, comment, null, LocalDate.MAX, LocalDate.MAX);
+
+
+        // Cập nhật thông tin vào cơ sở dữ liệu
+        boolean success = productReviewDAO.addReview(productReview);
+
+        // Truyền giá trị thành công qua query parameter
+        String successParam = success ? "true" : "false";
+        response.sendRedirect("viewOrder?success=" + successParam);
+        
     }
 
     /** 
