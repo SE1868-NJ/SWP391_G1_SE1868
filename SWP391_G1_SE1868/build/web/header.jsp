@@ -80,7 +80,7 @@
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="header__logo">
-                            <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                            <a href="home"><img src="assets/img/cholang.png" width="70px" alt=""></a>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -121,20 +121,20 @@
         <section class="breadcrumb-section set-bg" data-setbg="assets/img/breadcrumb.jpg">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <div class="breadcrumb__text">
-                            <h2 class="text-white fw-bold">Chợ Làng</h2>
-                            <div class="breadcrumb__links d-flex align-content-center justify-content-around">
-                                <a href="/home" class="text-white fw-bold">Home</a>
-                                <a href="/products" class="text-white fw-bold">Product</a>
-                                <a href="/blog" class="text-white fw-bold">Blog</a>
-                            </div>
-                        </div>
-
-                    </div>  
+                    <h2 class="text-white fw-bold text-center">Chợ Làng</h2>
                 </div>
             </div>
         </section>
+        <div class="container w-50">
+            <div class="row ">
+                <div class="d-flex align-items-center justify-content-between ">
+                    <a href="/home" class="text-black fw-bold">Home</a>
+                    <a href="/products" class="text-black fw-bold">Product</a>
+                    <a href="/blog" class="text-black fw-bold">Blog</a>
+                </div>
+            </div>
+        </div>
+      
         <script src="assets/js/jquery-3.3.1.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
         <script src="assets/js/jquery.nice-select.min.js"></script>
