@@ -82,9 +82,22 @@ public class ViewOrderDetailServlet extends HttpServlet {
         }
         // khai báo orderDetailDAO
         OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
-
+        
+        // khai báo orderDAO
+        OrderDAO orderDAO = new OrderDAO();
+       
         // lấy list OrderDetail theo orderId
         List<OrderDetail> details = orderDetailDAO.getOrderDetailsByOrderIdSorted(orderId, sortOrderDetailBy, sortOrderDetail);
+        
+        // check xem đơn hàng có trạng tái đã giao chưa và người dùng đã đánh giá sản phẩm chưa 
+        
+        boolean checkOrder = orderDAO.isOrderDelivered(orderId);
+        boolean[] checkReview  = orderDetailDAO.checkOrderDetailsReviewed(details);
+        
+        if (checkOrder) {
+             request.setAttribute("checkOrder", true);
+             request.setAttribute("checkReview", checkReview);
+        }
 
         request.setAttribute("details", details);
         // Gửi giá trị đến JSP

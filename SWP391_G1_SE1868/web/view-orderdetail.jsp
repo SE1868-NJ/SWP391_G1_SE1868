@@ -117,7 +117,7 @@
                         </tr>
                     </thead>
                     <tbody> 
-                        <c:forEach var="detail" items="${details}">
+                        <c:forEach var="detail" items="${details}" varStatus="status">
                             <tr>
                                 <td>${detail.orderDetailId}</td>
                                 <td>${detail.product.name}</td>
@@ -129,9 +129,14 @@
                                 <td><fmt:formatNumber type="number" currencyCode="true" value="${detail.unitPrice}"/> đ</td>
                                 <td><fmt:formatNumber type="number" currencyCode="true" value="${detail.subTotal}"/> đ</td>
                                 <td>
-                                    <div class="d-flex gap-2">
-                                        <a href="addProductReview?orderDetailId=${detail.orderDetailId}" class="btn btn-sm btn-outline-primary">Đánh giá sản phẩm</a> &nbsp;
-                                    </div>
+                                    <!--                                    <div class="d-flex gap-2">
+                                                                            <a href="addProductReview?orderDetailId=${detail.orderDetailId}" class="btn btn-sm btn-outline-primary">Đánh giá sản phẩm</a> &nbsp;
+                                                                        </div>-->
+                                    <c:if test="${checkReview[status.index] == false && checkOrder == 'true'}">
+                                        <div class="d-flex gap-2">
+                                            <a href="addProductReview?orderDetailId=${detail.orderDetailId}" class="btn btn-sm btn-outline-primary">Đánh giá sản phẩm</a> &nbsp;
+                                        </div>
+                                    </c:if>
                                 </td>
 
                             </tr>

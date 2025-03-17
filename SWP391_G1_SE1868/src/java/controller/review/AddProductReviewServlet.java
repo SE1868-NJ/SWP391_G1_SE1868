@@ -119,7 +119,7 @@ public class AddProductReviewServlet extends HttpServlet {
         // lấy OdderDetail
         
         OrderDetail orderDetail  = detailDAO.getOrderDetailById(orderDetailId);
-         ProductReview productReview =  new ProductReview(0, orderDetail.getProduct(),customer , rating, orderDetail, comment, null, LocalDate.MAX, LocalDate.MAX);
+         ProductReview productReview =  new ProductReview(0, orderDetail.getProduct(),customer , rating, orderDetail, comment, null, null, null);
 
 
         // Cập nhật thông tin vào cơ sở dữ liệu

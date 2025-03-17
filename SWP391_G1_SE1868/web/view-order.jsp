@@ -201,7 +201,7 @@
                                 <td>
                                     <div class="d-flex gap-2">
                                         <a href="/viewOrderDetail?orderId=${order.orderId}" class="btn btn-sm btn-outline-primary">Xem</a> &nbsp;
-                                        
+
                                         <a href="/shipperReview?shipperId=${order.shipper.shipperId}&orderId=${order.orderId}" class="btn btn-sm btn-outline-primary">Đánh giá shipper</a> &nbsp;
                                     </div>
                                 </td>
@@ -234,6 +234,122 @@
             </nav>
 
         </div>
+
+        <!-- Popup Success -->
+        <div id="successPopupp" class="popupp success" >
+            <span>Thêm đánh giá sản phẩm !!!!</span>
+            <button class="close-btn" onclick="closePopupp('successPopupp')">×</button>
+        </div>
+
+        <!-- Popup Error -->
+        <div id="errorPopupp" class="popupp error ">
+            <span > Thêm đánh giá sản phẩm thất bại !!!!</span>
+            <button class="close-btn " onclick="closePopupp('errorPopupp')">×</button>
+        </div>
+
+        <!--            // check addProdcutreview succes or false-->
+
+        <c:if test="${ not empty param.success}">
+            <c:choose>
+
+                <c:when test="${ param.success == 'true'}">
+                    <script>
+                        // Gọi hàm showPopup khi isSuccess = true
+                        $(document).ready(function () {
+                            showPopup('successPopupp');  // successPopup là ID của popup thành công
+                        });
+                    </script>
+                </c:when>
+
+                <c:when test="${ param.success == 'false'}">
+                    <script>
+                        // Gọi hàm showPopup khi isSuccess = true
+                        $(document).ready(function () {
+                            showPopup('errorPopupp');  // successPopup là ID của popup thành công
+                        });
+                    </script>
+                </c:when>
+
+            </c:choose>
+        </c:if>
+
+
+
+
+
+        <script>
+            // Hiển thị popup
+            function showPopup(id) {
+                let popup = document.getElementById(id);
+                popup.classList.add("show");
+            }
+
+
+
+            // Đóng popup khi bấm nút close
+            function closePopupp(id) {
+                let popup = document.getElementById(id);
+                popup.classList.remove("show");
+            }
+        </script>                
+
+
+        <style>
+            /* CSS chung cho popup */
+            .popupp {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 8px;
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                min-width: 350px;
+                max-width: 400px;
+                box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+                opacity: 0;
+                transform: translateX(100%);
+                transition: opacity 0.4s ease, transform 0.4s ease;
+                pointer-events: none;
+                z-index: 9999;
+            }
+
+            /* Hiển thị popup */
+            .popupp.show {
+                opacity: 1;
+                transform: translateX(0);
+                pointer-events: auto;
+            }
+
+            /* Success Popup */
+            .popupp.success {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            /* Error Popup */
+            .popupp.error {
+                background-color: #F44336;
+                color: white;
+            }
+
+            /* Close Button */
+            .popupp .close-btn {
+                margin-left: auto;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 18px;
+                cursor: pointer;
+            }
+        </style>
+
+
+
         <%@include file="footer.jsp" %>
     </body>
 </html>

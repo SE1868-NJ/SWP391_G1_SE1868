@@ -442,8 +442,9 @@
                                                     </div>
 
                                                     <!-- Bình luận nằm dưới tên người dùng -->
-                                                    <div class="mt-2">
+                                                    <div class=" d-flex justify-content-between mt-2">
                                                         <span class="ms-2">${review.comment}</span>
+                                                        <span class="ms-2">${review.updatedAt}</span>
                                                     </div>
 
                                                     <!-- Nút "Sửa" nằm ở bên phải và ở dưới cùng -->

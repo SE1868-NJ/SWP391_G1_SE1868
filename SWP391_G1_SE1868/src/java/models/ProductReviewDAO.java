@@ -25,8 +25,8 @@ public class ProductReviewDAO extends DBContext {
 
     public boolean addReview(ProductReview review) {
         String sql = "INSERT INTO `swp391_g1`.`productreviews` "
-                + "(`ProductID`, `CustomerID`, `Rating`, `Comment`, `CreatedAt`, `ProductReviewsImage`) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";  // Thêm cột `ProductReviewsImage`
+                + "(`ProductID`, `CustomerID`, `Rating`, `Comment`, `OrderDetailID`, `CreatedAt`, `UpdatedAt`, `ProductReviewsImage`) "
+                + "VALUES (?, ?, ?, ?, ?, IFNULL(?, CURRENT_TIMESTAMP), IFNULL(?, CURRENT_TIMESTAMP), ?)";  // Thêm cột `OrderDetailID`, `UpdatedAt`, `ProductReviewsImage`
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             // Set các tham số cho PreparedStatement từ đối tượng ProductReview
@@ -34,10 +34,22 @@ public class ProductReviewDAO extends DBContext {
             stmt.setInt(2, review.getCustomer().getCustomerId());  // Lấy customerId từ đối tượng Customer
             stmt.setInt(3, review.getRating());  // Lấy Rating
             stmt.setString(4, review.getComment());  // Lấy Comment
-            stmt.setDate(5, Date.valueOf(review.getCreatedAt()));  // Chuyển LocalDate thành java.sql.Date
+            stmt.setInt(5, review.getOrderDetailId().getOrderDetailId());  // Lấy orderDetailId từ đối tượng OrderDetail
+
+            if (review.getCreatedAt() != null) {
+                stmt.setDate(6, Date.valueOf(review.getCreatedAt()));  // Chuyển LocalDate thành java.sql.Date cho CreatedAt
+            } else {
+                stmt.setNull(6, java.sql.Types.DATE);  // Nếu không có CreatedAt, set là null và để SQL tự động sử dụng CURRENT_TIMESTAMP
+            }
+
+            if (review.getUpdatedAt() != null) {
+                stmt.setDate(7, Date.valueOf(review.getUpdatedAt()));  // Chuyển LocalDate thành java.sql.Date cho UpdatedAt
+            } else {
+                stmt.setNull(7, java.sql.Types.DATE);  // Nếu không có UpdatedAt, set là null và để SQL tự động sử dụng CURRENT_TIMESTAMP
+            }
 
             // Set giá trị cho trường `ProductReviewsImage`
-            stmt.setString(6, review.getProductReviewsImage());  // Lấy đường dẫn hình ảnh (có thể là null)
+            stmt.setString(8, review.getProductReviewsImage());  // Lấy đường dẫn hình ảnh (có thể là null)
 
             // Thực thi câu lệnh SQL
             return stmt.executeUpdate() > 0;
@@ -78,7 +90,7 @@ public class ProductReviewDAO extends DBContext {
                 if (rs.next()) {
                     // Lấy dữ liệu từ ResultSet và tạo đối tượng ProductReview
                     ProductReview review = new ProductReview();
-                    
+
                     review.setReviewId(rs.getInt("ReviewID"));
                     // lấy obj product
                     review.setProduct(productDAO.getProductById(rs.getInt("ProductID")));
@@ -190,6 +202,7 @@ public class ProductReviewDAO extends DBContext {
                 review.setRating(rs.getInt("Rating"));
                 review.setComment(rs.getString("Comment"));
                 review.setCreatedAt(rs.getDate("CreatedAt").toLocalDate());
+                review.setUpdatedAt(rs.getDate("UpdatedAt").toLocalDate());
 
                 reviews.add(review);
             }

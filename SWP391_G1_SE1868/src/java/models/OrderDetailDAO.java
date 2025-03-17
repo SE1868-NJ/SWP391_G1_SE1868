@@ -94,24 +94,28 @@ public class OrderDetailDAO extends DBContext {
         return orderDetail;
     }
 
-    // kiểm tra người dùng đã đánh giá đơn hàng đấy chưa 
-    public boolean isOrderDetailExist(int orderDetailId, int customerId) {
-        String sql = "SELECT 1 FROM OrderDetails WHERE orderDetailId = ? AND customerId = ?"; // Truy vấn kiểm tra sự tồn tại của orderDetailId và userId
+    // kiểm tra  đã đánh giá đơn hàng đấy chưa 
+    public boolean[] checkOrderDetailsReviewed(List<OrderDetail> orderDetails) {
+        boolean[] results = new boolean[orderDetails.size()]; // Mảng kết quả để lưu trữ true/false
+
+        String sql = "SELECT 1 FROM ProductReviews WHERE orderDetailId = ?"; // Truy vấn kiểm tra sự tồn tại của đánh giá
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, orderDetailId);  // Thiết lập orderDetailId cho câu lệnh truy vấn
-            stmt.setInt(2, customerId);  // Thiết lập userId cho câu lệnh truy vấn
+            // Lặp qua danh sách orderDetails và kiểm tra từng orderDetail
+            for (int i = 0; i < orderDetails.size(); i++) {
+                stmt.setInt(1, orderDetails.get(i).getOrderDetailId()); // Lấy orderDetailId từ đối tượng OrderDetail
 
-            try (ResultSet rs = stmt.executeQuery()) {
-                return rs.next(); // Nếu có bản ghi trả về, trả về true
+                try (ResultSet rs = stmt.executeQuery()) {
+                    // Nếu có bản ghi trả về, kết quả là true, nếu không là false
+                    results[i] = rs.next();
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return false; // Trả về false nếu không tìm thấy bản ghi
+        return results; // Trả về mảng kết quả
     }
-    
 
     // hàm lấy orderById private
     private Order getOrderById(int orderId) {

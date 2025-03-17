@@ -235,12 +235,11 @@ public class ShipperReviewDAO extends DBContext {
     }
 
     // kiểm tra người dùng đã đánh giá đơn hàng chưa 
-    public boolean isReviewExist(int customerId, int orderId) {
-        String sql = "SELECT 1 FROM ShipperReviews WHERE customerId = ? AND orderId = ?"; // Truy vấn kiểm tra sự tồn tại của bản ghi
+    public boolean isReviewExist( int orderId) {
+        String sql = "SELECT 1 FROM ShipperReviews WHERE  orderId = ?"; // Truy vấn kiểm tra sự tồn tại của bản ghi
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, customerId);  // Thiết lập customerId cho câu lệnh truy vấn
-            stmt.setInt(2, orderId);  // Thiết lập orderId cho câu lệnh truy vấn
+            stmt.setInt(1, orderId);  // Thiết lập orderId cho câu lệnh truy vấn
 
             try (ResultSet rs = stmt.executeQuery()) {
                 return rs.next(); // Nếu có bản ghi trả về, trả về true
