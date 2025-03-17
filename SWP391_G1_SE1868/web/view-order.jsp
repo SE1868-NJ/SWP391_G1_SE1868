@@ -237,13 +237,13 @@
 
         <!-- Popup Success -->
         <div id="successPopupp" class="popupp success" >
-            <span>Thêm đánh giá sản phẩm !!!!</span>
+            <span>Thêm đánh giá thành công !!!!</span>
             <button class="close-btn" onclick="closePopupp('successPopupp')">×</button>
         </div>
 
         <!-- Popup Error -->
         <div id="errorPopupp" class="popupp error ">
-            <span > Thêm đánh giá sản phẩm thất bại !!!!</span>
+            <span > Thêm đánh giá thất bại !!!!</span>
             <button class="close-btn " onclick="closePopupp('errorPopupp')">×</button>
         </div>
 

@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import models.ShipperReviewDAO;
+import models.OrderDAO;
 
 /**
  *
@@ -65,7 +66,7 @@ public class ShipperReviewServlet extends HttpServlet {
             throws ServletException, IOException {
 //        processRequest(request, response);
         int shipperId = Integer.parseInt(request.getParameter("shipperId"));
-
+        int orderId = Integer.parseInt(request.getParameter("orderId"));
         String page = request.getParameter("page");
         String rating = request.getParameter("rating");
         int pageSize = 3;
@@ -91,6 +92,9 @@ public class ShipperReviewServlet extends HttpServlet {
         // khai bao Dao ShipperReview
         ShipperReviewDAO shipperReviewDAO = new ShipperReviewDAO();
 
+        // check đon hang đã được đánh giá chưa
+        OrderDAO orderDAO = new OrderDAO();
+
         // lấy list shipepr review
         List<ShipperReview> shipperReviews = shipperReviewDAO.getReviewsByShipperIdWithPagination(1, Integer.parseInt(rating), Integer.parseInt(page), pageSize);
 
@@ -106,6 +110,15 @@ public class ShipperReviewServlet extends HttpServlet {
         // lấy totalPage để paging
         int totalPage = shipperReviewDAO.getTotalPagesForShipperReviews(shipperId, pageSize);
 
+        // check xem đơn hàng đã gia chưa
+        boolean checkOrder = orderDAO.isOrderDelivered(orderId);
+        // chekc xem đã đánh giá shipper cho đơn hàng đấy chưa
+        boolean checkReviewShipper = shipperReviewDAO.isReviewExist(orderId);
+        // kiểm tra
+        if(checkOrder && ! checkReviewShipper){
+            request.setAttribute("checkOrder", true);
+        }
+        
         request.setAttribute("totalReview", totalReview);
         request.setAttribute("shipperReviews", shipperReviews);
         request.setAttribute("totalRating", totalRating);

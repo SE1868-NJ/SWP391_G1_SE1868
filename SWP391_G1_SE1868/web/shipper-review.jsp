@@ -82,9 +82,11 @@
                 <!-- Nút Back to Order căn trái -->
                 <div >
                     <a href="/viewOrder" class="btn btn-outline-secondary w-100">Trở về đơn hàng </a>
-                    <br>
-                    <br>
-                    <a href="/" class="btn btn-outline-secondary w-100">Thêm Đánh giá</a>
+                    <c:if test="${checkOrder == 'true'}">
+                        <br>
+                        <br>
+                        <a href="/addShipperReview?shipperId=${shipper.shipperId}&orderId=${param.orderId}" class="btn btn-outline-secondary w-100">Thêm Đánh giá</a>
+                    </c:if>
                 </div>
 
 
@@ -131,7 +133,7 @@
                         </div>
                         <div class="mt-2 d-flex justify-content-between">
                             <span class="ms-2">${review.comment}</span>
-                            
+
                             <span class="ms-2">${review.createdAt}</span>
                         </div>
                         <!--${review.customer.customerId == sessionScope.user.customerId}-->
@@ -140,8 +142,8 @@
                                 <a href="updateShipperReview?reviewId=${review.reviewId}" class="btn btn-warning btn-sm">Sửa</a>
                             </div>
                         </c:if>
-                       
-                        
+
+
                     </li>
                 </c:forEach>
 
@@ -189,7 +191,7 @@
                                 <span class="page-link active">${pageNum}</span>
                             </c:when>
                             <c:otherwise>
-                                <li class="page-item "><a class="page-link" href="shipperReview?shipperId=${param.shipperId}&page=${pageNum}&&rating=${param.rating}">${pageNum}</a></li>
+                                <li class="page-item "><a class="page-link" href="shipperReview?shipperId=${param.shipperId}&orderId=${param.orderId}&page=${pageNum}&&rating=${param.rating}">${pageNum}</a></li>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
@@ -336,7 +338,7 @@
             function filterReviews(star, shipperId) {
                 // Lưu trạng thái của nút đã chọn vào localStorage
                 localStorage.setItem("selectedStar", star);
-                const url = "shipperReview?shipperId=" + shipperId + "&rating=" + star;
+                const url = "shipperReview?orderId=${param.orderId}&shipperId=" + shipperId + "&rating=" + star;
                 console.log("Chuyển hướng đến URL:", url);
                 window.location.href = url;
             }
