@@ -19,7 +19,7 @@
                 
                 <form action="updateShipperReview" method="post" >
                     <!-- reviewId được ẩn vì là giá trị không thay đổi -->
-                    <input type="hidden" name="reviewId" value="${review.reviewId}">
+                    <input type="hidden" name="orderId" value="${review.order.orderId}">
 
                     <!-- Sản phẩm -->
                     <div class="mb-3">
@@ -72,19 +72,6 @@
                     </div>
                 </form>
 
-
-
-                    <!-- Bình luận -->
-                    <div class="mb-3">
-                        <label for="comment" class="form-label">Bình luận:</label>
-                        <textarea id="comment" name="comment" rows="4" class="form-control" required>${review.comment}</textarea>
-                    </div>
-
-                    <!-- Nút Cập nhật -->
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-primary w-100">Cập nhật đánh giá</button>
-                    </div>
-                </form>
                     <div class="mb-3">
                         <a href="/shipperReview?shipperId=${review.shipper.shipperId}"><button type="button" class="btn btn-primary w-100">Trở lại đánh giá shipper</button></a>
                     </div>

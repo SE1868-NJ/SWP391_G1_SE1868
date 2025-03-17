@@ -67,7 +67,7 @@
 
                     <!-- Nút Cập nhật -->
                     <div class="mb-3">
-                        <button type="submit" class="btn btn-primary w-100">Cập nhật đánh giá</button>
+                        <button type="submit" class="btn btn-primary w-100">Thêm đánh giá</button>
                     </div>
                 </form>
                     <div class="mb-3">
