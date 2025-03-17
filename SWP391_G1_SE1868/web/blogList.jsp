@@ -78,7 +78,7 @@
                         <button class="btn btn-primary" type="submit">Tìm</button>
                     </div>
                 </form>
-                <a href="addBlog.jsp" class="add-blog bg-primary">Thêm Blog Mới</a>
+                <a href="${pageContext.request.contextPath}/addBlog" class="add-blog bg-primary">Thêm Blog Mới</a>
             </div>
 
             <c:choose>
