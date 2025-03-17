@@ -130,7 +130,7 @@
                                 <td><fmt:formatNumber type="number" currencyCode="true" value="${detail.subTotal}"/> đ</td>
                                 <td>
                                     <div class="d-flex gap-2">
-                                        <a href="" class="btn btn-sm btn-outline-primary">Đánh giá sản phẩm</a> &nbsp;
+                                        <a href="addProductReview?orderDetailId=${detail.orderDetailId}" class="btn btn-sm btn-outline-primary">Đánh giá sản phẩm</a> &nbsp;
                                     </div>
                                 </td>
 

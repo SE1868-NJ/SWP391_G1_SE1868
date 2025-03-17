@@ -94,6 +94,24 @@ public class OrderDetailDAO extends DBContext {
         return orderDetail;
     }
 
+    // kiểm tra người dùng đã đánh giá đơn hàng đấy chưa 
+    public boolean isOrderDetailExist(int orderDetailId, int customerId) {
+        String sql = "SELECT 1 FROM OrderDetails WHERE orderDetailId = ? AND customerId = ?"; // Truy vấn kiểm tra sự tồn tại của orderDetailId và userId
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, orderDetailId);  // Thiết lập orderDetailId cho câu lệnh truy vấn
+            stmt.setInt(2, customerId);  // Thiết lập userId cho câu lệnh truy vấn
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next(); // Nếu có bản ghi trả về, trả về true
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false; // Trả về false nếu không tìm thấy bản ghi
+    }
+
     // hàm lấy orderById private
     private Order getOrderById(int orderId) {
         String sql = "SELECT * FROM orders WHERE orderId = ?";
@@ -172,7 +190,7 @@ public class OrderDetailDAO extends DBContext {
         List<OrderDetail> orderDetails = orderDetailDAO.getOrderDetailsByOrderIdSorted(36, null, null);
 
         for (OrderDetail orderDetail : orderDetails) {
-             System.out.println(orderDetail);
+            System.out.println(orderDetail);
         }
 
     }

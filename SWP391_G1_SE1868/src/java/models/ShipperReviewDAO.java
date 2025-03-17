@@ -24,6 +24,32 @@ import java.sql.SQLException;
 
 public class ShipperReviewDAO extends DBContext {
 
+    // thêm đánh giá review 
+    public boolean addReview(ShipperReview review) {
+        String sql = "INSERT INTO ShipperReviews (customerId, shipperId, orderId, rating, comment, createdAt, updatedAt) "
+                + "VALUES (?, ?, ?, ?, ?, CURRENT_DATE, CURRENT_DATE)"; // Câu lệnh INSERT vào bảng ShipperReviews
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            // Thiết lập các giá trị vào câu lệnh chuẩn bị
+            stmt.setInt(1, review.getCustomer().getCustomerId());  // Thiết lập customerId từ đối tượng Customer
+            stmt.setInt(2, review.getShipper().getShipperId());     // Thiết lập shipperId từ đối tượng Shipper
+            stmt.setInt(3, review.getOrder().getOrderId());          // Thiết lập orderId từ đối tượng Order
+            stmt.setInt(4, review.getRating());                      // Thiết lập rating
+            stmt.setString(5, review.getComment());                  // Thiết lập comment
+
+            // Thực thi câu lệnh INSERT
+            int rowsAffected = stmt.executeUpdate();
+
+            // Nếu có ít nhất 1 dòng bị ảnh hưởng, tức là việc thêm đánh giá thành công
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false; // Trả về false nếu có lỗi hoặc không chèn được dữ liệu
+    }
+
     // lấy lisyt đánh giá của shipepr
     public List<ShipperReview> getReviewsByShipperIdWithPagination(int shipperId, int rating, int page, int pageSize) {
         List<ShipperReview> reviews = new ArrayList<>();
