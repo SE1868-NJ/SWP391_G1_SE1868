@@ -44,7 +44,7 @@
                                             <div class="d-flex align-items-center justify-content-start">
                                                 <img src="${cart.product.images[2].imageUrl}" class="img-fluid rounded" style="width: 80px; height: auto;" alt="${cart.product.name}">
                                                 <div class="ms-3">
-                                                    <a href="#" class="d-block text-dark fw-bold">${cart.product.name}</a>
+                                                    <a href="/getReviews?productId=${cart.product.productId}" class="d-block text-dark fw-bold">${cart.product.name}</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -87,7 +87,7 @@
 
                                 <td class="text-center align-middle px-0">
                                     <a id="addToCartBtn${cart.product.productId}" onclick="removeProduct(${cart.product.productId})" class="btn btn-danger btn-sm">
-                                        <i class="bi bi-trash"></i> Xóa
+                                        <strong class="bi bi-trash">Xóa</strongi> 
                                     </a>
                                 </td>
                                     </tr>

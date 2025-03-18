@@ -86,15 +86,21 @@ public class CheckOutServlet extends HttpServlet {
             // lấy cart của customer theo ID
             List<Cart> carts = customerDAO.getCartsByCustomerId(customer.getCustomerId());
 
-            // truyền carts sang jsp
-            request.setAttribute("carts", carts);
+            if (carts.isEmpty() || carts == null) {
+                response.sendRedirect("home");
+            } else {
+                
+                // truyền carts sang jsp
+                request.setAttribute("carts", carts);
 
-            // truyền tổng giá tiền
-            request.setAttribute("totalCart", customerDAO.getTotalAmount(customer.getCustomerId()));
+                // truyền tổng giá tiền
+                request.setAttribute("totalCart", customerDAO.getTotalAmount(customer.getCustomerId()));
 
-            request.setAttribute("customer", customerDAO.getCustomerByIdNoJoin(customer.getCustomerId()));
+                request.setAttribute("customer", customerDAO.getCustomerByIdNoJoin(customer.getCustomerId()));
 
-            request.getRequestDispatcher("checkout.jsp").forward(request, response);
+                request.getRequestDispatcher("checkout.jsp").forward(request, response);
+            }
+
         } else {
             response.sendRedirect("login.jsp");
         }

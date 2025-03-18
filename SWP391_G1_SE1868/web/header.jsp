@@ -37,8 +37,8 @@
             <div class="header__top">
                 <div class="container">
                     <div class="row">
-                        
-                       
+
+
                     </div>
                 </div>
             </div>
@@ -56,24 +56,23 @@
                     <div class="col-lg-3">
                         <div class="header__cart">
                             <ul>
-                                 <div class="header__top__right__language">
+                                <div class="header__top__right__language">
                                     <!-- Kiểm tra xem người dùng đã đăng nhập hay chưa --> 
                                     <c:choose>
                                         <c:when test="${not empty sessionScope.user}">
                                             <!-- Nếu có người dùng, hiển thị tên người dùng và dropdown -->
                                             <div class="fa fa-user">    ${sessionScope.user.fullName}</div> <!-- Hiển thị tên người dùng -->
                                             <span class="arrow_carrot-down"></span>
-                                            <ul>
-                                                <li><a href="/viewOrder">View Order</a></li>
-                                                <li><a href="#">b</a></li>
-                                                <li><a href="#">c</a></li>
-
-                                                <li><a href="/logout">Logout</a></li> 
+                                            <ul class="w-100">
+                                                <li class="d-block"><a href="/viewOrder">View Order</a></li>
+                                                <li class="d-block"><a href="#">b</a></li>
+                                                <li class="d-block"><a href="#">c</a></li>
+                                                <li class="d-block"><a href="/logout">Logout</a></li>
                                             </ul>
                                         </c:when>
                                         <c:otherwise>
                                             <!-- Nếu không có người dùng, chỉ hiển thị Login -->
-                                            <div class="fa fa-user"><a class="text-black fw-bold" href="login.jsp">       Login</a></div>
+                                            <div class="fa fa-user"><a class="text-black fw-bold" href="login.jsp">Login</a></div>
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
@@ -93,7 +92,7 @@
                                     </a>
                                 </li>
                             </ul>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -122,7 +121,7 @@
                 </div>
             </div>
         </div>
-      
+
         <script src="assets/js/jquery-3.3.1.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
         <script src="assets/js/jquery.nice-select.min.js"></script>
