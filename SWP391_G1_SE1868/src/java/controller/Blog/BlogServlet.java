@@ -2,17 +2,23 @@ package controller.Blog;
 
 import models.BlogDAO;
 import entity.Blog;
+import entity.BlogDetail;
+import entity.Customer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+
+import models.BlogDetailDAO;
 
 @WebServlet(name = "BlogServlet", urlPatterns = {"/blog"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
@@ -29,35 +35,40 @@ public class BlogServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lấy số trang từ tham số URL, nếu không có thì mặc định là trang 1
         String pageParam = request.getParameter("page");
+        String search = request.getParameter("search");
         int page = (pageParam != null) ? Integer.parseInt(pageParam) : 1;
-        int pageSize = 9; // Số blog mỗi trang
+        int pageSize = 9;
 
-        // Lấy danh sách blog theo trang
-        List<Blog> blogs = blogDAO.getBlogsByPage(page, pageSize);
-
-        // Lấy tổng số blog để tính số trang
-        int totalBlogs = blogDAO.getTotalBlogs();
+        List<Blog> blogs = blogDAO.searchBlogsByPage(page, pageSize, search);
+        int totalBlogs = blogDAO.getTotalBlogs(search);
         int totalPages = (int) Math.ceil((double) totalBlogs / pageSize);
 
-        // Set các attribute để truyền dữ liệu vào JSP
         request.setAttribute("blogs", blogs);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("currentPage", page);
 
-        // Forward đến trang blogList.jsp
         request.getRequestDispatcher("blogList.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Lấy dữ liệu từ form
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("user");
+
+        if (customer == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
         String name = request.getParameter("name");
         String description = request.getParameter("description");
-        int customerId = Integer.parseInt(request.getParameter("customerId"));
+        String content = request.getParameter("content");
+        int customerId = customer.getCustomerId();
 
-        // Xử lý file ảnh
+        System.out.println("Description nhận được: " + (description != null ? description.length() : 0) + " ký tự - " + description);
+        System.out.println("Content nhận được: " + (content != null ? content.length() : 0) + " ký tự - " + content);
+
         Part filePart = request.getPart("image");
         String fileName = filePart.getSubmittedFileName();
         String uploadPath = request.getServletContext().getRealPath("") + "assets/img/blog/";
@@ -66,20 +77,30 @@ public class BlogServlet extends HttpServlet {
             uploadDir.mkdirs();
         }
 
-        // Tạo đường dẫn lưu file
         String filePath = uploadPath + fileName;
         filePart.write(filePath);
-
-        // Lưu đường dẫn tương đối vào cơ sở dữ liệu (từ webapp/assets/img/blog/)
         String relativePath = "assets/img/blog/" + fileName;
 
-        // Tạo blog mới với CreatedDate là LocalDate.now()
         Blog newBlog = new Blog(0, name, description, customerId, relativePath, LocalDate.now());
+        int newBlogId = blogDAO.addBlog(newBlog);
 
-        // Gọi phương thức thêm blog vào cơ sở dữ liệu
-        blogDAO.addBlog(newBlog);
+        if (newBlogId > 0) {
+            System.out.println("Blog đã được thêm với IdBlog: " + newBlogId);
+        } else {
+            System.out.println("Lỗi: Không thêm được blog!");
+        }
 
-        // Chuyển hướng về trang blog
-        response.sendRedirect("blog");
+        BlogDetailDAO blogDetailDAO = new BlogDetailDAO();
+        BlogDetail blogDetail = new BlogDetail(0, newBlogId, name, content, LocalDate.now(), relativePath);
+        try {
+            blogDetailDAO.insertBlogDetail(blogDetail);
+            System.out.println("Đã thêm blog vào blogdetail với IdBlog: " + newBlogId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error adding blog detail: " + e.getMessage());
+            return;
+        }
+
+        response.sendRedirect("blog?page=1");
     }
 }

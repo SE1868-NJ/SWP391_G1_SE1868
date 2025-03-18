@@ -44,12 +44,10 @@ public class BlogDetailServlet extends HttpServlet {
                 return;
             }
 
-            // Lấy nội dung từ file
-            String content = blogDetailDAO.getContentFromFile(blogDetail.getContentFilePath(), request);
+            String content = blogDetail.getContent();
             request.setAttribute("blogDetail", blogDetail);
             request.setAttribute("content", content);
 
-            // Forward đến JSP
             request.getRequestDispatcher("/BlogDetail.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();

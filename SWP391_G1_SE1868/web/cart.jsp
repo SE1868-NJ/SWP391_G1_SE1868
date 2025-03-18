@@ -12,6 +12,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Cart</title>
+        <!-- Thêm Bootstrap CSS nếu chưa có (giả sử bạn đang sử dụng Bootstrap) -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
         <%@include file="header.jsp" %>
@@ -37,6 +39,7 @@
                             <tbody>
                                 <c:forEach var="cart" items="${carts}">
                                     <tr>
+
                                         <td class="p-4">
                                             <div class="d-flex align-items-center justify-content-start">
                                                 <img src="${cart.product.images[2].imageUrl}" class="img-fluid rounded" style="width: 80px; height: auto;" alt="${cart.product.name}">
@@ -50,43 +53,33 @@
                                             ${cart.product.shop.name}
                                         </td>
 
-                                        <td class="text-center font-weight-semibold  align-middle p-4">
+                                        <td class="text-center font-weight-semibold align-middle p-4">
                                             <fmt:formatNumber value="${cart.product.price}" currencySymbol="true"/> đ
                                         </td>
 
-
-                                <form action="cart" method="post" id="addToCartForm${cart.product.productId}" >
-
+                                <form action="cart" method="post" id="addToCartForm${cart.product.productId}">
                                     <td class="align-middle text-center">
                                         <div class="d-flex justify-content-center align-items-center">
-                                            <button type="button" class="btn btn-outline-primary btn-sm decreaseQuantity" id="decreaseQuantity" onclick="updateQuantity(${cart.product.productId}, -1)"" 
+                                            <button type="button" class="btn btn-outline-primary btn-sm decreaseQuantity" id="decreaseQuantity" onclick="updateQuantity(${cart.product.productId}, -1)" 
                                                     data-id="${cart.product.productId}">
                                                 -
                                             </button>
 
+                                            <input class="form-control text-center mx-2"
+                                                   style="width: 100px;" type="number" name="quantity" id="quantityInput${cart.product.productId}" 
+                                                   value="${cart.quantity}" min="1" max="${cart.product.stockQuantity}" onchange="updateInputQuantity(${cart.product.productId})">
 
-
-
-                                            <input class="form-control text-center mx-2 "
-                                                   style="width: 100px;" type="number" name="quantity"   id="quantityInput${cart.product.productId}" 
-                                                   value="${cart.quantity}" min="1" max="${cart.product.stockQuantity}"   onchange="updateInputQuantity(${cart.product.productId})" >
-
-
-
-                                            <button type="button" class="btn btn-outline-primary btn-sm increaseQuantity" id="increaseQuantity"  onclick="updateQuantity(${cart.product.productId}, 1)"
-                                                    data-id="${cart.product.productId}" >
+                                            <button type="button" class="btn btn-outline-primary btn-sm increaseQuantity" id="increaseQuantity" onclick="updateQuantity(${cart.product.productId}, 1)"
+                                                    data-id="${cart.product.productId}">
                                                 +
                                             </button>
                                         </div>
                                     </td>
 
                                     <input type="hidden" name="productId" value="${cart.product.productId}">
-                                    <input type="hidden" name="action"  id="actionQuantity${cart.product.productId}" >
-
+                                    <input type="hidden" name="action" id="actionQuantity${cart.product.productId}">
 
                                 </form>
-
-
 
                                 <td class="text-center font-weight-semibold align-middle p-4">
                                     <fmt:formatNumber value="${cart.product.price * cart.quantity}" currencySymbol="true"/> đ
@@ -97,23 +90,17 @@
                                         <i class="bi bi-trash"></i> Xóa
                                     </a>
                                 </td>
-                                </tr>
-
-                            </c:forEach>
-
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                         </table>
-
                     </div>
 
                     <script>
-
                         function removeProduct(productId) {
                             let action = document.getElementById("actionQuantity" + productId);
                             action.value = 'remove';
-
                             submitUpdate(productId);
-
                         }
 
                         function updateInputQuantity(productId) {
@@ -121,34 +108,21 @@
                             let action = document.getElementById("actionQuantity" + productId);
                             let maxStock = parseInt(input.max);
 
-                            // Lấy giá trị người dùng nhập vào
                             let value = parseInt(input.value);
 
-                            // Kiểm tra nếu không phải số hoặc nhỏ hơn 1 -> Đặt về 1
                             if (isNaN(value) || value < 1) {
                                 input.value = 1;
                                 action.value = 'update';
-                            }
-                            // Kiểm tra nếu lớn hơn số lượng tối đa -> Đặt về maxStock
-                            else if (value > maxStock) {
+                            } else if (value > maxStock) {
                                 input.value = maxStock;
                                 action.value = 'update';
-                            }
-                            // Nếu hợp lệ, giữ nguyên giá trị
-                            else {
+                            } else {
                                 input.value = value;
                                 action.value = 'update';
                             }
 
-                            // Gọi hàm submit để cập nhật số lượng
                             submitUpdate(productId);
                         }
-
-
-
-
-
-
 
                         function updateQuantity(productId, change) {
                             let action = document.getElementById("actionQuantity" + productId);
@@ -156,8 +130,6 @@
                             let maxStock = parseInt(input.max);
                             let minStock = 1;
                             let newValue = parseInt(input.value) + change;
-
-
 
                             if (newValue <= 0 && newValue <= maxStock) {
                                 action.value = 'remove';
@@ -170,11 +142,9 @@
                             }
                         }
 
-
                         function submitUpdate(productId) {
                             document.getElementById("addToCartForm" + productId).submit();
                         }
-
                     </script>
 
                     <!-- / Shopping cart table -->
@@ -191,8 +161,7 @@
                     </div>
                     <div class="float-right">
                         <a href="/home"><button type="button" class="btn btn-lg btn-default md-btn-flat mt-2 mr-3">Trở về trang chủ</button></a>
-
-                        <a href="/checkout"  <button type="button" class="btn btn-lg btn-primary mt-2">Checkout</button></a>
+                        <a href="/checkout"><button type="button" class="btn btn-lg btn-primary mt-2">Checkout</button></a>
                     </div>
                 </div>
             </div>

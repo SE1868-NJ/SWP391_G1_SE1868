@@ -80,6 +80,18 @@
             outline: none;
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
+
+        .back-link {
+            display: block;
+            margin-top: 10px;
+            text-align: center;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -92,14 +104,15 @@
             <label for="description">Mô Tả:</label>
             <textarea id="description" name="description" required></textarea>
 
-            <label for="customerId">ID Khách Hàng:</label>
-            <input type="number" id="customerId" name="customerId" required>
-
             <label for="image">Chọn Ảnh:</label>
             <input type="file" id="image" name="image" accept="image/*" required>
 
+            <label for="content">Nội dung chi tiết:</label>
+            <textarea id="content" name="content" required></textarea>
+
             <button type="submit" class="btn-submit">Thêm Blog</button>
         </form>
+        <a href="blog?page=1" class="back-link">Quay lại danh sách Blog</a>
     </div>
 </body>
 </html>

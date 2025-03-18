@@ -11,6 +11,8 @@
             height: 100%;
             display: flex;
             flex-direction: column;
+            text-decoration: none;
+            color: inherit;
         }
         .blog-image {
             width: 100%;
@@ -27,10 +29,37 @@
             text-decoration: none;
             color: white;
             border-radius: 5px;
+            white-space: nowrap; /* Ngăn nút xuống dòng */
         }
         .no-data {
             text-align: center;
             padding: 20px;
+        }
+        .blog-card:hover {
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            text-decoration: none;
+            color: inherit;
+        }
+        .card-title {
+            margin: 0;
+            font-weight: 700; /* In đậm hơn */
+        }
+        .blog-card:hover .card-title {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        /* Style cho header và thanh tìm kiếm */
+        .header-section {
+            display: flex;
+            align-items: center; /* Căn giữa theo chiều dọc */
+            justify-content: space-between; /* Phân bố đều không gian */
+            flex-wrap: nowrap; /* Ngăn xuống dòng */
+            gap: 15px; /* Khoảng cách giữa các phần tử */
+        }
+        .search-form {
+            flex-grow: 1; /* Thanh tìm kiếm chiếm không gian còn lại */
+            max-width: 500px; /* Giới hạn chiều rộng tối đa */
         }
     </style>
 </head>
@@ -39,9 +68,17 @@
 
     <div class="main-content">
         <div class="container py-4">
-            <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="header-section mb-4">
                 <h2>Danh Sách Blog</h2>
-                <a href="addBlog.jsp" class="add-blog bg-primary">Thêm Blog Mới</a>
+                <!-- Thanh tìm kiếm -->
+                <form class="search-form" action="${pageContext.request.contextPath}/blog" method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="search" placeholder="Tìm kiếm bài viết..." 
+                               value="${param.search}">
+                        <button class="btn btn-primary" type="submit">Tìm</button>
+                    </div>
+                </form>
+                <a href="${pageContext.request.contextPath}/addBlog" class="add-blog bg-primary">Thêm Blog Mới</a>
             </div>
 
             <c:choose>
@@ -49,7 +86,8 @@
                     <div class="row row-cols-1 row-cols-md-3 g-4">
                         <c:forEach var="blog" items="${blogs}">
                             <div class="col">
-                                <div class="card blog-card h-100">
+                                <a href="${pageContext.request.contextPath}/BlogDetailServlet?id=${blog.id}" 
+                                   class="card blog-card h-100">
                                     <c:if test="${not empty blog.imageUrl}">
                                         <img src="${blog.imageUrl}" class="card-img-top blog-image" alt="Blog Image">
                                     </c:if>
@@ -60,10 +98,8 @@
                                         <p class="card-text"><strong>Ngày tạo:</strong> 
                                             <fmt:formatDate value="${blog.createdDateAsUtilDate}" pattern="dd/MM/yyyy" />
                                         </p>
-                                        <a href="${pageContext.request.contextPath}/BlogDetailServlet?id=${blog.id}" 
-                                           class="add-blog bg-primary mt-auto">Xem chi tiết</a>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         </c:forEach>
                     </div>
@@ -73,7 +109,10 @@
                         <ul class="pagination justify-content-center">
                             <c:forEach var="pageNum" begin="1" end="${totalPages}">
                                 <li class="page-item ${pageNum == currentPage ? 'active' : ''}">
-                                    <a class="page-link" href="${pageContext.request.contextPath}/blog?page=${pageNum}">${pageNum}</a>
+                                    <a class="page-link" 
+                                       href="${pageContext.request.contextPath}/blog?page=${pageNum}&search=${param.search}">
+                                        ${pageNum}
+                                    </a>
                                 </li>
                             </c:forEach>
                         </ul>
