@@ -4,45 +4,57 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/response/District.java</file>
-            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/cart/CartServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/CategoryDAO.java</file>
-            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/login/LoginServlet.java</file>
-            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/dbcontext/DBContext.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/login.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/shipper-review.jsp</file>
-            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Customer.java</file>
-            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Favorite.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/OrderDAO.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/updateProductReview.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/nbproject/build-impl.xml</file>
-            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Product/HomeServlet.java</file>
-            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/response/VNPayResponse.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/CartDAO.java</file>
-            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Order/ViewOrderDetailServlet.java</file>
-            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Order/ViewOrderServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/addProductReview.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/view-product.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/footer.jsp</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/updateShipperReview.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/response/Ward.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/checkout/CheckOutServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/view-order.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/FavoriteDetail.java</file>
-            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/checkout/CheckOutSubmitServlet.java</file>
-            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/review/ShipperReviewServlet.java</file>
-            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/cart.jsp</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/OrderDetailDAO.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/OrderDetail.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/review/UpdateProductReviewServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/services/ProvincesVNService.java</file>
-            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/login/LogoutServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/services/VNPayService.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/ShipperReviewDAO.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/header.jsp</file>
-            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Order.java</file>
-            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Blog.java</file>
-            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/shop-details.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/response/Province.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/review/UpdateShipperReviewServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/view-orderdetail.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Product/ProductServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Product.java</file>
-            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/META-INF/context.xml</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/ProductDAO.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/review/AddProductReviewServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/cart/CartServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/login/LoginServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/dbcontext/DBContext.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/ShipperDAO.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Customer.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Favorite.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/home.jsp</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Product/HomeServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/response/VNPayResponse.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Order/ViewOrderDetailServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/ProductReviewDAO.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Order/ViewOrderServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/addShipperReview.jsp</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/review/AddShipperReviewServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/checkout/CheckOutSubmitServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/review/ShipperReviewServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/cart.jsp</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/login/LogoutServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Order.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Blog.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/shop-details.jsp</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/META-INF/context.xml</file>
         </group>
     </open-files>
 </project-private>

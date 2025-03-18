@@ -37,18 +37,26 @@
             <div class="header__top">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-6">
-                            <div class="header__top__left">
-                                <ul>
-                                    <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
-                                    <li>Miễn phí ship cho đơn hàng 99k</li>
-                                </ul>
-                            </div>
+                        
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="header__logo">
+                            <a href="home"><img src="assets/img/cholang.png" width="70px"   alt=""></a>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="header__top__right">
-
-                                <div class="header__top__right__language">
+                    </div>
+                    <div class="col-lg-6">
+                        <nav class="header__menu">
+                        </nav>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="header__cart">
+                            <ul>
+                                 <div class="header__top__right__language">
                                     <!-- Kiểm tra xem người dùng đã đăng nhập hay chưa --> 
                                     <c:choose>
                                         <c:when test="${not empty sessionScope.user}">
@@ -69,27 +77,6 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <div class="header__logo">
-                            <a href="home"><img src="assets/img/cholang.png" width="70px" alt=""></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <nav class="header__menu">
-                        </nav>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="header__cart">
-                            <ul>
                                 <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
                                 <li>
                                     <a href="/cart"><i class="fa fa-shopping-bag"></i> 
@@ -106,6 +93,7 @@
                                     </a>
                                 </li>
                             </ul>
+                            
                         </div>
                     </div>
                 </div>
