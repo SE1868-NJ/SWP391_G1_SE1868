@@ -8,14 +8,17 @@ public class Blog {
     private String name;
     private String description;
     private int customerId;
+    private String customerName; // Thêm trường này
     private String imageUrl;
     private LocalDate createdDate;
 
-    public Blog(int id, String name, String description, int customerId, String imageUrl, LocalDate createdDate) {
+    // Cập nhật constructor
+    public Blog(int id, String name, String description, int customerId, String customerName, String imageUrl, LocalDate createdDate) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.customerId = customerId;
+        this.customerName = customerName;
         this.imageUrl = imageUrl;
         this.createdDate = createdDate;
     }
@@ -31,6 +34,10 @@ public class Blog {
 
     public int getCustomerId() { return customerId; }
     public void setCustomerId(int customerId) { this.customerId = customerId; }
+
+    // Getter và Setter cho customerName
+    public String getCustomerName() { return customerName; }
+    public void setCustomerName(String customerName) { this.customerName = customerName; }
 
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
