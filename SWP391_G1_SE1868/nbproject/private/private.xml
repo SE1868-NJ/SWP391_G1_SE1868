@@ -12,6 +12,7 @@
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/nbproject/build-impl.xml</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/CartDAO.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/addProductReview.jsp</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Blog/BlogServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/view-product.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/footer.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/updateShipperReview.jsp</file>
@@ -27,6 +28,7 @@
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/services/VNPayService.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/ShipperReviewDAO.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/header.jsp</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Blog/BlogDetailServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/response/Province.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/review/UpdateShipperReviewServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/view-orderdetail.jsp</file>
@@ -37,6 +39,8 @@
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/cart/CartServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/login/LoginServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/dbcontext/DBContext.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/addBlog.jsp</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/ContactDAO.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/ShipperDAO.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Customer.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Favorite.java</file>
@@ -48,9 +52,12 @@
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/ProductReviewDAO.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Order/ViewOrderServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/addShipperReview.jsp</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/BlogDetailDAO.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/review/AddShipperReviewServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/BlogDAO.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/checkout/CheckOutSubmitServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/review/ShipperReviewServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Blog/AddBlogServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/cart.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/login/LogoutServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Order.java</file>
