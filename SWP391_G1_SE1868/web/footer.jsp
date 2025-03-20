@@ -23,17 +23,17 @@
 </head>
 <body>
     <!-- Footer Section Begin -->
-    <footer class="footer spad">
+    <footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 text-center">
                     <div class="footer__about">
                         <div class="footer__about__logo">
-                            <a href=""><img src="${pageContext.request.contextPath}/assets/img/logo.png" alt="Logo"></a>
+                            <a href=""><img src="${pageContext.request.contextPath}/assets/img/cholang.png" class="rounded-circle" width="100px" alt="Logo"></a>
                         </div>
                         <ul>
-                            <li>Address: 60-49 Road 11378 New York</li>
-                            <li>Phone: +65 11.188.888</li>
+                            <li>Address: Hà Nội</li>
+                            <li>Phone: 09751111</li>
                             <li>Email: hello@colorlib.com</li>
                         </ul>
                     </div>
