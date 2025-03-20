@@ -3,26 +3,29 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/chat.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/forgotpassword.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/header.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/ProfileController.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/updateprofile.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/footer.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/MyCartController.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/favorites.jsp</file>
             <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/index.html</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/css/chat.css</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Messages/AIChatbotServlet.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/login.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/CustomerDAO.java</file>
             <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/profile.jsp</file>
             <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/js/jquery-3.3.1.min.js</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/css/nice-select.css</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/HomePage.java</file>
             <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/updateProductReview.jsp</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Messages/MessageServlet.java</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/META-INF/context.xml</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/js/chat.js</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/ShopDAO.java</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/nbproject/build-impl.xml~</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/MessageDAO.java</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Customer.java</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Message.java</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/checkout.jsp</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Shop.java</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Messages/ChatWebSocket.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/productList.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/home.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/Utils/CookieUtils.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller.favorites/FavoriteProductsController.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/notification/notification.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/ProductController.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/notification.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/NewServlet.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/register.jsp</file>
         </group>
     </open-files>
 </project-private>
