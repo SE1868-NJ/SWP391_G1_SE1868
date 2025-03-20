@@ -1,6 +1,7 @@
 package models;
 
-import dbcontext.NguyenDBContext;
+
+import dbcontext.DBContext;
 import entity.Contact;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,17 +10,12 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ContactDAO {
-    private NguyenDBContext db;
-
-    public ContactDAO() {
-        db = new NguyenDBContext();
-    }
+public class ContactDAO extends DBContext{
+   
 
     public void addContact(Contact contact) {
         String sql = "INSERT INTO contacts (fullName, email, phone, message) VALUES (?, ?, ?, ?)";
-        try (Connection conn = db.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try ( PreparedStatement stmt = connection.prepareStatement(sql)) {
             
             stmt.setString(1, contact.getFullName());
             stmt.setString(2, contact.getEmail());

@@ -1,29 +1,21 @@
 package models;
 
-import dbcontext.NguyenDBContext; // Import NguyenDBContext thay vì DBContext cũ
+// Import NguyenDBContext thay vì DBContext cũ
+import dbcontext.DBContext;
 import entity.BlogDetail;
 import java.sql.*;
 
 
-public class BlogDetailDAO {
+public class BlogDetailDAO extends DBContext{
 
-    private NguyenDBContext dbContext; // Thay DBContext thành NguyenDBContext
-
-    public BlogDetailDAO() {
-        dbContext = new NguyenDBContext(); // Khởi tạo NguyenDBContext
-    }
-
-    private Connection getConnection() throws SQLException {
-        return dbContext.getConnection(); // Lấy kết nối từ NguyenDBContext
-    }
+  
 
     public BlogDetail getBlogDetailByBlogId(int idBlog) throws SQLException {
         String query = "SELECT bd.IdBlogDetail, bd.IdBlog, bd.Title, bd.Content, bd.CreatedDate, bl.ImageURL " +
                        "FROM blogdetail bd " +
                        "LEFT JOIN bloglist bl ON bd.IdBlog = bl.IdBlog " +
                        "WHERE bd.IdBlog = ?";
-        try (Connection conn = getConnection(); // Tạo kết nối mới và tự động đóng
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, idBlog);
             ResultSet rs = stmt.executeQuery();
 
@@ -42,8 +34,7 @@ public class BlogDetailDAO {
     }
     public void insertBlogDetail(BlogDetail blogDetail) throws SQLException {
     String query = "INSERT INTO blogdetail (IdBlog, Title, Content, CreatedDate) VALUES (?, ?, ?, ?)";
-    try (Connection conn = getConnection();
-         PreparedStatement stmt = conn.prepareStatement(query)) {
+    try (PreparedStatement stmt = connection.prepareStatement(query)) {
         System.out.println("Đang chèn blog: " + blogDetail); // Log dữ liệu đầu vào
         stmt.setInt(1, blogDetail.getIdBlog());
         stmt.setString(2, blogDetail.getTitle());

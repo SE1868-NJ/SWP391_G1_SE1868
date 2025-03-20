@@ -30,6 +30,8 @@ public class AddBlogServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Nếu có yêu cầu POST tới /addBlog, chuyển hướng về /blog để xử lý
+        
+        
         response.sendRedirect("blog");
     }
 }

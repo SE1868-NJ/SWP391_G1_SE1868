@@ -118,6 +118,7 @@
                     <a href="/home" class="text-black fw-bold">Home</a>
                     <a href="/products" class="text-black fw-bold">Product</a>
                     <a href="/blog" class="text-black fw-bold">Blog</a>
+                    <a href="/contact" class="text-black fw-bold">Contact</a>
                 </div>
             </div>
         </div>
