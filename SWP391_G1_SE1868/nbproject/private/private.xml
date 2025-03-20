@@ -3,7 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/SearchFavorite.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/response/District.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/ProfileController.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/CategoryDAO.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/login.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/shipper-review.jsp</file>
@@ -13,6 +15,7 @@
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/CartDAO.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/addProductReview.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Blog/BlogServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/notification.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/view-product.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/footer.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/updateShipperReview.jsp</file>
@@ -29,18 +32,22 @@
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/ShipperReviewDAO.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/header.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Blog/BlogDetailServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/CustomerDAO.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/response/Province.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/review/UpdateShipperReviewServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/view-orderdetail.jsp</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller.favorites/FavoriteProductsController.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Product/ProductServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Product.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/ProductDAO.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/review/AddProductReviewServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/checkout.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/cart/CartServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/login/LoginServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/dbcontext/DBContext.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/addBlog.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/ContactDAO.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/favorites.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/ShipperDAO.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Customer.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Favorite.java</file>
@@ -53,16 +60,23 @@
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Order/ViewOrderServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/addShipperReview.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/BlogDetailDAO.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/FavoritesDAO.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/review/AddShipperReviewServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/BlogDAO.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/blogList.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/checkout/CheckOutSubmitServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/review/ShipperReviewServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/dbcontext/FavoriteDAO.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Blog/AddBlogServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/chat.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/cart.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/login/LogoutServlet.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/ChatSession.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/profile.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Order.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Blog.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/shop-details.jsp</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/dbcontext/GiangDBcontext.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/META-INF/context.xml</file>
         </group>
     </open-files>
