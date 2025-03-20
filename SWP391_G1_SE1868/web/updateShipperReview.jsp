@@ -72,7 +72,7 @@
                     </div>
                 </form>
                     <div class="mb-3">
-                        <a href="/shipperReview?shipperId=${review.shipper.shipperId}"><button type="button" class="btn btn-primary w-100">Trở lại đánh giá shipper</button></a>
+                        <a href="/shipperReview?shipperId=${review.shipper.shipperId}&orderId=${param.orderId}"><button type="button" class="btn btn-primary w-100">Trở lại đánh giá shipper</button></a>
                     </div>
             </div>
         </div>

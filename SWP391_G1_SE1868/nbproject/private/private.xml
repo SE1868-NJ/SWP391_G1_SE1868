@@ -15,6 +15,7 @@
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/view-product.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/footer.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/updateShipperReview.jsp</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/services/EmailService.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/response/Ward.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/checkout/CheckOutServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/view-order.jsp</file>
@@ -42,6 +43,7 @@
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/web/home.jsp</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Product/HomeServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/response/VNPayResponse.java</file>
+            <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/login/ForgotpasswordServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Order/ViewOrderDetailServlet.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/ProductReviewDAO.java</file>
             <file>file:/D:/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/Order/ViewOrderServlet.java</file>

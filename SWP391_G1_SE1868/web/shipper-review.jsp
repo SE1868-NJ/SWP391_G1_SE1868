@@ -139,7 +139,7 @@
                         <!--${review.customer.customerId == sessionScope.user.customerId}-->
                         <c:if test="${review.customer.customerId == sessionScope.user.customerId}">
                             <div class="d-flex justify-content-end mt-auto">
-                                <a href="updateShipperReview?reviewId=${review.reviewId}" class="btn btn-warning btn-sm">Sửa</a>
+                                <a href="updateShipperReview?reviewId=${review.reviewId}&orderId=${param.orderId}" class="btn btn-warning btn-sm">Sửa</a>
                             </div>
                         </c:if>
 
