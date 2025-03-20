@@ -20,6 +20,7 @@
                 flex-direction: column;
                 min-height: 100vh;
                 margin: 0; /* Loại bỏ margin mặc định của body */
+
             }
             .main-content {
                 flex: 1;
@@ -31,6 +32,7 @@
                 padding: 15px; /* Giảm padding từ 20px xuống 15px */
                 background: #fff;
                 border-radius: 5px;
+
             }
             .contact-heading {
                 color: #1a3066;
@@ -76,10 +78,10 @@
         <div class="main-content">
             <div class="container py-0"> <!-- Giảm py-4 xuống py-2 -->
                 <div class="contact-form">
-                    <h2 class="contact-heading">NƠI GIẢI ĐÁP TOÀN BỘ MỌI THẮC MẮC CỦA BẠN?</h2>
-                   
+                    <h3 class="contact-heading">NƠI GIẢI ĐÁP TOÀN BỘ MỌI THẮC MẮC CỦA BẠN?</h3>
+
                     <div class="contact-info">
-                        <p><strong>Hotline:</strong> <span class="highlight">0978788899</span> | <span class="highlight">0352688888</span></p>
+                        <p><strong>Hotline:</strong> <span class="highlight">097979999</span> | <span class="highlight">0352688888</span></p>
                         <p><strong>Email:</strong> <span class="highlight">info@cholang.com</span></p>
                     </div>
 
@@ -88,6 +90,7 @@
                     <% if (request.getAttribute("message") != null) { %>
                     <div class="alert alert-success" role="alert">
                         <%= request.getAttribute("message") %>
+                        <a href="${pageContext.request.contextPath}/home" class="btn btn-primary btn-sm ms-3">Trở về trang chủ</a>
                     </div>
                     <% } %>
 
