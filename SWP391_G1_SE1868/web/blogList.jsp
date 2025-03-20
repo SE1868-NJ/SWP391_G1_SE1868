@@ -4,7 +4,6 @@
 <html>
 <head>
     <title>Danh Sách Blog</title>
-    <!-- Thêm Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .blog-card {
@@ -29,7 +28,7 @@
             text-decoration: none;
             color: white;
             border-radius: 5px;
-            white-space: nowrap; /* Ngăn nút xuống dòng */
+            white-space: nowrap;
         }
         .no-data {
             text-align: center;
@@ -42,24 +41,23 @@
         }
         .card-title {
             margin: 0;
-            font-weight: 700; /* In đậm hơn */
+            font-weight: 700;
         }
         .blog-card:hover .card-title {
             display: block !important;
             visibility: visible !important;
             opacity: 1 !important;
         }
-        /* Style cho header và thanh tìm kiếm */
         .header-section {
             display: flex;
-            align-items: center; /* Căn giữa theo chiều dọc */
-            justify-content: space-between; /* Phân bố đều không gian */
-            flex-wrap: nowrap; /* Ngăn xuống dòng */
-            gap: 15px; /* Khoảng cách giữa các phần tử */
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            gap: 15px;
         }
         .search-form {
-            flex-grow: 1; /* Thanh tìm kiếm chiếm không gian còn lại */
-            max-width: 500px; /* Giới hạn chiều rộng tối đa */
+            flex-grow: 1;
+            max-width: 500px;
         }
     </style>
 </head>
@@ -70,7 +68,6 @@
         <div class="container py-4">
             <div class="header-section mb-4">
                 <h2>Danh Sách Blog</h2>
-                <!-- Thanh tìm kiếm -->
                 <form class="search-form" action="${pageContext.request.contextPath}/blog" method="get">
                     <div class="input-group">
                         <input type="text" class="form-control" name="search" placeholder="Tìm kiếm bài viết..." 
@@ -94,7 +91,7 @@
                                     <div class="blog-info">
                                         <h5 class="card-title">${blog.name}</h5>
                                         <p class="card-text"><strong>Mô tả:</strong> ${blog.description}</p>
-                                        <p class="card-text"><strong>Khách hàng:</strong> ${blog.customerId}</p>
+                                        <p class="card-text"><strong>Khách hàng:</strong> ${blog.customerName}</p> <!-- Thay đổi ở đây -->
                                         <p class="card-text"><strong>Ngày tạo:</strong> 
                                             <fmt:formatDate value="${blog.createdDateAsUtilDate}" pattern="dd/MM/yyyy" />
                                         </p>
@@ -104,7 +101,6 @@
                         </c:forEach>
                     </div>
 
-                    <!-- Phân trang -->
                     <nav aria-label="Page navigation" class="mt-4">
                         <ul class="pagination justify-content-center">
                             <c:forEach var="pageNum" begin="1" end="${totalPages}">
@@ -126,7 +122,6 @@
     </div>
 
     <jsp:include page="footer.jsp" />
-    <!-- Thêm Bootstrap JS (tùy chọn) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

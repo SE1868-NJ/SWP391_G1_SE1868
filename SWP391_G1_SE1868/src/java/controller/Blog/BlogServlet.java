@@ -65,6 +65,7 @@ public class BlogServlet extends HttpServlet {
         String description = request.getParameter("description");
         String content = request.getParameter("content");
         int customerId = customer.getCustomerId();
+        String customerName = customer.getFullName(); // Lấy tên từ Customer, đã sửa lỗi ở đây
 
         System.out.println("Description nhận được: " + (description != null ? description.length() : 0) + " ký tự - " + description);
         System.out.println("Content nhận được: " + (content != null ? content.length() : 0) + " ký tự - " + content);
@@ -81,7 +82,7 @@ public class BlogServlet extends HttpServlet {
         filePart.write(filePath);
         String relativePath = "assets/img/blog/" + fileName;
 
-        Blog newBlog = new Blog(0, name, description, customerId, relativePath, LocalDate.now());
+        Blog newBlog = new Blog(0, name, description, customerId, customerName, relativePath, LocalDate.now());
         int newBlogId = blogDAO.addBlog(newBlog);
 
         if (newBlogId > 0) {

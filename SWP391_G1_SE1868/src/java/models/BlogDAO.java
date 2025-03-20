@@ -15,19 +15,21 @@ public class BlogDAO {
         conn = new DBContext().connection;
     }
 
-    // Lấy blog với phân trang, sắp xếp theo CreatedDate giảm dần
     public List<Blog> getBlogsByPage(int page, int pageSize) {
         return searchBlogsByPage(page, pageSize, null);
     }
 
-    // Tìm kiếm blog với phân trang
     public List<Blog> searchBlogsByPage(int page, int pageSize, String keyword) {
         List<Blog> blogs = new ArrayList<>();
         String sql;
         if (keyword == null || keyword.trim().isEmpty()) {
-            sql = "SELECT * FROM bloglist ORDER BY CreatedDate DESC LIMIT ?, ?";
+            sql = "SELECT IdBlog, NameBlog, DescriptionBlog, CustomerID, CustomerName, ImageURL, CreatedDate " +
+                  "FROM bloglist " +
+                  "ORDER BY CreatedDate DESC LIMIT ?, ?";
         } else {
-            sql = "SELECT * FROM bloglist WHERE NameBlog LIKE ? OR DescriptionBlog LIKE ? " +
+            sql = "SELECT IdBlog, NameBlog, DescriptionBlog, CustomerID, CustomerName, ImageURL, CreatedDate " +
+                  "FROM bloglist " +
+                  "WHERE NameBlog LIKE ? OR DescriptionBlog LIKE ? " +
                   "ORDER BY CreatedDate DESC LIMIT ?, ?";
         }
         
@@ -53,6 +55,7 @@ public class BlogDAO {
                         rs.getString("NameBlog"),
                         rs.getString("DescriptionBlog"),
                         rs.getInt("CustomerID"),
+                        rs.getString("CustomerName"),
                         rs.getString("ImageURL"),
                         createdDate
                 ));
@@ -63,7 +66,6 @@ public class BlogDAO {
         return blogs;
     }
 
-    // Lấy tổng số blog (có lọc theo từ khóa nếu có)
     public int getTotalBlogs(String keyword) {
         int totalBlogs = 0;
         String sql;
@@ -88,28 +90,28 @@ public class BlogDAO {
         return totalBlogs;
     }
 
-    // Thêm blog mới
     public int addBlog(Blog blog) {
-    String sql = "INSERT INTO bloglist (NameBlog, DescriptionBlog, CustomerID, ImageURL, CreatedDate) VALUES (?, ?, ?, ?, ?)";
-    try {
-        PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        ps.setString(1, blog.getName());
-        ps.setString(2, blog.getDescription());
-        ps.setInt(3, blog.getCustomerId());
-        ps.setString(4, blog.getImageUrl());
-        LocalDate createdDate = blog.getCreatedDate() != null ? blog.getCreatedDate() : LocalDate.now();
-        ps.setDate(5, java.sql.Date.valueOf(createdDate));
-        ps.executeUpdate();
+        String sql = "INSERT INTO bloglist (NameBlog, DescriptionBlog, CustomerID, CustomerName, ImageURL, CreatedDate) " +
+                     "VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, blog.getName());
+            ps.setString(2, blog.getDescription());
+            ps.setInt(3, blog.getCustomerId());
+            ps.setString(4, blog.getCustomerName());
+            ps.setString(5, blog.getImageUrl());
+            LocalDate createdDate = blog.getCreatedDate() != null ? blog.getCreatedDate() : LocalDate.now();
+            ps.setDate(6, java.sql.Date.valueOf(createdDate));
+            ps.executeUpdate();
 
-        // Lấy IdBlog vừa tạo
-        ResultSet rs = ps.getGeneratedKeys();
-        if (rs.next()) {
-            return rs.getInt(1);
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            throw new SQLException("Không thể lấy IdBlog vừa tạo.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Lỗi khi thêm blog: " + e.getMessage());
         }
-        throw new SQLException("Không thể lấy IdBlog vừa tạo.");
-    } catch (SQLException e) {
-        e.printStackTrace();
-        throw new RuntimeException("Lỗi khi thêm blog: " + e.getMessage());
     }
-}
 }
