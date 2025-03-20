@@ -25,6 +25,7 @@ public class Product {
     private List<ProductReview> reviews;
     private List<ProductImage> images;
     private List<OrderDetail> orderDetails;
+    private List<FavoriteDetail> favoriteDetails;
    
 
     @Override
@@ -42,14 +43,9 @@ public class Product {
     public Product() {
     }
 
-    public Product(int productId, String name, double price, int stockQuantity, Shop shop, List<ProductImage> images){
-        
-    }
-
-
     
 
-    public Product(int productId, String name, String description, double price, int stockQuantity, LocalDate createdAt, LocalDate updatedAt, Shop shop, Category category, List<ProductReview> reviews, List<ProductImage> images, List<OrderDetail> orderDetails) {
+    public Product(int productId, String name, String description, double price, int stockQuantity, LocalDate createdAt, LocalDate updatedAt, Shop shop, Category category, List<ProductReview> reviews, List<ProductImage> images, List<OrderDetail> orderDetails, List<FavoriteDetail> favoriteDetails) {
         this.productId = productId;
         this.name = name;
         this.description = description;
@@ -62,7 +58,7 @@ public class Product {
         this.reviews = reviews;
         this.images = images;
         this.orderDetails = orderDetails;
-        
+        this.favoriteDetails = favoriteDetails;
     
     }
 
@@ -160,6 +156,14 @@ public class Product {
 
     public void setOrderDetails(List<OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
+    }
+
+    public List<FavoriteDetail> getFavoriteDetails() {
+        return favoriteDetails;
+    }
+
+    public void setFavoriteDetails(List<FavoriteDetail> favoriteDetails) {
+        this.favoriteDetails = favoriteDetails;
     }
 
 

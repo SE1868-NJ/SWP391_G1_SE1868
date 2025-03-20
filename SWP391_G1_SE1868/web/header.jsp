@@ -53,7 +53,7 @@
                                             <span class="arrow_carrot-down"></span>
                                             <ul>
                                                 <li><a href="/viewOrder">View Order</a></li>
-                                                <li><a href="#">b</a></li>
+                                                <li><a href="/profile">Profile</a></li>
                                                 <li><a href="#">c</a></li>
 
                                                 <li><a href="/logout">Logout</a></li> 
@@ -86,7 +86,7 @@
                     <div class="col-lg-3">
                         <div class="header__cart">
                             <ul>
-                                <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
+                                <li><a href="/FavoriteProductsController"><i class="fa fa-heart"></i> <span>1</span></a></li>
                                 <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
                             </ul>
                         </div>

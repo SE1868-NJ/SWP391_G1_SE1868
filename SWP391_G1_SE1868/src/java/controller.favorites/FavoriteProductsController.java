@@ -4,31 +4,34 @@ package controller;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-import dbcontext.ProductDAO;
 import entity.Customer;
-import entity.Product;
+import entity.Favorite;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
-import Utils.FormatUtils;
-import dbcontext.FavoriteDAO;
-import entity.Favorite;
-
+import models.FavoritesDAO;
 
 /**
  *
  * @author Giang123
  */
-public class FavoriteProductsController extends HttpServlet {
+@WebServlet(name = "FavoriteProductsController", urlPatterns = {"/FavoriteProductsController"})
 
+public class FavoriteProductsController extends HttpServlet {
+     private static final long serialVersionUID = 1L;
     private static final int PAGE_SIZE = 5; //Số sản phảm mỗi trang
 
-    
+    @Override
+    public void init() throws ServletException {
+        super.init();
+    }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -56,14 +59,18 @@ public class FavoriteProductsController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+        // Lấy session
+        HttpSession session = request.getSession();
+        Customer customer = (Customer) session.getAttribute("user");
 
-        if (session == null || session.getAttribute("customer") == null) {
+        // Nếu chưa đăng nhập, chuyển hướng về trang login
+        if (customer == null) {
             response.sendRedirect("login.jsp");
             return;
         }
 
-        Customer customer = (Customer) session.getAttribute("customer");
+        // Lấy thông tin chi tiết của khách hàng từ database
+         customer = (Customer) session.getAttribute("user");
         int customerId = customer.getCustomerId();
 
         int page = 1;
@@ -71,10 +78,10 @@ public class FavoriteProductsController extends HttpServlet {
             page = Integer.parseInt(request.getParameter("page"));
         }
 
-        FavoriteDAO favoriteDAO = new FavoriteDAO();
-        List<Favorite> favoriteProducts = favoriteDAO.getFavoriteProducts(customerId, page, PAGE_SIZE);
-        int totalFavorite = favoriteDAO.getTotalFavoriteProducts(customerId);
-        int totalPages = (int) Math.ceil((double) totalFavorite / PAGE_SIZE);
+        FavoritesDAO favoritesDAO = new FavoritesDAO();
+        List<Favorite> favoriteProducts = favoritesDAO.getFavoriteProducts(customerId, page, PAGE_SIZE);
+        int totalProducts = favoritesDAO.getTotalFavoriteProducts(customerId);
+        int totalPages = (int) Math.ceil((double) totalProducts / PAGE_SIZE);
 
         // 👉 Định dạng giá tiền trước khi gửi sang JSP
         for (Favorite favorite : favoriteProducts) {
@@ -87,8 +94,9 @@ public class FavoriteProductsController extends HttpServlet {
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("favorites.jsp");
         dispatcher.forward(request, response);
-    
+
     }
+
 //        HttpSession session = request.getSession(false);
 //
 //        if (session == null || session.getAttribute("customer") == null) {
@@ -133,17 +141,16 @@ public class FavoriteProductsController extends HttpServlet {
 //        // Chuyển tiếp (forward) đến trang JSP
 //        RequestDispatcher dispatcher = request.getRequestDispatcher("/favorites/favorites.jsp");
 //        dispatcher.forward(request, response);
-        /**
-         * Handles the HTTP <code>POST</code> method.
-         *
-         * @param request servlet request
-         * @param response servlet response
-         * @throws ServletException if a servlet-specific error occurs
-         * @throws IOException if an I/O error occurs
-         */
-        @Override
-        protected void doPost
-        (HttpServletRequest request, HttpServletResponse response)
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        // Lấy HttpSession từ request
 //        HttpSession session = request.getSession();
@@ -236,13 +243,11 @@ public class FavoriteProductsController extends HttpServlet {
 //        // Chuyển hướng tới JSP để hiển thị thông tin
 //        RequestDispatcher dispatcher = request.getRequestDispatcher("favoriteProducts.jsp");
 //        dispatcher.forward(request, response);
-        }
-
-        @Override
-        public String getServletInfo
-        
-            () {
-        return "Short description";
-        }// </editor-fold>
-
     }
+
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}

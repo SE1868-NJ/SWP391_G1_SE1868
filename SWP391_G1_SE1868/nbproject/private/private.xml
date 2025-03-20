@@ -3,27 +3,46 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/css/favorites.css</file>
             <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/forgotpassword.jsp</file>
             <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/header.jsp</file>
             <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/ProfileController.java</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/updateprofile.jsp</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/footer.jsp</file>
             <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/MyCartController.java</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/favorites.jsp</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/index.html</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/login.jsp</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/CustomerDAO.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/chat.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/FavoritesDAO.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Notification.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/css/chat.css</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/NotificationDAO.java</file>
             <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/profile.jsp</file>
             <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/js/jquery-3.3.1.min.js</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller.favorites/DeleteFavoriteController.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/productList.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller.favorites/FavoriteCart.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/PaginationMeta.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/home.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller.favorites/UpdateFavoriteQuantityController.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/ProductController.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/checkout.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/notification.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller.favorites/SearchFavoriteController.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/updateprofile.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/favorites.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller.favorites/FormatUtils.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/index.html</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/FavoriteDetail.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller.favorites/AddToCartController.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/login.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/models/CustomerDAO.java</file>
             <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/HomePage.java</file>
             <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/updateProductReview.jsp</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/productList.jsp</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/home.jsp</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/Utils/CookieUtils.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/js/notification.js</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/js/chat.js</file>
             <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller.favorites/FavoriteProductsController.java</file>
             <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/notification/notification.jsp</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/ProductController.java</file>
-            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/notification.jsp</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/entity/Favorite.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/css/notification.css</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/notification/NotificationServlet.java</file>
+            <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/assets/js/favorites.js</file>
             <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/src/java/controller/NewServlet.java</file>
             <file>file:/C:/Users/giang/OneDrive/Documents/GitHub/SWP391_G1_SE1868/SWP391_G1_SE1868/web/register.jsp</file>
         </group>

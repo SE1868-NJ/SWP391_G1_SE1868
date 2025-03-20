@@ -3,7 +3,7 @@
     Created on : Feb 18, 2025, 10:01:46 PM
     Author     : Đạt
 --%>
-
+                       <%@include file="chat.jsp" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -13,8 +13,6 @@
         <title>JSP Page</title>
     </head>
     <%@include file="header.jsp" %>
-        <%@include file="chat.jsp" %>
-
     <body>
         <!-- Categories Section Begin -->
         <section class="categories">

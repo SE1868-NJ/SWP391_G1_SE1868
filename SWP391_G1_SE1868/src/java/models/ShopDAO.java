@@ -1,81 +1,76 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package models;
 
-import dbcontext.GiangDBcontext;
-import entity.Shop;
+/**
+ *
+ * @author Đạt
+ */
+import dbcontext.DBContext;
+import entity.Category;
+import entity.Customer;
 import entity.Product;
-import java.sql.Connection;
+import entity.ProductReview;
+import entity.Shop;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.ResultSet;   // tap ban ghi 
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.SQLException;
 
-public class ShopDAO extends GiangDBcontext {
+public class ShopDAO extends DBContext {
+    //  4. Lấy shop theo ID
 
-    // ✅ Lấy danh sách tất cả các shop từ database
-    public static List<Shop> getAllShops() {
-        List<Shop> shopList = new ArrayList<>();
-        String sql = "SELECT * FROM shop";
-
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                Shop shop = new Shop();
-                shop.setShopId(rs.getInt("ShopID"));
-                shop.setName(rs.getString("Name"));
-                shop.setLogo(rs.getString("Logo"));
-                shop.setLocation(rs.getString("Location"));
-                shop.setOwner(rs.getString("Owner"));
-                shopList.add(shop);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return shopList;
-    }
-
-    // ✅ Lấy shop theo ID
     public Shop getShopById(int shopId) {
-        String sql = "SELECT * FROM Shop WHERE ShopID = ?";
-        String sqlProducts = "SELECT * FROM Products WHERE ShopID = ?";  
+        String sql = "SELECT * FROM Shop WHERE shopId = ?";
+        String sqlProducts = "SELECT * FROM Products WHERE shopId = ?";  // Truy vấn để lấy danh sách sản phẩm liên quan đến cửa hàng
 
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, shopId);
             try (ResultSet rs = stmt.executeQuery()) {
+
                 if (rs.next()) {
                     Shop shop = new Shop();
-                    shop.setShopId(rs.getInt("ShopID"));
-                    shop.setName(rs.getString("Name"));
-                    shop.setLogo(rs.getString("Logo"));
-                    shop.setLocation(rs.getString("Location"));
-                    shop.setOwner(rs.getString("Owner"));
 
-                    // Lấy danh sách sản phẩm của shop
-                    try (PreparedStatement stmtProducts = conn.prepareStatement(sqlProducts)) {
+                    // Lấy thông tin cửa hàng
+                    shop.setShopId(rs.getInt("shopId"));
+                    shop.setName(rs.getString("name"));
+                    shop.setLogo(rs.getString("logo"));
+                    shop.setLocation(rs.getString("location"));
+                    shop.setOwner(rs.getString("owner"));
+                    shop.setCreatedAt(rs.getDate("createdAt").toLocalDate());
+                    shop.setUpdatedAt(rs.getDate("updatedAt").toLocalDate());
+
+                    // Lấy danh sách sản phẩm của cửa hàng
+                    try (PreparedStatement stmtProducts = connection.prepareStatement(sqlProducts)) {
                         stmtProducts.setInt(1, shopId);
                         try (ResultSet rsProducts = stmtProducts.executeQuery()) {
                             List<Product> products = new ArrayList<>();
                             while (rsProducts.next()) {
                                 Product product = new Product();
-                                product.setProductId(rsProducts.getInt("ProductID"));
-                                product.setName(rsProducts.getString("Name"));
-                                product.setDescription(rsProducts.getString("Description"));
-                                product.setPrice(rsProducts.getDouble("Price"));
-                                product.setStockQuantity(rsProducts.getInt("StockQuantity"));
+                                product.setProductId(rsProducts.getInt("productId"));
+                                product.setName(rsProducts.getString("name"));
+                                product.setDescription(rsProducts.getString("description"));
+                                product.setPrice(rsProducts.getDouble("price"));
+                                product.setStockQuantity(rsProducts.getInt("stockQuantity"));
+
+                                // Thêm sản phẩm vào danh sách sản phẩm của cửa hàng
                                 products.add(product);
                             }
-                            shop.setProducts(products);
+                            shop.setProducts(products);  // Cập nhật danh sách sản phẩm vào cửa hàng
                         }
                     }
-                    return shop;
+
+                    return shop;  // Trả về đối tượng Shop đã được cập nhật
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;  
+        return null;  // Trả về null nếu không tìm thấy cửa hàng
     }
+
 }

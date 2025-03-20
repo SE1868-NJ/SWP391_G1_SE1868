@@ -14,7 +14,6 @@ import dbcontext.DBContext;
 import entity.Cart;
 import entity.Customer;
 import entity.Product;
-import entity.ProductReview;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;   // tap ban ghi 
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 public class CustomerDAO extends DBContext {
     // ✅ 1. Thêm khách hàng

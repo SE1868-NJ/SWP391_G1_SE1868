@@ -8,6 +8,8 @@ package dbcontext;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class GiangDBcontext {
@@ -30,4 +32,40 @@ public class GiangDBcontext {
         // Tạo và trả về kết nối đến cơ sở dữ liệu
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
+public static void close(ResultSet rs, PreparedStatement stmt, Connection conn) {
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+        } catch (SQLException e) {
+            System.err.println("Error closing ResultSet: " + e.getMessage());
+        }
+        
+        try {
+            if (stmt != null) {
+                stmt.close();
+            }
+        } catch (SQLException e) {
+            System.err.println("Error closing PreparedStatement: " + e.getMessage());
+        }
+        
+        try {
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            System.err.println("Error closing Connection: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Closes the PreparedStatement and Connection objects
+     * 
+     * @param stmt The PreparedStatement to close
+     * @param conn The Connection to close
+     */
+    public static void close(PreparedStatement stmt, Connection conn) {
+        close(null, stmt, conn);
+    }
+    
 }

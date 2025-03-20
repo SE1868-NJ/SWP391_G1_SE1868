@@ -1,46 +1,46 @@
 package entity;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Message {
     private int messageId;
-    private int customerId;
-    private int shopId;
-    private String receiverType;
-    private String messageText;
-    private String status;
-    private LocalDateTime createdAt;
+    private int conversationId;
+    private String senderType; // "Customer" or "Shop"
+    private int senderId;
+    private String content;
+    private int isRead;
+    private Date createdAt;
 
-    public Message() {}
-
-    public Message(int messageId, int customerId, int shopId, String receiverType, String messageText, String status, LocalDateTime createdAt) {
+    // Constructor, getters, and setters
+    public Message(int messageId, int conversationId, String senderType, int senderId, String content, int isRead, Date createdAt) {
         this.messageId = messageId;
-        this.customerId = customerId;
-        this.shopId = shopId;
-        this.receiverType = receiverType;
-        this.messageText = messageText;
-        this.status = status;
+        this.conversationId = conversationId;
+        this.senderType = senderType;
+        this.senderId = senderId;
+        this.content = content;
+        this.isRead = isRead;
         this.createdAt = createdAt;
     }
 
+    // Getters and Setters
     public int getMessageId() { return messageId; }
     public void setMessageId(int messageId) { this.messageId = messageId; }
 
-    public int getCustomerId() { return customerId; }
-    public void setCustomerId(int customerId) { this.customerId = customerId; }
+    public int getConversationId() { return conversationId; }
+    public void setConversationId(int conversationId) { this.conversationId = conversationId; }
 
-    public int getShopId() { return shopId; }
-    public void setShopId(int shopId) { this.shopId = shopId; }
+    public String getSenderType() { return senderType; }
+    public void setSenderType(String senderType) { this.senderType = senderType; }
 
-    public String getReceiverType() { return receiverType; }
-    public void setReceiverType(String receiverType) { this.receiverType = receiverType; }
+    public int getSenderId() { return senderId; }
+    public void setSenderId(int senderId) { this.senderId = senderId; }
 
-    public String getMessageText() { return messageText; }
-    public void setMessageText(String messageText) { this.messageText = messageText; }
+    public String getContent() { return content; }
+    public void setContent(String content) { this.content = content; }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public int getIsRead() { return isRead; }
+    public void setIsRead(int isRead) { this.isRead = isRead; }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public Date getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
 }
