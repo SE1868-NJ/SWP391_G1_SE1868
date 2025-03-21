@@ -1,20 +1,15 @@
 package models;
 
-import dbcontext.NguyenDBContext; // Import NguyenDBContext thay vì DBContext cũ
+import dbcontext.DBContext; // Sử dụng DBContext gốc
 import entity.BlogDetail;
 import java.sql.*;
 
-
 public class BlogDetailDAO {
 
-    private NguyenDBContext dbContext; // Thay DBContext thành NguyenDBContext
+    private DBContext dbContext; // Sử dụng DBContext thay vì NguyenDBContext
 
     public BlogDetailDAO() {
-        dbContext = new NguyenDBContext(); // Khởi tạo NguyenDBContext
-    }
-
-    private Connection getConnection() throws SQLException {
-        return dbContext.getConnection(); // Lấy kết nối từ NguyenDBContext
+        dbContext = new DBContext(); // Khởi tạo DBContext
     }
 
     public BlogDetail getBlogDetailByBlogId(int idBlog) throws SQLException {
@@ -22,10 +17,17 @@ public class BlogDetailDAO {
                        "FROM blogdetail bd " +
                        "LEFT JOIN bloglist bl ON bd.IdBlog = bl.IdBlog " +
                        "WHERE bd.IdBlog = ?";
-        try (Connection conn = getConnection(); // Tạo kết nối mới và tự động đóng
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            // Sử dụng connection trực tiếp từ DBContext
+            if (dbContext.connection == null) {
+                throw new SQLException("Database connection is null");
+            }
+            
+            stmt = dbContext.connection.prepareStatement(query);
             stmt.setInt(1, idBlog);
-            ResultSet rs = stmt.executeQuery();
+            rs = stmt.executeQuery();
 
             if (rs.next()) {
                 return new BlogDetail(
@@ -38,22 +40,46 @@ public class BlogDetailDAO {
                 );
             }
             return null;
+        } catch (SQLException e) {
+            System.err.println("Error getting blog detail: " + e.getMessage());
+            throw e;
+        } finally {
+            // Đóng ResultSet và PreparedStatement
+            if (rs != null) {
+                try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+            }
+            if (stmt != null) {
+                try { stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+            }
         }
     }
+
     public void insertBlogDetail(BlogDetail blogDetail) throws SQLException {
-    String query = "INSERT INTO blogdetail (IdBlog, Title, Content, CreatedDate) VALUES (?, ?, ?, ?)";
-    try (Connection conn = getConnection();
-         PreparedStatement stmt = conn.prepareStatement(query)) {
-        System.out.println("Đang chèn blog: " + blogDetail); // Log dữ liệu đầu vào
-        stmt.setInt(1, blogDetail.getIdBlog());
-        stmt.setString(2, blogDetail.getTitle());
-        stmt.setString(3, blogDetail.getContent());
-        stmt.setTimestamp(4, Timestamp.valueOf(blogDetail.getCreatedDate().atStartOfDay()));
-        int rowsAffected = stmt.executeUpdate();
-        System.out.println("Số hàng được chèn: " + rowsAffected); // Log số hàng bị ảnh hưởng
-    } catch (SQLException e) {
-        System.err.println("Lỗi khi chèn blog: " + e.getMessage()); // Log lỗi nếu có
-        throw e; // Ném lại ngoại lệ để xử lý ở lớp trên nếu cần
+        String query = "INSERT INTO blogdetail (IdBlog, Title, Content, CreatedDate) VALUES (?, ?, ?, ?)";
+        PreparedStatement stmt = null;
+        
+        try {
+            // Sử dụng connection trực tiếp từ DBContext
+            if (dbContext.connection == null) {
+                throw new SQLException("Database connection is null");
+            }
+            
+            stmt = dbContext.connection.prepareStatement(query);
+            System.out.println("Đang chèn blog: " + blogDetail); // Log dữ liệu đầu vào
+            stmt.setInt(1, blogDetail.getIdBlog());
+            stmt.setString(2, blogDetail.getTitle());
+            stmt.setString(3, blogDetail.getContent());
+            stmt.setTimestamp(4, Timestamp.valueOf(blogDetail.getCreatedDate().atStartOfDay()));
+            int rowsAffected = stmt.executeUpdate();
+            System.out.println("Số hàng được chèn: " + rowsAffected); // Log số hàng bị ảnh hưởng
+        } catch (SQLException e) {
+            System.err.println("Lỗi khi chèn blog: " + e.getMessage()); // Log lỗi nếu có
+            throw e; // Ném lại ngoại lệ để xử lý ở lớp trên nếu cần
+        } finally {
+            // Đóng PreparedStatement
+            if (stmt != null) {
+                try { stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+            }
+        }
     }
-}
 }
